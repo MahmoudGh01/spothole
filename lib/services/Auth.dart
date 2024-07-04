@@ -66,9 +66,7 @@ class AuthService extends GetxController {
           'Content-Type': "application/json; charset=UTF-8"
         },
       );
-      dynamic size;
-      double height = 0.00;
-      double width = 0.00;
+
       httpErrorHandling(
         response: res,
         context: context,
@@ -76,85 +74,10 @@ class AuthService extends GetxController {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           var responseBody = jsonDecode(res.body);
           print(responseBody);
-          /*  if (responseBody['user']['role'] == "Recruiter") {
-              _launchURL() async {
-                const url = 'https://flutter.dev';
-                if (await canLaunchUrl(Uri.parse(url))) {
-                  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-                } else {
-                  throw 'Could not launch $url';
-                }
-              }
 
-
-              size = MediaQuery.of(context).size;
-              height = size.height;
-              width = size.width;
-                showDialog(
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                      actions: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/56),
-                          child: Column(
-                            children: [
-                              Image.asset(JobPngimage.applyfail,height: height/6,fit: BoxFit.fitHeight,),
-                              SizedBox(height: height/30,),
-                              Text("You cannot signin from here!".tr,style: urbanistBold.copyWith(fontSize: 24,color: JobColor.red )),
-                              SizedBox(height: height/46,),
-                              Text("Please follow redirect link to web app.".tr,textAlign: TextAlign.center,style: urbanistRegular.copyWith(fontSize: 16)),
-                              SizedBox(height: height/26,),
-                              InkWell(
-                                splashColor:JobColor.transparent,
-                                highlightColor:JobColor.transparent,
-                                onTap: () {
-                                  _launchURL();
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  height: height/15,
-                                  width: width/1,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color:JobColor.appcolor,
-                                  ),
-                                  child: Center(
-                                    child: Text("Redirect me".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.white)),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: height/56,),
-                              InkWell(
-                                splashColor:JobColor.transparent,
-                                highlightColor:JobColor.transparent,
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                  height: height/15,
-                                  width: width/1,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color:JobColor.lightblue,
-                                  ),
-                                  child: Center(
-                                    child: Text("try again".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.appcolor)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    context: context);
-
-              return; // Stop execution if role is Recruiter
-            }*/
           userProvider.setUser(jsonDecode(res.body)); // Pass decoded JSON map
 
           await prefs.setString('token', jsonDecode(res.body)['token']);
-          // Check if user role is Recruiter
 
           await prefs.setString('refresh', jsonDecode(res.body)['refresh']);
           await prefs.setBool('isLoggedIn', true);
