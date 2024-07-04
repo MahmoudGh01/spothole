@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:job_seeker/job/job_pages/job_home/job_dashboard.dart';
+import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../job/job_pages/job_authentication/job_accountsetup/job_choosejobtype.dart';
-import '../job/job_pages/job_authentication/job_loginoption.dart';
-import '../models/user.dart';
-import '../providers/userprovider.dart';
-import '../utils/constants.dart';
-import '../utils/utils.dart';
+import '../Views/job_pages/job_authentication/job_accountsetup/job_choosejobtype.dart';
+import '../Views/job_pages/job_authentication/job_loginoption.dart';
+import '../Models/user.dart';
+import '../ViewModels/userprovider.dart';
+import '../Utils/constants.dart';
+import '../Utils/utils.dart';
 
 class AuthService extends GetxController {
   // Observable auth state
