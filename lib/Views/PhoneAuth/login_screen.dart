@@ -2,9 +2,13 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../job_gloabelclass/job_color.dart';
+import '../job_gloabelclass/job_fontstyle.dart';
+import '../job_gloabelclass/job_icons.dart';
+import '../job_pages/job_theme/job_themecontroller.dart';
 import 'otp_screen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,69 +19,106 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final phoneController = TextEditingController();
-
+  dynamic size;
+  double height = 0.00;
+  double width = 0.00;
+  final themedata = Get.put(JobThemecontroler());
   bool isloading = false;
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
+
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Phone Authentication",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 40),
-            TextField(
-              keyboardType: TextInputType.phone,
-              controller: phoneController,
-              decoration: InputDecoration(
+      appBar: AppBar(
+        title: Text("Phone Authentication".tr, style: urbanistBold.copyWith(fontSize: 22)),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width / 26, vertical: height / 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Image.asset(JobPngimage.forgotpassword, height: height / 4),
+              ),
+              SizedBox(height: height / 36),
+              Text(
+                "Please insert phone number to receive OTP code".tr,
+                style: urbanistRegular.copyWith(fontSize: 14),
+              ),
+              SizedBox(height: height / 36),
+              TextField(
+                keyboardType: TextInputType.phone,
+                controller: phoneController,
+                decoration: InputDecoration(
                   fillColor: Colors.grey.withOpacity(0.25),
                   filled: true,
                   hintText: "Enter Phone",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none)),
-            ),
-            const SizedBox(height: 20),
-            isloading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        isloading = true;
-                      });
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              isloading
+                  ? Center(child: CircularProgressIndicator())
+                  : InkWell(
+                splashColor: JobColor.transparent,
+                highlightColor: JobColor.transparent,
+                onTap: () async {
+                  setState(() {
+                    isloading = true;
+                  });
 
-                      await FirebaseAuth.instance.verifyPhoneNumber(
-                        phoneNumber: phoneController.text,
-                        verificationCompleted: (phoneAuthCredential) {},
-                        verificationFailed: (error) {
-                          log(error.toString());
-                        },
-                        codeSent: (verificationId, forceResendingToken) {
-                          setState(() {
-                            isloading = false;
-                          });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OTPScreen(
-                                        verificationId: verificationId,
-                                      )));
-                        },
-                        codeAutoRetrievalTimeout: (verificationId) {
-                          log("Auto Retireval timeout");
-                        },
+                  await FirebaseAuth.instance.verifyPhoneNumber(
+                    phoneNumber: phoneController.text,
+                    verificationCompleted: (phoneAuthCredential) {},
+                    verificationFailed: (error) {
+                      log(error.toString());
+                      setState(() {
+                        isloading = false;
+                      });
+                    },
+                    codeSent: (verificationId, forceResendingToken) {
+                      setState(() {
+                        isloading = false;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OTPScreen(verificationId: verificationId),
+                        ),
                       );
                     },
-                    child: const Text(
-                      "Sign in",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    ))
-          ],
+                    codeAutoRetrievalTimeout: (verificationId) {
+                      log("Auto Retrieval timeout");
+                      setState(() {
+                        isloading = false;
+                      });
+                    },
+                  );
+                },
+                child: Container(
+                  height: height / 15,
+                  width: width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: JobColor.appcolor,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Sign in".tr,
+                      style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
