@@ -1,6 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_splash.dart';
 import 'package:provider/provider.dart';
 import 'Services/notifi_service.dart';
@@ -13,7 +15,7 @@ import 'Views/job_pages/job_translation/stringtranslation.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
-
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -40,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: JobApptranslation(),
       locale: const Locale('en', 'US'),
-      home: const JobSplash(),
+      home: const LoginScreen(),
     );
   }
 
