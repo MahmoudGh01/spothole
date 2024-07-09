@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_seeker/Views/CameraScreen/camera_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
@@ -30,10 +31,10 @@ class _JobDashboardState extends State<JobDashboard> {
   PageController pageController = PageController();
   int _selectedItemIndex = 0;
 
-  final List<Widget> _pages = const [
+  final List<Widget> _pages =  [
     JobHome(),
     JobSaveapplication(),
-    JobApplication(),
+    CameraScreen(),
     JobMessage(),
     JobProfile()
   ];
@@ -94,7 +95,7 @@ class _JobDashboardState extends State<JobDashboard> {
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
-            JobPngimage.applications,
+            JobPngimage.camera,
             height: height / 36,
             color: themedata.isdark
                 ? JobColor.white
@@ -102,7 +103,7 @@ class _JobDashboardState extends State<JobDashboard> {
           ),
           activeIcon: Image.asset(JobPngimage.applicationfill,
               height: height / 36,color: JobColor.appcolor),
-          label: 'Applications',
+          label: 'Camera',
         ),
         BottomNavigationBarItem(
           icon: Image.asset(

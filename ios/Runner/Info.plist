@@ -18,6 +18,17 @@
 	<string>boilerplate_flutter_login</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your camera for verifying your identity.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library for verifying your identity.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>We need access to your microphone for verifying your identity.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need access to your location for providing better services.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need access to your location for providing better services.</string>
+
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>

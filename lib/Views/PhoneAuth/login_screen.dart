@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/alert_dialog.dart';
 import '../job_gloabelclass/job_color.dart';
 import '../job_gloabelclass/job_fontstyle.dart';
 import '../job_gloabelclass/job_icons.dart';
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: height / 36),
               Text(
-                "Please insert phone number to receive OTP code".tr,
+                "Please insert phone number to SignIn".tr,
                 style: urbanistRegular.copyWith(fontSize: 14),
               ),
               SizedBox(height: height / 36),
@@ -79,6 +80,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     verificationCompleted: (phoneAuthCredential) {},
                     verificationFailed: (error) {
                       log(error.toString());
+                      showDialog(
+                        context: context,
+                        builder: (context) => GlobalAlertDialog(
+                          imagePath: JobPngimage.applyfail,
+                          title: 'Oops, Failed!',
+                          titleColor: Colors.red,
+                          message: error.toString(),
+                          primaryButtonText: 'Try Again',
+                          primaryButtonAction: () {
+                            // Retry action
+                          },
+                          secondaryButtonText: 'Cancel',
+                          secondaryButtonAction: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      );
                       setState(() {
                         isloading = false;
                       });

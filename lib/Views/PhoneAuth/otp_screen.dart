@@ -52,8 +52,15 @@ class _OTPScreenState extends State<OTPScreen> {
 
   String strDigits(int n) => n.toString().padLeft(2, '0');
 
+  dynamic size;
+  double height = 0.00;
+  double width = 0.00;
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
     final minutes = strDigits(myDuration.inMinutes.remainder(2));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
 
@@ -92,8 +99,10 @@ class _OTPScreenState extends State<OTPScreen> {
             const SizedBox(height: 20),
             isLoading
                 ? const CircularProgressIndicator()
-                : ElevatedButton(
-              onPressed: () async {
+                : InkWell(
+              splashColor: JobColor.transparent,
+              highlightColor: JobColor.transparent,
+              onTap: () async {
                 setState(() {
                   isLoading = true;
                 });
@@ -119,16 +128,21 @@ class _OTPScreenState extends State<OTPScreen> {
                   isLoading = false;
                 });
               },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
+              child: Container(
+                height: height / 15,
+                width: width,
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
+                  color: JobColor.appcolor,
+                ),
+                child: Center(
+                  child: Text(
+                    "Sign in".tr,
+                    style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.white),
+                  ),
                 ),
               ),
-              child: Text(
-                "Verify".tr,
-                style: urbanistBold.copyWith(
-                    fontSize: 20, color: JobColor.white),
-              ),
+
             ),
             const SizedBox(height: 20),
             Row(

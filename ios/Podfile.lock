@@ -82,11 +82,6 @@ PODS:
     - Flutter
   - flutter_pdfview (1.0.2):
     - Flutter
-  - flutter_sound (8.5.0):
-    - Flutter
-    - flutter_sound_core (= 8.5.0)
-    - mobile-ffmpeg-audio (= 4.4.LTS)
-  - flutter_sound_core (8.5.0)
   - flutter_timezone (0.0.1):
     - Flutter
   - fluttertoast (0.0.2):
@@ -128,7 +123,6 @@ PODS:
   - GTMSessionFetcher/Core (3.4.1)
   - image_picker_ios (0.0.1):
     - Flutter
-  - mobile-ffmpeg-audio (4.4.LTS)
   - MTBBarcodeScanner (5.0.11)
   - nb_utils (0.0.1):
     - Flutter
@@ -174,7 +168,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
-  - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
   - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
@@ -199,12 +192,10 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreInternal
-    - flutter_sound_core
     - GoogleSignIn
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
-    - mobile-ffmpeg-audio
     - MTBBarcodeScanner
     - ObjectiveDropboxOfficial
     - PromisesObjC
@@ -237,8 +228,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_pdfview:
     :path: ".symlinks/plugins/flutter_pdfview/ios"
-  flutter_sound:
-    :path: ".symlinks/plugins/flutter_sound/ios"
   flutter_timezone:
     :path: ".symlinks/plugins/flutter_timezone/ios"
   fluttertoast:
@@ -286,8 +275,6 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
-  flutter_sound: ba7daf658dea78e9f18b79657338bfc222489f4f
-  flutter_sound_core: d9396f10752a0df9aa3197f4c431d62d934918cc
   flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
   fluttertoast: 9f2f8e81bb5ce18facb9748d7855bf5a756fe3db
   google_sign_in_ios: 7c205d44fdc266640375c6ac33d96ba3983dbe02
@@ -296,7 +283,6 @@ SPEC CHECKSUMS:
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   image_picker_ios: b545a5f16c0fa88e3ecbbce3ed4de45567a8ec18
-  mobile-ffmpeg-audio: 1e0a053f8a6de57114e50ff48b3a85ff1c60f902
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nb_utils: ada4338858d8827ec92fdab2a545206b4ba4cfb1
   ObjectiveDropboxOfficial: 12fa0e80221f1cbc3a3bfd0be5c4451882d08d9f

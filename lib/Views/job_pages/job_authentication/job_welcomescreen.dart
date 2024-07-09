@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
@@ -26,7 +27,7 @@ class _JobWelcomeState extends State<JobWelcome> {
     await Future.delayed(const Duration(seconds: 5));
     navigator.push(MaterialPageRoute(
       builder: (context) {
-        return const JobOnboarding();
+        return const LoginScreen();
       },
     ));
   }
@@ -48,7 +49,7 @@ class _JobWelcomeState extends State<JobWelcome> {
                 padding: EdgeInsets.symmetric(horizontal: width/36),
                 child: Column(
                   children: [
-                    Text("Welcome_to_Jobee".tr,textAlign: TextAlign.center,style: urbanistBold.copyWith(fontSize: 48,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                    Text("Welcome_to_A-Insight".tr,textAlign: TextAlign.center,style: urbanistBold.copyWith(fontSize: 48,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
                     SizedBox(height: height/56,),
                     Text("The best job finder & job portal app where the best jobs will find you.".tr,textAlign: TextAlign.center,style: urbanistMedium.copyWith(fontSize: 18,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
                   ],
