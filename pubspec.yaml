@@ -49,6 +49,11 @@ dependencies:
   http: ^1.2.0
   webview_flutter: ^4.7.0
   path: ^1.8.0
+  google_maps_flutter: ^2.5.0
+  location: ^5.0.0
+  flutter_polyline_points: ^2.0.0
+  camerawesome: ^2.0.1
+  better_open_file: ^3.6.5
   # Add http_parser if you need MediaType
   http_parser: ^4.0.0
   qr_code_scanner: ^1.0.1

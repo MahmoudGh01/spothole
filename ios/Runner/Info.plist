@@ -6,6 +6,12 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>permission to use location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>permission to use location</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>permission to use location</string>
 	<key>CFBundleDisplayName</key>
 	<string>Boilerplate Flutter Login</string>
 	<key>CFBundleExecutable</key>

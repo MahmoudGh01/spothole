@@ -2,6 +2,8 @@
     package="com.example.job_seeker">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <application
         android:label="Occupation App"
         android:name="${applicationName}"
@@ -32,5 +34,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCEhI0WPxZPSDDdeYWMcFW8FBZSehzAMZw"/>
     </application>
 </manifest>
