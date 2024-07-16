@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:label="flutter_projet_01"
+        android:label="Artificial Insight App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
