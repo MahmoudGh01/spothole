@@ -66,4 +66,16 @@ platform :android do
     UI.message(version.to_s)
   end
 
+  desc "Upload apk to App Center"
+    lane :app_center_upload_apk do
+      appcenter_upload(
+            api_token: ENV["APPCENTER_API_TOKEN"],
+            owner_name: "mayssa.namsi-gmail.com",
+            owner_type: "user",
+            app_name: "artificial-insight-app",
+            file: "../build/app/outputs/flutter-apk/app-release.apk",
+            destinations: "u-cloudsolutions",
+            notify_testers: true
+    )
+  end
 end
