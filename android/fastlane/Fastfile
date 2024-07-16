@@ -24,4 +24,13 @@ platform :android do
     end
   end
   
+  desc "Get Packages and Clean old Builds"
+    lane :clean do
+      Dir.chdir "../.." do
+        sh("flutter", "packages", "get")
+        sh("flutter", "clean")
+      end
+  end
+
+  
 end
