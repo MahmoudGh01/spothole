@@ -38,5 +38,12 @@ platform :android do
         sh "flutter build apk --release --build-name=$name --build-number=$number"
       end
   end
-  
+
+  desc "Generate aab Release"
+    lane :generate_aab do
+      Dir.chdir "../.." do
+        sh"flutter build appbundle --release --build-name=$name --build-number=$number"
+      end
+  end
+
 end
