@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
-import 'package:nb_utils/nb_utils.dart';
 
 import '../job_theme/job_themecontroller.dart';
 import 'job_loginoption.dart';
@@ -190,17 +189,7 @@ class _JobOnboardingState extends State<JobOnboarding> {
               setState(() {});
             },
           ),
-          AnimatedPositioned(
-            duration: const Duration(seconds: 1),
-            bottom: 105,
-            left: 10,
-            right: 10,
-            child: DotIndicator(
-                pageController: pageController,
-                pages: pages,
-                unselectedIndicatorColor: JobColor.grey,
-                indicatorColor: JobColor.appcolor),
-          ),
+
         ],
       ),
     );
