@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:105949764936:android:2daa45dabd9ba7d343677d",
+        "mobilesdk_app_id": "1:105949764936:android:230be252d61224e743677d",
         "android_client_info": {
-          "package_name": "com.example.job_seeker"
+          "package_name": "com.example.flutter_projet_01"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "105949764936-uokkc6i1ppvcr50rk8smug9bbmgr1vhn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_projet_01",
+            "certificate_hash": "9e2e5c1191bca903696efd20363be691999d16f1"
+          }
+        },
+        {
+          "client_id": "105949764936-qg6m5sar01tdueu0d2m1125cmn6kqej6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDf6Xt3JJB8vNknk1b3axLOLpPzuNKrz3c"
@@ -20,7 +33,63 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105949764936-qg6m5sar01tdueu0d2m1125cmn6kqej6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "105949764936-vqcca4ol33eutq37odpp5lt6d5vucpr9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.boilerplateFlutterLogin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105949764936:android:2daa45dabd9ba7d343677d",
+        "android_client_info": {
+          "package_name": "com.example.job_seeker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105949764936-j8g8hsssgrqg4t7qbrccs0hsooee9166.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.job_seeker",
+            "certificate_hash": "9e2e5c1191bca903696efd20363be691999d16f1"
+          }
+        },
+        {
+          "client_id": "105949764936-qg6m5sar01tdueu0d2m1125cmn6kqej6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf6Xt3JJB8vNknk1b3axLOLpPzuNKrz3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105949764936-qg6m5sar01tdueu0d2m1125cmn6kqej6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "105949764936-vqcca4ol33eutq37odpp5lt6d5vucpr9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.boilerplateFlutterLogin"
+              }
+            }
+          ]
         }
       }
     }

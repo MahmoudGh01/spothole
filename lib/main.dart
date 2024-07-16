@@ -12,7 +12,6 @@ import 'Views/job_pages/job_theme/job_theme.dart';
 import 'Views/job_pages/job_theme/job_themecontroller.dart';
 import 'Views/job_pages/job_translation/stringtranslation.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
@@ -43,8 +42,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: JobApptranslation(),
       locale: const Locale('en', 'US'),
-      home:  JobSplash(),
+      home: JobSplash(),
     );
   }
-
 }
