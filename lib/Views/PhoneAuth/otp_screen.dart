@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
-import 'package:job_seeker/utils/utils.dart';
+import 'package:job_seeker/Utils/utils.dart';
 import '../job_pages/job_theme/job_themecontroller.dart';
 import 'home_screen.dart';
 import 'package:get/get.dart';

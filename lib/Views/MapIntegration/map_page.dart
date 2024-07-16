@@ -7,7 +7,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'package:location/location.dart';
 
-import '../../utils/constants.dart';
+import '../../Utils/constants.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});

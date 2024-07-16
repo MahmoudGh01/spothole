@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/alert_dialog.dart';
+import '../../Utils/alert_dialog.dart';
 import '../job_gloabelclass/job_color.dart';
 import '../job_gloabelclass/job_fontstyle.dart';
 import '../job_gloabelclass/job_icons.dart';

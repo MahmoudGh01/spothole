@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
-import '../../services/camera_service.dart';
+import '../../Services/camera_service.dart';
 
 
 class CameraScreen extends StatefulWidget {
