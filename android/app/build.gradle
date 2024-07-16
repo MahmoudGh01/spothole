@@ -33,7 +33,7 @@ android {
     defaultConfig {
         multiDexEnabled true
     }
-    namespace "com.example.flutter_projet_01"
+    namespace "com.artificialinsight.app"
     compileSdk 34
     ndkVersion "26.1.10909125"
 
