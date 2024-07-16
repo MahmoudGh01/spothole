@@ -32,5 +32,11 @@ platform :android do
       end
   end
 
+  desc "Generate apk Release"
+    lane :generate_apk do
+      Dir.chdir "../.." do
+        sh "flutter build apk --release --build-name=$name --build-number=$number"
+      end
+  end
   
 end
