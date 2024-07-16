@@ -46,4 +46,24 @@ platform :android do
       end
   end
 
+  #load the app center token from .env file if exists 
+  if File.exist?('../.env')
+    open('../.env', 'r').readlines.each do |l|
+     kv = l.split('=')
+     ENV[kv[0]] = kv[1].chomp
+    end
+   end
+ 
+
+  desc "Fetch Lastet Version Number in app center"
+    lane :fetch_version do
+      UI.message("\n\n\n=====================================\n Fetch latest version: \n=====================================")
+      version = appcenter_fetch_version_number(
+        api_token: ENV["APPCENTER_API_TOKEN"],
+        owner_name: "mayssa.namsi-gmail.com",
+        app_name: "artificial-insight-app"
+    )
+    UI.message(version.to_s)
+  end
+
 end
