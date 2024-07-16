@@ -78,4 +78,18 @@ platform :android do
             notify_testers: true
     )
   end
+
+  desc "Upload aab to App Center"
+    lane :app_center_upload_aab do
+      appcenter_upload(
+            api_token: ENV["APPCENTER_API_TOKEN"],
+            owner_name: "mayssa.namsi-gmail.com",
+            owner_type: "user",
+            app_name: "artificial-insight-app",
+            file: "../build/app/outputs/bundle/release/app-release.aab",
+            destinations: "u-cloudsolutions",
+            notify_testers: true
+    )
+  end
+  
 end
