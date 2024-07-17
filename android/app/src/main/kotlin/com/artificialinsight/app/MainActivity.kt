@@ -1,4 +1,4 @@
-package com.example.flutter_projet_01
+package com.artificialinsight.app
 
 import io.flutter.embedding.android.FlutterActivity
 

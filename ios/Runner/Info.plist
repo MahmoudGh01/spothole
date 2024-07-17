@@ -13,7 +13,7 @@
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>permission to use location</string>
 	<key>CFBundleDisplayName</key>
-	<string>Boilerplate Flutter Login</string>
+	<string>Artificial Insight App</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,7 +21,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>boilerplate_flutter_login</string>
+	<string>Artificial Insight App</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
     <key>NSCameraUsageDescription</key>
