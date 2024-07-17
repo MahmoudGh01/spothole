@@ -42,7 +42,7 @@ class _JobApplywithProfileState extends State<JobApplywithProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: height/120,),
-                      Text("Andrew Ainsley".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+                      Text("Mahmoud Gharbi".tr,style: urbanistBold.copyWith(fontSize: 22 )),
                       SizedBox(height: height/120,),
                       Text("UI/UX Designer at Paypal Inc.".tr,style: urbanistMedium.copyWith(fontSize: 16,color: JobColor.textgray)),
                     ],

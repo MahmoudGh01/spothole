@@ -24,7 +24,7 @@ class _JobResumeState extends State<JobResume> {
     width = size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("CV_Resume".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+        title: Text("Reported Images".tr,style: urbanistBold.copyWith(fontSize: 22 )),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -32,7 +32,7 @@ class _JobResumeState extends State<JobResume> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Upload CV/Resume".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
+              Text("Upload images for your report".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
               SizedBox(height: height/66,),
               Container(
                 width: width/1,
@@ -47,7 +47,7 @@ class _JobResumeState extends State<JobResume> {
                   children: [
                     Image.asset(JobPngimage.uploadfile,height: height/26,),
                     SizedBox(height: height/36,),
-                    Text("Browse_File".tr,style: urbanistSemiBold.copyWith(fontSize: 14,color: JobColor.textgray)),
+                    Text("Upload Image".tr,style: urbanistSemiBold.copyWith(fontSize: 14,color: JobColor.textgray)),
                   ],
                 ),
               ),
@@ -62,12 +62,12 @@ class _JobResumeState extends State<JobResume> {
                   padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/66),
                   child: Row(
                     children: [
-                      Image.asset(JobPngimage.pdf,height: height/15,fit: BoxFit.fitHeight,),
+                      Image.asset(JobPngimage.successlogo,height: height/15,fit: BoxFit.fitHeight,),
                       SizedBox(width: width/36,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("CV - Andrew Ainsley.pdf".tr,style: urbanistSemiBold.copyWith(fontSize: 16,)),
+                          Text("report-001.img".tr,style: urbanistSemiBold.copyWith(fontSize: 16,)),
                           Text("825 Kb".tr,style: urbanistMedium.copyWith(fontSize: 12,color: JobColor.textgray)),
                         ],
                       ),

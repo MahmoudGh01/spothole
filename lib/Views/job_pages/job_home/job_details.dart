@@ -128,7 +128,7 @@ class _JobDetailsState extends State<JobDetails> {
                         height: height / 80,
                       ),
                       Text(
-                        "Google LLC".tr,
+                        "City Hall".tr,
                         style: urbanistMedium.copyWith(
                             fontSize: 18, color: JobColor.appcolor),
                         maxLines: 1,

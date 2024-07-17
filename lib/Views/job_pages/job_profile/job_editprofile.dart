@@ -119,26 +119,7 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 ),
               ),
               SizedBox(height: height/46,),
-              Text("Current_Position".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
-              SizedBox(height: height/66,),
-              TextField(
-                style: urbanistSemiBold.copyWith(fontSize: 16,),
-                decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "UI/UX Designer at Paypal Inc.".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
-                  filled: true,
-                  suffixIcon:Icon(Icons.arrow_drop_down_sharp,size: height/36,color: JobColor.textgray,),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
-                  ),
-                ),
-              ),
+
             ],
           ),
         ),

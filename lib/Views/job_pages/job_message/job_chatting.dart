@@ -29,7 +29,7 @@ class _JobChattingState extends State<JobChatting> {
         leadingWidth: width/10,
         title: Row(
           children: [
-            Text("Google LLC",style: urbanistBold.copyWith(fontSize: 22)),
+            Text("City Hall",style: urbanistBold.copyWith(fontSize: 22)),
             const Spacer(),
             Image.asset(JobPngimage.call,height: height/36,color: themedata.isdark ? JobColor.white : JobColor.black),
             SizedBox(width: width/36,),

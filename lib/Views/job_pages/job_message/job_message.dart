@@ -18,18 +18,12 @@ class _JobMessageState extends State<JobMessage> {
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
-  List chats = ["Google LLC","Dribbble Inc.","Pinterest","Strip Company","Spotify Inc.","Reddit Company","AirBNB Inc.","Kayak Official"];
-  List subtitle = ["Our reviewer, William An...","Okay...Do we have a deal?","Nice working with you 😁","Will the contract be sent?","This is really epic 🔥🔥","just ideas for next time","Haha that's awesome! 😂","I'll be there in 2 mins ⏱"];
-  List time = ["16.00","14.45","10.38","12/22/2022","Yesterday","12/21/2022","12/21/2022","12/20/2022"];
+  List chats = ["City Hall"];
+  List subtitle = ["Our reviewer"];
+  List time = ["16.00"];
   List chatimg = [
-    JobPngimage.google,
-    JobPngimage.a2,
-    JobPngimage.printrest,
-    JobPngimage.stripe,
-    JobPngimage.spotify,
-    JobPngimage.reddit,
-    JobPngimage.avatar,
-    JobPngimage.ellipse,
+    JobPngimage.homefill,
+
   ];
 
   @override
@@ -67,7 +61,7 @@ class _JobMessageState extends State<JobMessage> {
             labelStyle: urbanistSemiBold.copyWith(fontSize: 18 ) ,
             tabs: [
               Text("Chats".tr,),
-              Text("Calls".tr,),
+
             ],
           ),
         ),
