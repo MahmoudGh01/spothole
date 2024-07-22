@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_login.dart';
@@ -54,7 +55,13 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                 try {
                   final UserCredential userCredential =
                       await signInWithFacebook();
-                  if (context.mounted) {}
+                  if (context.mounted) {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return  JobDashboard("0");
+                      },
+                    ));
+                  }
                 } catch (e) {
                   print(e.toString());
                 }
@@ -92,7 +99,13 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                 try {
                   final UserCredential userCredential =
                   await signInWithGoogle();
-                  if (context.mounted) {}
+                  if (context.mounted) {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return JobDashboard("0");
+                      },
+                    ));
+                  }
                 } catch (e) {
                   print(e.toString());
                 }
