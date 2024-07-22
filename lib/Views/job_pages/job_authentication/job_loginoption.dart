@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
@@ -201,7 +202,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return const JobLogin();
+                    return const LoginScreen();
                   },
                 ));
               },
@@ -214,7 +215,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                 ),
                 child: Center(
                     child: Text(
-                  "Sign_in_with_password".tr,
+                  "Sign in with Phone".tr,
                   style: urbanistBold.copyWith(
                       fontSize: 16, color: JobColor.white),
                 )),
