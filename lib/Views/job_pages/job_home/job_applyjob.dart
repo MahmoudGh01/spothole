@@ -25,7 +25,7 @@ class _JobApplyState extends State<JobApply> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Apply_Job".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+        title: Text("Add Report",style: urbanistBold.copyWith(fontSize: 22 )),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -33,13 +33,13 @@ class _JobApplyState extends State<JobApply> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Full_name".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
+              Text("Location".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
               SizedBox(height: height/66,),
               TextField(
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "Full_name".tr,
+                  hintText: "Location".tr,
                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
@@ -53,28 +53,23 @@ class _JobApplyState extends State<JobApply> {
                 ),
               ),
               SizedBox(height: height/46,),
-              Text("Email".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
-              SizedBox(height: height/66,),
-              TextField(
-                style: urbanistSemiBold.copyWith(fontSize: 16,),
-                decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "Email".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
-                  filled: true,
-                  suffixIcon:Icon(Icons.email_outlined,size: height/46,),
-                  enabledBorder: OutlineInputBorder(
+              Center(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Add your camera screen navigation logic here
+                  },
+                  icon: Icon(Icons.camera_alt),
+                  label: Text("Open Camera"),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: JobColor.white, backgroundColor: JobColor.appcolor,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: height/46,),
-              Text("Upload_CV_Resume".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
+              SizedBox(height: height / 46),
+              Text("Upload Images".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
               SizedBox(height: height/66,),
               Container(
                 width: width/1,
@@ -94,14 +89,14 @@ class _JobApplyState extends State<JobApply> {
                 ),
               ),
               SizedBox(height: height/46,),
-              Text("Motivation_Letter".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
+              Text("Extra Description".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
               SizedBox(height: height/66,),
               TextField(
                 maxLines: 5,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "Motivation letter...".tr,
+                  hintText: "Describe your report...".tr,
                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(

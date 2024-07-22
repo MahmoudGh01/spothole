@@ -20,14 +20,7 @@ class _JobDetailsState extends State<JobDetails> {
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
   int isselected = 0;
-  List type = [
-    "Job Description",
-    "Minimum Qualifications",
-    "Perks and Benefits",
-    "Required Skills",
-    "Jobs Summary",
-    "About us"
-  ];
+  List type = ["Report Description"];
   List perks = [
     "Medical / Health Insurance",
     "Medical, Prescription, or Vision Plans",
@@ -95,7 +88,10 @@ class _JobDetailsState extends State<JobDetails> {
                 width: width / 1,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)),
+                    border: Border.all(
+                        color: themedata.isdark
+                            ? JobColor.borderblack
+                            : JobColor.bggray)),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: width / 36, vertical: height / 46),
@@ -106,7 +102,10 @@ class _JobDetailsState extends State<JobDetails> {
                         width: height / 10,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)),
+                            border: Border.all(
+                                color: themedata.isdark
+                                    ? JobColor.borderblack
+                                    : JobColor.bggray)),
                         child: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
@@ -119,7 +118,7 @@ class _JobDetailsState extends State<JobDetails> {
                         height: height / 36,
                       ),
                       Text(
-                        "UI/UX Designer".tr,
+                        "Report Example".tr,
                         style: urbanistSemiBold.copyWith(fontSize: 22),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -128,7 +127,7 @@ class _JobDetailsState extends State<JobDetails> {
                         height: height / 80,
                       ),
                       Text(
-                        "Google LLC".tr,
+                        "City Hall : Ariana".tr,
                         style: urbanistMedium.copyWith(
                             fontSize: 18, color: JobColor.appcolor),
                         maxLines: 1,
@@ -144,7 +143,7 @@ class _JobDetailsState extends State<JobDetails> {
                         height: height / 96,
                       ),
                       Text(
-                        "California, United States".tr,
+                        "Ariana Soghra , ".tr,
                         style: urbanistMedium.copyWith(
                             fontSize: 18, color: JobColor.textgray),
                         maxLines: 1,
@@ -152,50 +151,6 @@ class _JobDetailsState extends State<JobDetails> {
                       ),
                       SizedBox(
                         height: height / 66,
-                      ),
-                      Text(
-                        "\$10,000 - \$25,000 /month".tr,
-                        style: urbanistSemiBold.copyWith(
-                            fontSize: 18, color: JobColor.appcolor),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: height / 66,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: JobColor.textgray)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width / 26,
-                                  vertical: height / 96),
-                              child: Text("Full Time".tr,
-                                  style: urbanistSemiBold.copyWith(
-                                      fontSize: 10, color: JobColor.textgray)),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width / 26,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: JobColor.textgray)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width / 26,
-                                  vertical: height / 96),
-                              child: Text("Onsite".tr,
-                                  style: urbanistSemiBold.copyWith(
-                                      fontSize: 10, color: JobColor.textgray)),
-                            ),
-                          ),
-                        ],
                       ),
                       SizedBox(
                         height: height / 66,
@@ -212,47 +167,49 @@ class _JobDetailsState extends State<JobDetails> {
               ),
               SizedBox(
                 height: height / 15,
-                child: ListView.separated(
-                  itemCount: type.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      splashColor: JobColor.transparent,
-                      highlightColor: JobColor.transparent,
-                      onTap: () {
-                        setState(() {
-                          isselected = index;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            type[index],
-                            style: urbanistSemiBold.copyWith(
-                                fontSize: 18,
-                                color: isselected == index
-                                    ? JobColor.appcolor
-                                    : JobColor.textgray),
-                          ),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Container(
-                            color: isselected == index
-                                ? JobColor.appcolor
-                                : JobColor.transparent,
-                            height: height / 300,
-                            width: width / 3.5,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Container(
-                      width: width / 20,
-                    );
-                  },
+                child: Center(
+                  child: ListView.separated(
+                    itemCount: type.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        splashColor: JobColor.transparent,
+                        highlightColor: JobColor.transparent,
+                        onTap: () {
+                          setState(() {
+                            isselected = index;
+                          });
+                        },
+                        child: Column(
+                          children: [
+                            Text(
+                              type[index],
+                              style: urbanistSemiBold.copyWith(
+                                  fontSize: 18,
+                                  color: isselected == index
+                                      ? JobColor.appcolor
+                                      : JobColor.textgray),
+                            ),
+                            SizedBox(
+                              height: height / 96,
+                            ),
+                            Container(
+                              color: isselected == index
+                                  ? JobColor.appcolor
+                                  : JobColor.transparent,
+                              height: height / 300,
+                              width: width / 3.5,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Container(
+                        width: width / 20,
+                      );
+                    },
+                  ),
                 ),
               ),
               SizedBox(
@@ -260,7 +217,7 @@ class _JobDetailsState extends State<JobDetails> {
               ),
               if (isselected == 0) ...[
                 Text(
-                  "Job_Description".tr,
+                  "Report Description".tr,
                   style: urbanistBold.copyWith(
                     fontSize: 20,
                   ),
@@ -269,7 +226,7 @@ class _JobDetailsState extends State<JobDetails> {
                   height: height / 40,
                 ),
                 Text(
-                  "- Able to run design sprint to deliver the best user experience based on research."
+                  "- Pothole located at the intersection of Main St and 3rd Ave."
                       .tr,
                   style: urbanistMedium.copyWith(
                     fontSize: 16,
@@ -279,7 +236,7 @@ class _JobDetailsState extends State<JobDetails> {
                   height: height / 120,
                 ),
                 Text(
-                  "- Able to lead a team, delegate, & initiative.".tr,
+                  "- Approximately 3 feet wide and 2 feet deep.".tr,
                   style: urbanistMedium.copyWith(
                     fontSize: 16,
                   ),
@@ -288,8 +245,7 @@ class _JobDetailsState extends State<JobDetails> {
                   height: height / 120,
                 ),
                 Text(
-                  "- Able to mold the junior designer to strategize how certain feature needs to be collected."
-                      .tr,
+                  "- Pothole is causing significant traffic disruption.".tr,
                   style: urbanistMedium.copyWith(
                     fontSize: 16,
                   ),
@@ -297,330 +253,10 @@ class _JobDetailsState extends State<JobDetails> {
                 SizedBox(
                   height: height / 120,
                 ),
-                Text(
-                  "- Able to aggregate and be data minded on the decision that's taking place."
-                      .tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-              ] else if (isselected == 1) ...[
-                Text(
-                  "Minimum_Qualifications".tr,
-                  style: urbanistBold.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 46,
-                ),
-                Text(
-                  "- Experience as UI/UX Designer for 2+ years.".tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 120,
-                ),
-                Text(
-                  "- Use platform Figma, Sketch, and Miro.".tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 120,
-                ),
-                Text(
-                  "- Ability to analyze and convert numerical design sprints into UI/UX."
-                      .tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 120,
-                ),
-                Text(
-                  "- Have experience in relevant B2C user centric products perviously."
-                      .tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-              ] else if (isselected == 2) ...[
-                Text(
-                  "Perks_and_Benefits".tr,
-                  style: urbanistBold.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 40,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: width / 26),
-                  child: ListView.builder(
-                    itemCount: icon.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: height / 46),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              icon[index],
-                              height: height / 36,
-                            ),
-                            SizedBox(
-                              width: width / 36,
-                            ),
-                            Text(
-                              perks[index],
-                              style: urbanistMedium.copyWith(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ] else if (isselected == 3) ...[
-                Text(
-                  "Required_Skills".tr,
-                  style: urbanistBold.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 40,
-                ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: skills.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 5,
-                      childAspectRatio: (height / 1.5) / (width / 1.8)),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      splashColor: JobColor.transparent,
-                      highlightColor: JobColor.transparent,
-                      onTap: () {},
-                      child: Container(
-                        height: height / 20,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          border: Border.all(color: JobColor.appcolor),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: width / 16),
-                          child: Center(
-                            child: Text(skills[index],
-                                style: urbanistSemiBold.copyWith(
-                                    fontSize: 14, color: JobColor.appcolor)),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ] else if (isselected == 4) ...[
-                Text(
-                  "Jobs_Summary".tr,
-                  style: urbanistBold.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 40,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: width / 2.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Job_Level".tr,
-                              style: urbanistBold.copyWith(
-                                fontSize: 16,
-                              )),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Text(
-                            "Associate / Supervisor".tr,
-                            style: urbanistMedium.copyWith(
-                                fontSize: 16, color: JobColor.appcolor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: width / 2.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Job_Category".tr,
-                              style: urbanistBold.copyWith(
-                                fontSize: 16,
-                              )),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Text(
-                            "IT and Software".tr,
-                            style: urbanistMedium.copyWith(
-                                fontSize: 16, color: JobColor.appcolor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: height / 46,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: width / 2.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Educational".tr,
-                              style: urbanistBold.copyWith(
-                                fontSize: 16,
-                              )),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Text(
-                            "Bachelor's Degree".tr,
-                            style: urbanistMedium.copyWith(
-                                fontSize: 16, color: JobColor.appcolor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: width / 2.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Experience".tr,
-                              style: urbanistBold.copyWith(
-                                fontSize: 16,
-                              )),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Text(
-                            "1 - 3 Years".tr,
-                            style: urbanistMedium.copyWith(
-                                fontSize: 16, color: JobColor.appcolor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: height / 46,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: width / 2.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Vacancy".tr,
-                              style: urbanistBold.copyWith(
-                                fontSize: 16,
-                              )),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Text(
-                            "2 opening".tr,
-                            style: urbanistMedium.copyWith(
-                                fontSize: 16, color: JobColor.appcolor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: width / 2.2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Website".tr,
-                              style: urbanistBold.copyWith(
-                                fontSize: 16,
-                              )),
-                          SizedBox(
-                            height: height / 96,
-                          ),
-                          Text(
-                            "www.google.com".tr,
-                            style: urbanistMedium.copyWith(
-                                fontSize: 16, color: JobColor.appcolor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              ] else if (isselected == 5) ...[
-                Text(
-                  "About".tr,
-                  style: urbanistBold.copyWith(
-                    fontSize: 20,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 40,
-                ),
-                Text(
-                  "Google LLC is an American multinational technology company that focuses on search engine technology, online advertising, cloud computing, computer software, quantum computing, e-commerce, artificial intelligence, and consumer electronics."
-                      .tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(
-                  height: height / 36,
-                ),
-                Text(
-                  "Google was founded on September 4, 1998, by Larry Page and Sergey Brin while they were PhD students at Stanford University in California. Together they own about 14% of its publicly listed shares and control 56% of the stockholder voting power through super-voting stock."
-                      .tr,
-                  style: urbanistMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
+                Text("- Needs urgent repair to prevent accidents.".tr,
+                    style: urbanistMedium.copyWith(
+                      fontSize: 16,
+                    ))
               ]
             ],
           ),
@@ -633,7 +269,11 @@ class _JobDetailsState extends State<JobDetails> {
           splashColor: JobColor.transparent,
           highlightColor: JobColor.transparent,
           onTap: () {
-            _showapplybottomsheet();
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return const JobApply();
+              },
+            ));
           },
           child: Container(
             height: height / 15,
@@ -720,9 +360,11 @@ class _JobDetailsState extends State<JobDetails> {
                             splashColor: JobColor.transparent,
                             highlightColor: JobColor.transparent,
                             onTap: () {
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                    return const JobApplywithProfile();
-                                  },));
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return const JobApplywithProfile();
+                                },
+                              ));
                             },
                             child: Container(
                               height: height / 15,

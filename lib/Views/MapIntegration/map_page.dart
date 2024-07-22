@@ -6,6 +6,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 import '../../Utils/constants.dart';
 
@@ -38,6 +39,11 @@ class _MapPageState extends State<MapPage> {
             }),
       },
     );
+  }
+  @override
+  void dispose() {
+    _locationController.onLocationChanged.drain(); // Cancel location updates
+    super.dispose();
   }
 
   @override

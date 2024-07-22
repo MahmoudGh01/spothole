@@ -60,7 +60,7 @@ class _JobHomeState extends State<JobHome> {
                   SizedBox(height: height/120,),
                   Text("Good Morning 👋".tr,style: urbanistRegular.copyWith(fontSize: 16 )),
                   SizedBox(height: height/120,),
-                  Text("Andrew Ainsley".tr,style: urbanistBold.copyWith(fontSize: 19 )),
+                  Text("Mahmoud Gharbi".tr,style: urbanistBold.copyWith(fontSize: 19 )),
                 ],
               ),
               const Spacer(),
@@ -185,7 +185,7 @@ class _JobHomeState extends State<JobHome> {
                                           ],
                                         ),
                                         SizedBox(height: height/80,),
-                                        Text("Google LLC".tr,style: urbanistMedium.copyWith(fontSize: 16 ),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                        Text("City Hall".tr,style: urbanistMedium.copyWith(fontSize: 16 ),maxLines: 1,overflow: TextOverflow.ellipsis,),
                                       ],
                                     ),
 

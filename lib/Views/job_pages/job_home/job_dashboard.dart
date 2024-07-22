@@ -5,12 +5,13 @@ import 'package:job_seeker/Views/MapIntegration/map_page.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
-import 'package:job_seeker/Views/job_pages/job_application/job_application.dart';
+import 'package:job_seeker/Views/job_pages/job_application/job_applicationstages.dart';
+import 'package:job_seeker/Views/job_pages/job_home/job_applyjob.dart';
+import 'package:job_seeker/Views/job_pages/job_home/job_details.dart';
 import 'package:job_seeker/Views/job_pages/job_theme/job_themecontroller.dart';
 
 import '../job_message/job_message.dart';
 import '../job_profile/job_profile.dart';
-import '../job_saveapplication/job_saveapplication.dart';
 import 'job_home.dart';
 
 // ignore: must_be_immutable
@@ -33,10 +34,10 @@ class _JobDashboardState extends State<JobDashboard> {
   int _selectedItemIndex = 1;
 
   final List<Widget> _pages =  [
-    JobHome(),
+    JobApply(),
     MapPage(),
     CameraScreen(),
-    JobMessage(),
+    JobDetails(),
     JobProfile()
   ];
 

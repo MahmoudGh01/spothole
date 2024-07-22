@@ -37,7 +37,7 @@ class _JobApplicationState extends State<JobApplication> {
   ];
 
   List application = ["UI/UX Designer","Software Engineer","Application Developer","Web Designer","Graphic Designer"];
-  List applicationdesc = ["Google LLC","Paypal","Figma","Twitter Inc.","Pinterest"];
+  List applicationdesc = ["City Hall","Paypal","Figma","Twitter Inc.","Pinterest"];
   List applicationsicon = [
     JobPngimage.google,
     JobPngimage.paypal,

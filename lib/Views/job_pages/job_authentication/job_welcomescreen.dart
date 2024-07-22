@@ -4,7 +4,6 @@ import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
-import 'job_onboarding.dart';
 
 class JobWelcome extends StatefulWidget {
   const JobWelcome({Key? key}) : super(key: key);
@@ -49,9 +48,9 @@ class _JobWelcomeState extends State<JobWelcome> {
                 padding: EdgeInsets.symmetric(horizontal: width/36),
                 child: Column(
                   children: [
-                    Text("Welcome_to_A-Insight".tr,textAlign: TextAlign.center,style: urbanistBold.copyWith(fontSize: 48,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                    Text("Welcome to          A-Insight".tr,textAlign: TextAlign.center,style: urbanistBold.copyWith(fontSize: 48,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
                     SizedBox(height: height/56,),
-                    Text("The best job finder & job portal app where the best jobs will find you.".tr,textAlign: TextAlign.center,style: urbanistMedium.copyWith(fontSize: 18,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
+                    //Text("The best job finder & job portal app where the best jobs will find you.".tr,textAlign: TextAlign.center,style: urbanistMedium.copyWith(fontSize: 18,color: JobColor.white),maxLines: 2,overflow: TextOverflow.ellipsis,),
                   ],
                 ),
               )

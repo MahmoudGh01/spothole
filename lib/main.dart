@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
+import 'package:job_seeker/Views/job_pages/job_authentication/job_loginoption.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_splash.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: JobApptranslation(),
       locale: const Locale('en', 'US'),
-      home: JobSplash(),
+      home: JobLoginoption(),
     );
   }
 }

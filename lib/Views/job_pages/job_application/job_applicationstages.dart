@@ -68,7 +68,7 @@ class _JobApplicationStagesState extends State<JobApplicationStages> {
                         height: height / 80,
                       ),
                       Text(
-                        "Google LLC".tr,
+                        "City Hall".tr,
                         style: urbanistMedium.copyWith(
                             fontSize: 18, color: JobColor.appcolor),
                         maxLines: 1,

@@ -76,7 +76,7 @@ class _JobContactInfoState extends State<JobContactInfo> {
                       borderSide: BorderSide(color: JobColor.appcolor)
                   ),
                 ),
-                initialCountryCode: 'IN',
+                initialCountryCode: 'TN',
                 onChanged: (phone) {
                 },
               ),
