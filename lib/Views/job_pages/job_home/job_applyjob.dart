@@ -96,7 +96,7 @@ class _JobApplyState extends State<JobApply> {
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "Motivation letter...".tr,
+                  hintText: "Describe your report...".tr,
                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
