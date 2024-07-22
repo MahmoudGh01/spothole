@@ -47,9 +47,14 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.105949764936-vqcca4ol33eutq37odpp5lt6d5vucpr9</string>
+				<string>fb1145933779857270</string>
 			</array>
 		</dict>
 	</array>
+	<key>FacebookAppID</key>
+    <string>1145933779857270</string>
+    <key>FacebookDisplayName</key>
+    <string>A-Insight Pothole APP</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
