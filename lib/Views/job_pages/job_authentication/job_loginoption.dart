@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
@@ -35,20 +37,32 @@ class _JobLoginoptionState extends State<JobLoginoption> {
             SizedBox(height: height/26,),
             Text("Lets_you_in".tr,style: urbanistBold.copyWith(fontSize: 40)),
             SizedBox(height: height/23,),
-            Container(
-              height: height/15,
-              width: width/1,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(JobPngimage.facebook,height: height/30,),
-                  SizedBox(width: width/36,),
-                  Text("Continue_with_Facebook".tr,style: urbanistSemiBold.copyWith(fontSize: 14)),
-                ],
+            InkWell(
+          onTap: () async {
+            try {
+              final UserCredential userCredential = await signInWithFacebook();
+              if (context.mounted) {
+
+              }
+            } catch (e) {
+print(e.toString());
+            }
+          },
+              child: Container(
+                height: height/15,
+                width: width/1,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(JobPngimage.facebook,height: height/30,),
+                    SizedBox(width: width/36,),
+                    Text("Continue_with_Facebook".tr,style: urbanistSemiBold.copyWith(fontSize: 14)),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: height/46,),
@@ -157,5 +171,12 @@ class _JobLoginoptionState extends State<JobLoginoption> {
         ),
       ),
     );
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+    final OAuthCredential facebookAuthCredential =
+    FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 }
