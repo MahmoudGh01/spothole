@@ -37,7 +37,7 @@ class _JobDashboardState extends State<JobDashboard> {
     JobApply(),
     MapPage(),
     CameraScreen(),
-    JobDetails(),
+    JobMessage(),
     JobProfile()
   ];
 

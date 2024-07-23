@@ -36,17 +36,16 @@ class _JobApplicationState extends State<JobApplication> {
     const Color(0xff07BD74),
   ];
 
-  List application = ["UI/UX Designer","Software Engineer","Application Developer","Web Designer","Graphic Designer"];
-  List applicationdesc = ["City Hall","Paypal","Figma","Twitter Inc.","Pinterest"];
+  List reports = ["Pothole on Main St.", "Pothole on Elm St.", "Pothole on Pine St.", "Pothole on Maple St."];
+  List locations = ["Main Street", "Elm Street", "Pine Street", "Maple Street"];
   List applicationsicon = [
-    JobPngimage.google,
-    JobPngimage.paypal,
-    JobPngimage.figma,
-    JobPngimage.a4,
-    JobPngimage.printrest,
+    JobPngimage.p6,
+    JobPngimage.p6,
+    JobPngimage.p6,
+    JobPngimage.p6,
   ];
 
-  List status = ["Application Sent","Application Sent","Application Pending","Application Rejected","Application Accepted"];
+  List status = ["Report Pending", "Report Pending", "Report Rejected", "Report Resolved"];
 
 
   @override
@@ -60,7 +59,7 @@ class _JobApplicationState extends State<JobApplication> {
           padding: const EdgeInsets.all(15),
           child: Image.asset(JobPngimage.logo,height: height/36,),
         ),
-        title: Text("Applications".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+        title: Text("Pothole Reports".tr,style: urbanistBold.copyWith(fontSize: 22 )),
         actions: [
           Padding(
             padding: const EdgeInsets.all(15),
@@ -97,7 +96,7 @@ class _JobApplicationState extends State<JobApplication> {
               ),
               SizedBox(height: height/36,),
               ListView.separated(
-                itemCount: application.length,
+                itemCount: reports.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
@@ -133,11 +132,11 @@ class _JobApplicationState extends State<JobApplication> {
                                   children: [
                                     SizedBox(
                                         width: width/1.8,
-                                        child: Text(application[index],style: urbanistSemiBold.copyWith(fontSize: 19 ),maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                                        child: Text(reports[index],style: urbanistSemiBold.copyWith(fontSize: 19 ),maxLines: 1,overflow: TextOverflow.ellipsis,)),
                                   ],
                                 ),
                                 SizedBox(height: height/80,),
-                                Text(applicationdesc[index],style: urbanistMedium.copyWith(fontSize: 16 ,color: JobColor.textgray),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                Text(locations[index],style: urbanistMedium.copyWith(fontSize: 16 ,color: JobColor.textgray),maxLines: 1,overflow: TextOverflow.ellipsis,),
                               ],
                             ),
                             const Spacer(),
