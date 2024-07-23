@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
@@ -13,6 +16,18 @@ class JobApply extends StatefulWidget {
 }
 
 class _JobApplyState extends State<JobApply> {
+  File? _pickedImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<File?> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _pickedImage = File(pickedFile.path);
+      });
+    }
+    return _pickedImage;
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -71,21 +86,32 @@ class _JobApplyState extends State<JobApply> {
               SizedBox(height: height / 46),
               Text("Upload Images".tr,style: urbanistMedium.copyWith(fontSize: 16 )),
               SizedBox(height: height/66,),
-              Container(
-                width: width/1,
-                height: height/6,
-                decoration: BoxDecoration(
-                  color: themedata.isdark?JobColor.lightblack:JobColor.bggray,
-                  borderRadius: BorderRadius.circular(16)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(JobPngimage.uploadfile,height: height/26,),
-                    SizedBox(height: height/36,),
-                    Text("Browse_File".tr,style: urbanistSemiBold.copyWith(fontSize: 14,color: JobColor.textgray)),
-                  ],
+              InkWell(
+                onTap: () async {
+                  final pickedFile = await _pickImage();
+                  setState(() {
+                    if (pickedFile != null) {
+                      _pickedImage = File(pickedFile.path);
+                      // user.profilePicturePath = _profileImage!.path;
+                    }
+                  });
+                },
+                child: Container(
+                  width: width/1,
+                  height: height/6,
+                  decoration: BoxDecoration(
+                    color: themedata.isdark?JobColor.lightblack:JobColor.bggray,
+                    borderRadius: BorderRadius.circular(16)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(JobPngimage.uploadfile,height: height/26,),
+                      SizedBox(height: height/36,),
+                      Text("Browse_File".tr,style: urbanistSemiBold.copyWith(fontSize: 14,color: JobColor.textgray)),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: height/46,),
@@ -120,7 +146,7 @@ class _JobApplyState extends State<JobApply> {
           highlightColor:JobColor.transparent,
           onTap: () {
             //success();
-            failed();
+            //failed();
           },
           child: Container(
             height: height/15,
@@ -136,112 +162,6 @@ class _JobApplyState extends State<JobApply> {
         ),
       ),
     );
-  }
-
-  success(){
-    showDialog(
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-          actions: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/56),
-              child: Column(
-                children: [
-                  Image.asset(JobPngimage.applysuccess,height: height/6,fit: BoxFit.fitHeight,),
-                  SizedBox(height: height/30,),
-                  Text("Congratulations".tr,style: urbanistBold.copyWith(fontSize: 24,color: JobColor.appcolor )),
-                  SizedBox(height: height/46,),
-                  Text("Your application has been successfully submitted. You can track the progress of your application through the applications menu.".tr,textAlign: TextAlign.center,style: urbanistRegular.copyWith(fontSize: 16)),
-                  SizedBox(height: height/26,),
-                  Container(
-                    height: height/15,
-                    width: width/1,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color:JobColor.appcolor,
-                    ),
-                    child: Center(
-                      child: Text("Go_to_My_Applications".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.white)),
-                    ),
-                  ),
-                  SizedBox(height: height/56,),
-                  InkWell(
-                    splashColor:JobColor.transparent,
-                    highlightColor:JobColor.transparent,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: height/15,
-                      width: width/1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color:JobColor.lightblue,
-                      ),
-                      child: Center(
-                        child: Text("Cancel".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.appcolor)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-        context: context);
-  }
-
-  failed(){
-    showDialog(
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-          actions: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/56),
-              child: Column(
-                children: [
-                  Image.asset(JobPngimage.applyfail,height: height/6,fit: BoxFit.fitHeight,),
-                  SizedBox(height: height/30,),
-                  Text("Oops, Failed!".tr,style: urbanistBold.copyWith(fontSize: 24,color: JobColor.red )),
-                  SizedBox(height: height/46,),
-                  Text("Please check your internet connection then try again.".tr,textAlign: TextAlign.center,style: urbanistRegular.copyWith(fontSize: 16)),
-                  SizedBox(height: height/26,),
-                  Container(
-                    height: height/15,
-                    width: width/1,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color:JobColor.appcolor,
-                    ),
-                    child: Center(
-                      child: Text("Try_Again".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.white)),
-                    ),
-                  ),
-                  SizedBox(height: height/56,),
-                  InkWell(
-                    splashColor:JobColor.transparent,
-                    highlightColor:JobColor.transparent,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: height/15,
-                      width: width/1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color:JobColor.lightblue,
-                      ),
-                      child: Center(
-                        child: Text("Cancel".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.appcolor)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-        context: context);
   }
 
 
