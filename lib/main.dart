@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: JobApptranslation(),
       locale: const Locale('en', 'US'),
-      home: JobLoginoption(),
+      home: JobLoginoption()
     );
   }
 }
