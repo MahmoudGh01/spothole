@@ -4,16 +4,15 @@ import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_pages/job_profile/job_setting/job_setting.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';
+import '../job_application/job_application.dart';
 import '../job_theme/job_themecontroller.dart';
 
 import 'job_contactinfo.dart';
 import 'job_editprofile.dart';
 
-import 'job_organizationactivities.dart';
 
 import 'job_resume.dart';
 
-import 'job_skills.dart';
 
 
 
@@ -127,7 +126,7 @@ class _JobProfileState extends State<JobProfile> {
                 highlightColor: JobColor.transparent,
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const JobSkills();
+                    return  JobApplication();
                   },));
                 },
                 child: Container(
