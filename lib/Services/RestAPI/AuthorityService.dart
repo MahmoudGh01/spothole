@@ -5,14 +5,13 @@ import 'package:job_seeker/Services/api_service.dart';
 import '../../Models/Authority.dart';
 import '../../Models/Report.dart';
 import '../../Models/ReportComment.dart';
+import '../../Utils/constants.dart';
 
-// Define the base URL for the API
-const String baseUrl = 'https://api.example.com';
 
 // AuthorityService
 class AuthorityService  {
   Future<List<Report>> getAllReports() async {
-    final response = await http.post(Uri.parse('$baseUrl/api/reports/all'));
+    final response = await http.post(Uri.parse('${Constants.uri}/api/reports/all'));
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
       return list.map((model) => Report.fromJson(model)).toList();
@@ -23,7 +22,7 @@ class AuthorityService  {
 
   Future<List<Report>> getReportsByUser(String userId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/reports'),
+      Uri.parse('${Constants.uri}/api/reports'),
       body: {'userId': userId},
     );
     if (response.statusCode == 200) {
@@ -36,7 +35,7 @@ class AuthorityService  {
 
   Future<void> submitComment(String userType, String commentText, String caseId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/submit/report/comment'),
+      Uri.parse('${Constants.uri}/api/submit/report/comment'),
       body: {
         'userType': userType,
         'commentText': commentText,
@@ -50,7 +49,7 @@ class AuthorityService  {
 
   Future<List<ReportComment>> getCommentsByCase(String caseId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/reports/comments'),
+      Uri.parse('${Constants.uri}/api/reports/comments'),
       body: {'caseId': caseId},
     );
     if (response.statusCode == 200) {
@@ -63,7 +62,7 @@ class AuthorityService  {
 
   Future<void> submitReport(Report report) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/submit/report'),
+      Uri.parse('${Constants.uri}/api/submit/report'),
       body: report.toMap(),
     );
     if (response.statusCode != 200) {
@@ -73,7 +72,7 @@ class AuthorityService  {
 
   Future<void> uploadFile(List<int> fileBytes) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/upload'),
+      Uri.parse('${Constants.uri}/api/upload'),
       body: {'bytes': base64Encode(fileBytes)},
     );
     if (response.statusCode != 200) {
@@ -83,7 +82,7 @@ class AuthorityService  {
 
   Future<bool> detectPothole(String imageUrl) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/detect/single'),
+      Uri.parse('${Constants.uri}/api/detect/single'),
       body: {'image_url': imageUrl},
     );
     if (response.statusCode == 200) {
@@ -95,7 +94,7 @@ class AuthorityService  {
 
   Future<void> updateProfile(String userId, String email, String name, String photoUrl) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/profile/update'),
+      Uri.parse('${Constants.uri}/api/profile/update'),
       body: {
         'userId': userId,
         'emailId': email,
@@ -110,7 +109,7 @@ class AuthorityService  {
 
   Future<bool> validateUser(String emailId) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/api/user/validate'),
+      Uri.parse('${Constants.uri}/api/user/validate'),
       body: {'emailId': emailId},
     );
     if (response.statusCode == 200) {
