@@ -167,11 +167,11 @@ class _JobApplicationState extends State<JobApplication> {
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(6),
-                                  color: color[index]
+                                  color: Color(0x1A246BFD)
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/110),
-                                child: Text(postMdl.reports[index].status,style: urbanistSemiBold.copyWith(fontSize: 10,color: textcolor[index])),
+                                child: Text(postMdl.reports[index].status,style: urbanistSemiBold.copyWith(fontSize: 10,color: const Color(0xff246BFD))),
                               ),
                             ),
                           ],

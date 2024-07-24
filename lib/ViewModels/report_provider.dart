@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 import '../Models/Report.dart';
 import '../Models/ReportComment.dart';
@@ -21,13 +22,15 @@ class ReportProvider with ChangeNotifier {
     }
   }
 
-  Future<void> submitReport(Report report) async {
+  Future<void> submitReport(BuildContext context,Report report) async {
     try {
-      await _reportService.submitReport(report);
+      await _reportService.submitReport(context,report);
+
       notifyListeners();
     } catch (error) {
       throw error;
     }
+
   }
 
   Future<void> fetchCommentsByCase(String caseId) async {
