@@ -8,6 +8,9 @@ import 'package:job_seeker/Views/job_pages/job_authentication/job_splash.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import 'package:provider/provider.dart';
 import 'Services/notifi_service.dart';
+import 'ViewModels/authority_provider.dart';
+import 'ViewModels/publicuser_provider.dart';
+import 'ViewModels/report_provider.dart';
 import 'ViewModels/userprovider.dart';
 import 'Views/job_pages/job_theme/job_theme.dart';
 import 'Views/job_pages/job_theme/job_themecontroller.dart';
@@ -22,7 +25,11 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
   runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      providers: [ChangeNotifierProvider(create: (_) => UserProvider()),
+  ChangeNotifierProvider<AuthorityProvider>(create: (_) => AuthorityProvider()),
+  ChangeNotifierProvider<ReportProvider>(create: (_) => ReportProvider()),
+  ChangeNotifierProvider<PublicUserProvider>(create: (_) => PublicUserProvider()),
+      ],
       child: const MyApp()));
 }
 
@@ -43,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: JobApptranslation(),
       locale: const Locale('en', 'US'),
-      home: JobLoginoption()
+      home: JobDashboard("0")
     );
   }
 }

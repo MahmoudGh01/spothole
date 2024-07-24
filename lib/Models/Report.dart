@@ -48,18 +48,17 @@ class Report {
 
   Map<String, dynamic> toMap() {
     return {
-      'case_id': caseId,
-      'description': description,
-      'imageURL': imageURL,
-      'latitude': latitude,
-      'longitude': longitude,
-      'severity': severity,
-      'userId': userId,
-      'status': status,
-      'created_date': createdDate,
-      'last_updated': lastUpdated,
-      'address': address,
-      'location_point': locationPoint,
+      'data': {
+        'description': description,
+        'locationLatLng': {
+          'lat': latitude,
+          'lng': longitude,
+        },
+        'imageURL': imageURL,
+        'severity': severity,
+        'userId': userId,
+        'location': address,
+      },
     };
   }
 

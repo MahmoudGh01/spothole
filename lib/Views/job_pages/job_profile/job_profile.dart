@@ -71,9 +71,9 @@ class _JobProfileState extends State<JobProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: height/120,),
-                      Text("Mahmoud Gharbi".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+                      Text("Name_Last_Name".tr,style: urbanistBold.copyWith(fontSize: 22 )),
                       SizedBox(height: height/120,),
-                     // Text("UI/UX Designer at Paypal Inc.".tr,style: urbanistMedium.copyWith(fontSize: 15,color: JobColor.textgray)),
+                     Text("+216 NumTel".tr,style: urbanistMedium.copyWith(fontSize: 15,color: JobColor.textgray)),
                     ],
                   ),
                   const Spacer(),

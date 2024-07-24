@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_seeker/ViewModels/report_provider.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
+import 'package:provider/provider.dart';
+import '../../../ViewModels/authority_provider.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';
 import '../job_theme/job_themecontroller.dart';
@@ -36,20 +39,25 @@ class _JobApplicationState extends State<JobApplication> {
     const Color(0xff07BD74),
   ];
 
-  List reports = ["Pothole on Main St.", "Pothole on Elm St.", "Pothole on Pine St.", "Pothole on Maple St."];
-  List locations = ["Main Street", "Elm Street", "Pine Street", "Maple Street"];
-  List applicationsicon = [
-    JobPngimage.p6,
-    JobPngimage.p6,
-    JobPngimage.p6,
-    JobPngimage.p6,
-  ];
+  //List reports = ["Pothole on Main St.", "Pothole on Elm St.", "Pothole on Pine St.", "Pothole on Maple St."];
+  //List locations = ["Main Street", "Elm Street", "Pine Street", "Maple Street"];
+ // List applicationsicon = [
+   // JobPngimage.p6,
+   // JobPngimage.p6,
+   // JobPngimage.p6,
+    //JobPngimage.p6,
+ // ];
 
   List status = ["Report Pending", "Report Pending", "Report Rejected", "Report Resolved"];
 
-
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<AuthorityProvider>(context, listen: false).fetchAllReports();
+  }
   @override
   Widget build(BuildContext context) {
+    final postMdl = Provider.of<AuthorityProvider>(context);
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
@@ -96,7 +104,7 @@ class _JobApplicationState extends State<JobApplication> {
               ),
               SizedBox(height: height/36,),
               ListView.separated(
-                itemCount: reports.length,
+                itemCount: postMdl.reports.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
@@ -121,7 +129,7 @@ class _JobApplicationState extends State<JobApplication> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
-                                child: Image.asset(applicationsicon[index],height: height/36,),
+                                child: Image.asset(JobPngimage.p6,height: height/36,),
                               ),
                             ),
                             SizedBox(width: width/26,),
@@ -132,11 +140,11 @@ class _JobApplicationState extends State<JobApplication> {
                                   children: [
                                     SizedBox(
                                         width: width/1.8,
-                                        child: Text(reports[index],style: urbanistSemiBold.copyWith(fontSize: 19 ),maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                                        child: Text(postMdl.reports[index].description,style: urbanistSemiBold.copyWith(fontSize: 19 ),maxLines: 1,overflow: TextOverflow.ellipsis,)),
                                   ],
                                 ),
                                 SizedBox(height: height/80,),
-                                Text(locations[index],style: urbanistMedium.copyWith(fontSize: 16 ,color: JobColor.textgray),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                Text(postMdl.reports[index].longitude,style: urbanistMedium.copyWith(fontSize: 16 ,color: JobColor.textgray),maxLines: 1,overflow: TextOverflow.ellipsis,),
                               ],
                             ),
                             const Spacer(),
@@ -159,11 +167,11 @@ class _JobApplicationState extends State<JobApplication> {
                             Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(6),
-                                  color: color[index]
+                                  color: Color(0x1A246BFD)
                               ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/110),
-                                child: Text(status[index],style: urbanistSemiBold.copyWith(fontSize: 10,color: textcolor[index])),
+                                child: Text(postMdl.reports[index].status,style: urbanistSemiBold.copyWith(fontSize: 10,color: const Color(0xff246BFD))),
                               ),
                             ),
                           ],
