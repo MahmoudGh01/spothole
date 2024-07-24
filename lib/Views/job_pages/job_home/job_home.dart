@@ -104,7 +104,7 @@ class _JobHomeState extends State<JobHome> {
                 readOnly: true,
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "Search for a job or company".tr,
+                  hintText: "Search for a report".tr,
                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
                   prefixIcon:Icon(Icons.search_rounded,size: height/36,color: JobColor.textgray,),
@@ -122,12 +122,12 @@ class _JobHomeState extends State<JobHome> {
                   ),
                 ),
               ),
-              SizedBox(height: height/36,),
-              Image.asset(JobPngimage.homebanner,width: width/1,fit: BoxFit.fitWidth,),
-              SizedBox(height: height/26,),
-              Row(
+              SizedBox(height: height/45,),
+              Text("Report Potholes around you     for a better city".tr,style: urbanistBold.copyWith(fontSize: 29 , color: Color(0xff2B3499) ),),
+              //SizedBox(height: height/26,),
+             /* Row(
                 children: [
-                  Text("Recommendation".tr,style: urbanistBold.copyWith(fontSize: 20 )),
+                  Text("Nearby reports".tr,style: urbanistBold.copyWith(fontSize: 20 )),
                   const Spacer(),
                   Text("See_All".tr,style: urbanistBold.copyWith(fontSize: 16,color: JobColor.appcolor)),
                 ],
@@ -251,7 +251,7 @@ class _JobHomeState extends State<JobHome> {
                       return Container(width: width/30,);
                     },
                     ),
-              ),
+              ),*/
               SizedBox(height: height/26,),
               Row(
                 children: [

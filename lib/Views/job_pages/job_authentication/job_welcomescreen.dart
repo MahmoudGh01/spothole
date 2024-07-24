@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Views/job_pages/job_authentication/job_loginoption.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 
 class JobWelcome extends StatefulWidget {
@@ -26,7 +27,7 @@ class _JobWelcomeState extends State<JobWelcome> {
     await Future.delayed(const Duration(seconds: 5));
     navigator.push(MaterialPageRoute(
       builder: (context) {
-        return const LoginScreen();
+        return const JobLoginoption();
       },
     ));
   }

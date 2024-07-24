@@ -31,10 +31,10 @@ class _JobDashboardState extends State<JobDashboard> {
   final themedata = Get.put(JobThemecontroler());
 
   PageController pageController = PageController();
-  int _selectedItemIndex = 1;
+  int _selectedItemIndex = 0;
 
   final List<Widget> _pages =  [
-    JobApply(),
+    JobHome(),
     MapPage(),
     CameraScreen(),
     JobMessage(),
