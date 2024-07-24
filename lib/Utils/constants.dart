@@ -1,5 +1,5 @@
 
 class Constants {
-  static String uri = 'http://127.0.0.1:5000';
+  static String uri = 'https://spothole.u-cloudsolutions.xyz';
 }
 const String maps = "AIzaSyCEhI0WPxZPSDDdeYWMcFW8FBZSehzAMZw";
