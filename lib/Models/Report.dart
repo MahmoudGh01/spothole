@@ -41,7 +41,7 @@ class Report {
       status: json['status'] ?? '',
       createdDate: json['created_date'] ?? '',
       lastUpdated: json['last_updated'] ?? '',
-      address: json['address'] ?? '',
+      address: json['location'] ?? '',
       locationPoint: json['location_point'] ?? '',
     );
   }
