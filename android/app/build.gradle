@@ -33,6 +33,10 @@ android {
     defaultConfig {
         multiDexEnabled true
     }
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
+    }
     namespace "com.artificialinsight.app"
     compileSdk 34
     ndkVersion "26.1.10909125"

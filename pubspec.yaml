@@ -51,14 +51,13 @@ dependencies:
   location: ^6.0.2
   flutter_polyline_points: ^2.0.0
   # Add http_parser if you need MediaType
-  camerawesome: ^1.2.1
   http_parser: ^4.0.0
-  flutter_tflite: ^1.0.1
-  image: ^3.2.0
+
+  image: ^4.2.0
   socket_io_client: ^2.0.0
   geolocator: ^12.0.0
-  geocoding: ^2.0.0
-  image_picker: ^0.8.5+3
+  geocoding: ^3.0.0
+  image_picker: ^1.1.2
   google_sign_in: ^6.2.1
   googleapis: ^13.1.0
   googleapis_auth: ^1.4.1
@@ -69,6 +68,7 @@ dependencies:
   social_login_buttons: ^1.0.7
   cupertino_icons: ^1.0.2
   get:
+  flutter_vision: ^1.1.4
   sizer: ^2.0.15
   intl:
   rename: ^3.0.2
@@ -107,6 +107,8 @@ flutter:
   assets:
     - assets/
     - assets/job_assets/job_pngimage/
+    - assets/labels.txt
+    - assets/yolov8n.tflite
 
 
   # To add assets to your application, add an assets section, like this:
