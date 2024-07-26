@@ -21,6 +21,8 @@ class _MapPageState extends State<MapPage> {
   static const LatLng _pGooglePlex = LatLng(36.407866, 10.561065);
   static const LatLng _pApplePark = LatLng(36.379215, 10.538584);
   LatLng? _currentP;
+  LatLng? _sourceLocation;
+  LatLng? _destinationLocation;
 
   Map<PolylineId, Polyline> polylines = {};
 
@@ -67,28 +69,53 @@ class _MapPageState extends State<MapPage> {
                 zoom: 15,
               ),
               markers: {
-                Marker(
-                  markerId: const MarkerId("_currentLocation"),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: _currentP!,
-                ),
-                Marker(
-                  markerId: const MarkerId("_sourceLocation"),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueAzure),
-                  position: _pGooglePlex,
-                ),
-                Marker(
-                  markerId: const MarkerId("_destionationLocation"),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                      BitmapDescriptor.hueAzure),
-                  position: _pApplePark,
-                )
+                if (_currentP != null)
+                  Marker(
+                    markerId: const MarkerId("_currentLocation"),
+                    icon: BitmapDescriptor.defaultMarker,
+                    position: _currentP!,
+                  ),
+                if (_sourceLocation != null)
+                  Marker(
+                    markerId: const MarkerId("_sourceLocation"),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueAzure),
+                    position: _sourceLocation!,
+                  ),
+                if (_destinationLocation != null)
+                  Marker(
+                    markerId: const MarkerId("_destinationLocation"),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueAzure),
+                    position: _destinationLocation!,
+                  )
               },
               polylines: Set<Polyline>.of(polylines.values),
             );
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return BottomSheetContent(
+                onLocationSubmitted: (source, destination) {
+                  setState(() {
+                    _sourceLocation = source;
+                    _destinationLocation = destination;
+                    polylines.clear();
+                  });
+                  getPolylinePoints().then((coordinates) {
+                    generatePolyLineFromPoints(coordinates);
+                  });
+                },
+              );
+            },
+          );
+        },
+        child: Icon(Icons.directions),
       ),
     );
   }
@@ -143,12 +170,16 @@ class _MapPageState extends State<MapPage> {
   Future<List<LatLng>> getPolylinePoints() async {
     List<LatLng> polylineCoordinates = [];
 
+    if (_sourceLocation == null || _destinationLocation == null) {
+      return polylineCoordinates;
+    }
+
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleApiKey: maps,
       request: PolylineRequest(
-        origin: PointLatLng(_pGooglePlex.latitude, _pGooglePlex.longitude),
-        destination: PointLatLng(_pApplePark.latitude, _pApplePark.longitude),
+        origin: PointLatLng(_sourceLocation!.latitude, _sourceLocation!.longitude),
+        destination: PointLatLng(_destinationLocation!.latitude, _destinationLocation!.longitude),
         mode: TravelMode.driving,
       ),
     );
@@ -173,5 +204,66 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       polylines[id] = polyline;
     });
+  }
+}
+
+class BottomSheetContent extends StatefulWidget {
+  final Function(LatLng source, LatLng destination) onLocationSubmitted;
+
+  BottomSheetContent({required this.onLocationSubmitted});
+
+  @override
+  _BottomSheetContentState createState() => _BottomSheetContentState();
+}
+
+class _BottomSheetContentState extends State<BottomSheetContent> {
+  final TextEditingController _sourceController = TextEditingController();
+  final TextEditingController _destinationController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _sourceController,
+            decoration: InputDecoration(
+              labelText: 'Source Location',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 10),
+          TextField(
+            controller: _destinationController,
+            decoration: InputDecoration(
+              labelText: 'Destination Location',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              // Convert the entered text to LatLng
+              LatLng source = _convertToLatLng(_sourceController.text);
+              LatLng destination = _convertToLatLng(_destinationController.text);
+
+              widget.onLocationSubmitted(source, destination);
+              Navigator.pop(context);
+            },
+            child: Text('Submit'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  LatLng _convertToLatLng(String location) {
+    // For simplicity, assuming input is in the format "latitude,longitude"
+    final parts = location.split(',');
+    final latitude = double.parse(parts[0]);
+    final longitude = double.parse(parts[1]);
+    return LatLng(latitude, longitude);
   }
 }

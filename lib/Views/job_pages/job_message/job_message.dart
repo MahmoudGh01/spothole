@@ -18,12 +18,14 @@ class _JobMessageState extends State<JobMessage> {
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
-  List chats = ["City Hall"];
-  List subtitle = ["Our reviewer"];
-  List time = ["16.00"];
-  List chatimg = [
-    JobPngimage.homefill,
 
+  List<String> reports = ["Pothole on Main St", "Pothole on Elm St", "Pothole on Oak St"];
+  List<String> statuses = ["In Progress", "Resolved", "Reported"];
+  List<String> times = ["14:00", "12:30", "09:00"];
+  List<String> reportImages = [
+    JobPngimage.homefill,  // Placeholder for the actual image
+    JobPngimage.homefill,  // Placeholder for the actual image
+    JobPngimage.homefill,  // Placeholder for the actual image
   ];
 
   @override
@@ -32,21 +34,21 @@ class _JobMessageState extends State<JobMessage> {
     height = size.height;
     width = size.width;
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.all(15),
-            child: Image.asset(JobPngimage.logo,height: height/36,),
+            child: Image.asset(JobPngimage.logo, height: height / 36),
           ),
-          title: Text("Message".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+          title: Text("Pothole Reports".tr, style: urbanistBold.copyWith(fontSize: 22)),
           actions: [
             Row(
               children: [
-                Image.asset(JobPngimage.search,height: height/36,color: themedata.isdark?JobColor.white:JobColor.black,),
-                SizedBox(width: width/36,),
-                Image.asset(JobPngimage.more,height: height/30,color: themedata.isdark?JobColor.white:JobColor.black,),
-                const SizedBox(width: 15,)
+                Image.asset(JobPngimage.search, height: height / 36, color: themedata.isdark ? JobColor.white : JobColor.black),
+                SizedBox(width: width / 36),
+                Image.asset(JobPngimage.more, height: height / 30, color: themedata.isdark ? JobColor.white : JobColor.black),
+                const SizedBox(width: 15)
               ],
             ),
           ],
@@ -54,14 +56,13 @@ class _JobMessageState extends State<JobMessage> {
             indicatorColor: JobColor.appcolor,
             dividerColor: JobColor.bggray,
             labelColor: JobColor.appcolor,
-            labelPadding: EdgeInsets.only(bottom: height/96),
-            indicatorPadding: EdgeInsets.symmetric(horizontal: width/26),
+            labelPadding: EdgeInsets.only(bottom: height / 96),
+            indicatorPadding: EdgeInsets.symmetric(horizontal: width / 26),
             unselectedLabelColor: JobColor.textgray,
-            unselectedLabelStyle:urbanistSemiBold.copyWith(fontSize: 18 ) ,
-            labelStyle: urbanistSemiBold.copyWith(fontSize: 18 ) ,
+            unselectedLabelStyle: urbanistSemiBold.copyWith(fontSize: 18),
+            labelStyle: urbanistSemiBold.copyWith(fontSize: 18),
             tabs: [
-              Text("Chats".tr,),
-
+              Text("Reports".tr),
             ],
           ),
         ),
@@ -69,117 +70,59 @@ class _JobMessageState extends State<JobMessage> {
           children: [
             SingleChildScrollView(
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/36),
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          splashColor: JobColor.transparent,
-                          highlightColor: JobColor.transparent,
-                          onTap: () {
-                           /* if(index == 0 || index == 2){
-
-                            }else{
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return const ZomoChatting(type: "2");
-                              },));
-                            }*/
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return const JobChatting();
-                            },));
-                          },
-                          child: Row(
+                padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 36),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      splashColor: JobColor.transparent,
+                      highlightColor: JobColor.transparent,
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) {
+                          return const JobChatting();
+                        }));
+                      },
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: JobColor.transparent,
+                            backgroundImage: AssetImage(reportImages[index].toString()),
+                          ),
+                          SizedBox(width: width / 26),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: JobColor.transparent,
-                                backgroundImage: AssetImage(chatimg[index].toString()),
-                              ),
-                              SizedBox(width: width/26),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(chats[index].toString(),style: urbanistBold.copyWith(fontSize: 18)),
-                                  SizedBox(height: height/96),
-                                  Text(subtitle[index].toString(),style: urbanistMedium.copyWith(fontSize: 14,color: JobColor.textgray)),
-                                ],
-                              ),
-                              const Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  if(index == 0 || index == 3 || index == 4)...[
-                                    CircleAvatar(
-                                      radius: 10,
-                                      backgroundColor: JobColor.appcolor,
-                                      child: Text("3",style: urbanistRegular.copyWith(fontSize: 10,color: JobColor.white)),
-                                    ),
-                                  ],
-                                  SizedBox(height: height/96),
-                                  Text(time[index].toString(),style: urbanistMedium.copyWith(fontSize: 14,color: JobColor.textgray)),
-                                ],
-                              ),
+                              Text(reports[index].toString(), style: urbanistBold.copyWith(fontSize: 18)),
+                              SizedBox(height: height / 96),
+                              Text(statuses[index].toString(), style: urbanistMedium.copyWith(fontSize: 14, color: JobColor.textgray)),
                             ],
                           ),
-                        );
-                      }, separatorBuilder: (context, index) {
-                    return SizedBox(height: height/36);
-                  }, itemCount: chatimg.length)
-              ),
-            ),
-            SingleChildScrollView(
-              child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/36),
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          splashColor: JobColor.transparent,
-                          highlightColor: JobColor.transparent,
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) {
-                              return const JobChatting();
-                            },));
-                          },
-                          child: Row(
+                          const Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              CircleAvatar(
-                                radius: 25,
-                                backgroundColor: JobColor.transparent,
-                                backgroundImage: AssetImage(chatimg[index].toString()),
-                              ),
-                              SizedBox(width: width/26),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(chats[index].toString(),style: urbanistBold.copyWith(fontSize: 18)),
-                                  SizedBox(height: height/96),
-                                  Text(subtitle[index].toString(),style: urbanistMedium.copyWith(fontSize: 14,color: JobColor.textgray)),
-                                ],
-                              ),
-                              const Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  if(index == 0 || index == 3 || index == 4)...[
-                                    CircleAvatar(
-                                      radius: 10,
-                                      backgroundColor: JobColor.appcolor,
-                                      child: Text("3",style: urbanistRegular.copyWith(fontSize: 10,color: JobColor.white)),
-                                    ),
-                                  ],
-                                  SizedBox(height: height/96),
-                                  Text(time[index].toString(),style: urbanistMedium.copyWith(fontSize: 14,color: JobColor.textgray)),
-                                ],
-                              ),
+                              if (statuses[index] == "In Progress" || statuses[index] == "Reported") ...[
+                                CircleAvatar(
+                                  radius: 10,
+                                  backgroundColor: JobColor.appcolor,
+                                  child: Text("!", style: urbanistRegular.copyWith(fontSize: 10, color: JobColor.white)),
+                                ),
+                              ],
+                              SizedBox(height: height / 96),
+                              Text(times[index].toString(), style: urbanistMedium.copyWith(fontSize: 14, color: JobColor.textgray)),
                             ],
                           ),
-                        );
-                      }, separatorBuilder: (context, index) {
-                    return SizedBox(height: height/36);
-                  }, itemCount: chatimg.length)
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: height / 36);
+                  },
+                  itemCount: reportImages.length,
+                ),
               ),
             ),
           ],
