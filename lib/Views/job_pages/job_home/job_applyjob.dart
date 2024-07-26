@@ -29,6 +29,7 @@ class _JobApplyState extends State<JobApply> {
   String _currentAddress = "Fetching location...";
   double? _latitude;
   double? _longitude;
+  int? _severity = 5;
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -60,17 +61,21 @@ class _JobApplyState extends State<JobApply> {
       return;
     }
 
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
     _getAddressFromLatLng(position);
     _latitude = position.latitude;
     _longitude = position.longitude;
   }
+
   Future<void> _getAddressFromLatLng(Position position) async {
     try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemarks[0];
       setState(() {
-        _currentAddress = "${place.locality}, ${place.postalCode}, ${place.country}";
+        _currentAddress =
+            "${place.locality}, ${place.postalCode}, ${place.country}";
         _locationController.text = _currentAddress;
       });
     } catch (e) {
@@ -118,9 +123,8 @@ class _JobApplyState extends State<JobApply> {
                     color: JobColor.textgray,
                   ),
                   hintText: "Location".tr,
-                  fillColor: themedata.isdark
-                      ? JobColor.lightblack
-                      : JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -150,7 +154,8 @@ class _JobApplyState extends State<JobApply> {
                 ),
               ),
               SizedBox(height: height / 46),
-              Text("Upload Images".tr, style: urbanistMedium.copyWith(fontSize: 16)),
+              Text("Upload Images".tr,
+                  style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
               InkWell(
                 onTap: _pickImage,
@@ -158,26 +163,30 @@ class _JobApplyState extends State<JobApply> {
                   width: width / 1,
                   height: height / 6,
                   decoration: BoxDecoration(
-                    color: themedata.isdark ? JobColor.lightblack : JobColor.bggray,
+                    color: themedata.isdark
+                        ? JobColor.lightblack
+                        : JobColor.bggray,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: _pickedImage == null
                       ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(JobPngimage.uploadfile, height: height / 26),
-                      SizedBox(height: height / 36),
-                      Text("Browse_File".tr,
-                          style: urbanistSemiBold.copyWith(
-                              fontSize: 14, color: JobColor.textgray)),
-                    ],
-                  )
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(JobPngimage.uploadfile,
+                                height: height / 26),
+                            SizedBox(height: height / 36),
+                            Text("Browse_File".tr,
+                                style: urbanistSemiBold.copyWith(
+                                    fontSize: 14, color: JobColor.textgray)),
+                          ],
+                        )
                       : Image.file(_pickedImage!, fit: BoxFit.cover),
                 ),
               ),
               SizedBox(height: height / 46),
-              Text("Extra Description".tr, style: urbanistMedium.copyWith(fontSize: 16)),
+              Text("Extra Description".tr,
+                  style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
               TextField(
                 controller: _descriptionController,
@@ -189,9 +198,8 @@ class _JobApplyState extends State<JobApply> {
                     color: JobColor.textgray,
                   ),
                   hintText: "Describe your report...".tr,
-                  fillColor: themedata.isdark
-                      ? JobColor.lightblack
-                      : JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -206,39 +214,26 @@ class _JobApplyState extends State<JobApply> {
               SizedBox(height: height / 46),
               Text("Severity".tr, style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
-              TextField(
-                controller: _severityController,
-                style: urbanistSemiBold.copyWith(fontSize: 16),
-                decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(
-                    fontSize: 16,
-                    color: JobColor.textgray,
-                  ),
-                  hintText: "Severity".tr,
-                  fillColor: themedata.isdark
-                      ? JobColor.lightblack
-                      : JobColor.appgray,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    borderSide: const BorderSide(color: JobColor.appcolor),
-                  ),
-                ),
+              Slider(
+                value: _severity!.toDouble(),
+                onChanged: (double newValue) {
+                  setState(() {
+                    _severity = newValue.round();
+                  });
+                  print(_severity);
+                },
+                min: 0.0,
+                max: 10.0,
               ),
+
               SizedBox(height: height / 46),
-
-
             ],
           ),
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: width / 36, vertical: height / 56),
+        padding:
+            EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
         child: InkWell(
           splashColor: JobColor.transparent,
           highlightColor: JobColor.transparent,
@@ -249,7 +244,7 @@ class _JobApplyState extends State<JobApply> {
               imageURL: _pickedImage?.path ?? '',
               latitude: _latitude!.toString(),
               longitude: _longitude!.toString(),
-              severity: int.parse(_severityController.text),
+              severity: _severity!,
               userId: '1', // Replace with the actual user ID
               status: 'Pending', // Initial status
               createdDate: DateTime.now().toString(),
@@ -258,7 +253,8 @@ class _JobApplyState extends State<JobApply> {
               locationPoint: '', // Convert to the required format
             );
 
-            Provider.of<ReportProvider>(context, listen: false).submitReport(context,report);
+            Provider.of<ReportProvider>(context, listen: false)
+                .submitReport(context, report);
             // Navigate to a confirmation or another screen
           },
           child: Container(
@@ -271,8 +267,7 @@ class _JobApplyState extends State<JobApply> {
             ),
             child: Text(
               "Apply",
-              style: urbanistBold.copyWith(
-                  fontSize: 18, color: JobColor.white),
+              style: urbanistBold.copyWith(fontSize: 18, color: JobColor.white),
             ),
           ),
         ),
@@ -280,4 +275,3 @@ class _JobApplyState extends State<JobApply> {
     );
   }
 }
-
