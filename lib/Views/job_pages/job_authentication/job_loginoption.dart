@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -7,6 +9,7 @@ import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
+import '../../../Utils/alert_dialog.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_login.dart';
@@ -109,6 +112,24 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                   }
                 } catch (e) {
                   print(e.toString());
+                  log(e.toString());
+                  showDialog(
+                    context: context,
+                    builder: (context) => GlobalAlertDialog(
+                      imagePath: JobPngimage.applyfail,
+                      title: 'Oops, Failed!',
+                      titleColor: Colors.red,
+                      message: e.toString(),
+                      primaryButtonText: 'Try Again',
+                      primaryButtonAction: () {
+                        // Retry action
+                      },
+                      secondaryButtonText: 'Cancel',
+                      secondaryButtonAction: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
                 }
               },
               child: Container(
