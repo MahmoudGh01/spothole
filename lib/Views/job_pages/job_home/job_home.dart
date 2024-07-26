@@ -144,52 +144,8 @@ class _JobHomeState extends State<JobHome> {
                 ],
               ),
               SizedBox(height: height/36,),
-              SizedBox(
-                height: height / 20,
-                child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        splashColor: JobColor.transparent,
-                        highlightColor: JobColor.transparent,
-                        onTap: () {
-                          setState(() {
-                            selected1 = index;
-                          });
-                        },
-                        child: Container(
-                          height: height / 20,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all( color: selected1 == index
-                                  ? JobColor.transparent
-                                  : JobColor.appcolor),
-                              color: selected1 == index
-                                  ? JobColor.appcolor
-                                  : JobColor.transparent),
-                          child: Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: width / 16),
-                            child: Center(
-                              child: Text(text[index],
-                                  style: urbanistMedium.copyWith(
-                                      fontSize: 16,
-                                      color: selected1 == index
-                                          ? JobColor.white
-                                          : JobColor.appcolor)),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Container(
-                        width: width / 36,
-                      );
-                    },
-                    itemCount: text.length),
-              ),
-              SizedBox(height: height/36,),
+
+              //SizedBox(height: height/36,),
               ListView.separated(
                 itemCount: _reports.length,
                 physics: const NeverScrollableScrollPhysics(),
@@ -281,16 +237,7 @@ class _JobHomeState extends State<JobHome> {
                                           ),
                                         ),
                                         SizedBox(width: width/26,),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(6),
-                                              border: Border.all(color: JobColor.textgray)
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: width/26,vertical: height/96),
-                                            child: Text("Onsite".tr,style: urbanistSemiBold.copyWith(fontSize: 10,color: JobColor.textgray)),
-                                          ),
-                                        ),
+
                                       ],
                                     )
                                   ],
