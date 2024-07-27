@@ -7,8 +7,6 @@ PODS:
     - AppAuth/Core
   - camera_avfoundation (0.0.1):
     - Flutter
-  - camerawesome (0.0.1):
-    - Flutter
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -87,6 +85,8 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - flutter_vision (0.0.1):
+    - Flutter
   - geocoding_ios (1.0.5):
     - Flutter
   - geolocator_apple (1.2.0):
@@ -157,18 +157,11 @@ PODS:
     - Flutter
     - FlutterMacOS
   - SwiftyGif (5.4.5)
-  - TensorFlowLiteC (2.14.0):
-    - TensorFlowLiteC/Core (= 2.14.0)
-  - TensorFlowLiteC/Core (2.14.0)
-  - tflite (1.1.2):
-    - Flutter
-    - TensorFlowLiteC
   - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
-  - camerawesome (from `.symlinks/plugins/camerawesome/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -177,6 +170,7 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_vision (from `.symlinks/plugins/flutter_vision/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
@@ -186,7 +180,6 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
-  - tflite (from `.symlinks/plugins/tflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
@@ -212,13 +205,10 @@ SPEC REPOS:
     - RecaptchaInterop
     - SDWebImage
     - SwiftyGif
-    - TensorFlowLiteC
 
 EXTERNAL SOURCES:
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
-  camerawesome:
-    :path: ".symlinks/plugins/camerawesome/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_auth:
@@ -235,6 +225,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_pdfview/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_vision:
+    :path: ".symlinks/plugins/flutter_vision/ios"
   geocoding_ios:
     :path: ".symlinks/plugins/geocoding_ios/ios"
   geolocator_apple:
@@ -253,15 +245,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
-  tflite:
-    :path: ".symlinks/plugins/tflite/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   camera_avfoundation: dd002b0330f4981e1bbcb46ae9b62829237459a4
-  camerawesome: 0f8628efae993cb064ec4f36322e89c237e1064f
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   FBAEMKit: 619f96ea65427e8afca240d5b0f4703738dfdf5c
@@ -281,7 +270,8 @@ SPEC CHECKSUMS:
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
+  flutter_vision: 9ec044bccb616363a2dc476bb297c0642bf4b496
+  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
   geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
   google_maps_flutter_ios: 5bc2be60ad012e79b182ce0fb0ef5030a50fb03e
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
@@ -299,8 +289,6 @@ SPEC CHECKSUMS:
   SDWebImage: 066c47b573f408f18caa467d71deace7c0f8280d
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
-  TensorFlowLiteC: a836de9b6e6018665ccc349538bdd2c3b80dd7a5
-  tflite: 7acd11db0915e2d90ab90474413068568eb605f0
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
 PODFILE CHECKSUM: 1c1ee6d3e28f0cccac34375a2fbab781d65db45d

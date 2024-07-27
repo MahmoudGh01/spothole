@@ -107,7 +107,7 @@ class _YoloVideoState extends State<YoloVideo> {
         modelPath: 'assets/yolov8n.tflite',
         modelVersion: "yolov8",
         numThreads: 1,
-        useGpu: true);
+        useGpu: false);
     setState(() {
       isLoaded = true;
     });
