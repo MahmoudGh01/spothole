@@ -37,7 +37,7 @@ class _JobDashboardState extends State<JobDashboard> {
     JobHome(),
     MapPage(),
     DetectionScreen(),
-    JobMessage(),
+    YoloVideo(),
     JobProfile()
   ];
 

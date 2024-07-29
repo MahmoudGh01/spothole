@@ -1,11 +1,14 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:job_seeker/ViewModels/authority_provider.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 import '../../Utils/constants.dart';
+import '../../ViewModels/report_provider.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -17,10 +20,12 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Location _locationController = Location();
   Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
+  StreamSubscription<LocationData>? _locationSubscription;
 
   static const LatLng _pGooglePlex = LatLng(36.407866, 10.561065);
   static const LatLng _pApplePark = LatLng(36.379215, 10.538584);
   LatLng? _currentP;
+  LatLng? _previousP;
   LatLng? _sourceLocation;
   LatLng? _destinationLocation;
 
@@ -29,6 +34,9 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AuthorityProvider>(context, listen: false).fetchAllReports();
+    });
     _initializeMap();
     getLocationUpdates().then(
           (_) {
@@ -41,12 +49,14 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void dispose() {
-    _locationController.onLocationChanged.drain(); // Cancel location updates
+    _locationSubscription?.cancel(); // Cancel location updates
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final reportProvider = Provider.of<AuthorityProvider>(context);
+
     return Scaffold(
       body: FutureBuilder(
         future: _initializeMap(),
@@ -68,28 +78,16 @@ class _MapPageState extends State<MapPage> {
                 target: _pGooglePlex,
                 zoom: 15,
               ),
-              markers: {
-                if (_currentP != null)
-                  Marker(
-                    markerId: const MarkerId("_currentLocation"),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _currentP!,
+              markers: reportProvider.reports.map((report) {
+                return Marker(
+                  markerId: MarkerId(report.caseId),
+                  position: LatLng(double.parse(report.latitude),double.parse(report.longitude)),
+                  infoWindow: InfoWindow(
+                    title: report.description,
+                    snippet: report.address,
                   ),
-                if (_sourceLocation != null)
-                  Marker(
-                    markerId: const MarkerId("_sourceLocation"),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                    position: _sourceLocation!,
-                  ),
-                if (_destinationLocation != null)
-                  Marker(
-                    markerId: const MarkerId("_destinationLocation"),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                    position: _destinationLocation!,
-                  )
-              },
+                );
+              }).toSet(),
               polylines: Set<Polyline>.of(polylines.values),
             );
           }
@@ -130,9 +128,11 @@ class _MapPageState extends State<MapPage> {
       target: pos,
       zoom: 15,
     );
-    await controller.animateCamera(
-      CameraUpdate.newCameraPosition(_newCameraPosition),
-    );
+    if (mounted) {
+      await controller.animateCamera(
+        CameraUpdate.newCameraPosition(_newCameraPosition),
+      );
+    }
   }
 
   Future<void> getLocationUpdates() async {
@@ -155,16 +155,35 @@ class _MapPageState extends State<MapPage> {
       }
     }
 
-    _locationController.onLocationChanged.listen((LocationData currentLocation) {
+    _locationSubscription = _locationController.onLocationChanged.listen((LocationData currentLocation) {
       if (currentLocation.latitude != null && currentLocation.longitude != null) {
-        setState(() {
-
-          _currentP = LatLng(currentLocation.latitude!, currentLocation.longitude!);
-          _cameraToPosition(_currentP!);
-          print(_currentP);
-        });
+        LatLng newLocation = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+        if (_previousP == null || _calculateDistance(_previousP!, newLocation) > 10) {
+          _previousP = newLocation;
+          if (mounted) {
+            setState(() {
+              _currentP = newLocation;
+              _cameraToPosition(_currentP!);
+            });
+          }
+        }
       }
     });
+  }
+
+  double _calculateDistance(LatLng start, LatLng end) {
+    const double R = 6371; // Radius of the Earth in km
+    double dLat = _degreeToRadian(end.latitude - start.latitude);
+    double dLon = _degreeToRadian(end.longitude - start.longitude);
+    double a = sin(dLat/2) * sin(dLat/2) +
+            cos(_degreeToRadian(start.latitude)) * cos(_degreeToRadian(end.latitude)) *
+                sin(dLon/2) * sin(dLon/2);
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    return R * c * 1000; // Distance in meters
+  }
+
+  double _degreeToRadian(double degree) {
+    return degree * pi / 180;
   }
 
   Future<List<LatLng>> getPolylinePoints() async {
@@ -260,10 +279,10 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
   }
 
   LatLng _convertToLatLng(String location) {
-    // For simplicity, assuming input is in the format "latitude,longitude"
-    final parts = location.split(',');
-    final latitude = double.parse(parts[0]);
-    final longitude = double.parse(parts[1]);
+    // For simplicity, assuming the input format is 'latitude,longitude'
+    List<String> parts = location.split(',');
+    double latitude = double.parse(parts[0].trim());
+    double longitude = double.parse(parts[1].trim());
     return LatLng(latitude, longitude);
   }
 }
