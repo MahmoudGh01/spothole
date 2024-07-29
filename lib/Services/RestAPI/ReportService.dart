@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Views/job_pages/job_application/job_application.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_applyjob.dart';
 
 import '../../Models/Report.dart';
@@ -66,7 +67,7 @@ class ReportService {
         primaryButtonText: 'Go to My Reports',
         primaryButtonAction: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const JobApply();
+            return const JobApplication();
           },));
           // Navigate to applications
           Navigator.pop(context); // Close the dialog
