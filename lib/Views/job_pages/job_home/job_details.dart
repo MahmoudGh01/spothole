@@ -262,34 +262,8 @@ class _JobDetailsState extends State<JobDetails> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
-        child: InkWell(
-          splashColor: JobColor.transparent,
-          highlightColor: JobColor.transparent,
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return const JobApply();
-              },
-            ));
-          },
-          child: Container(
-            height: height / 15,
-            width: width / 1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: JobColor.appcolor,
-            ),
-            child: Center(
-              child: Text("Apply".tr,
-                  style: urbanistSemiBold.copyWith(
-                      fontSize: 16, color: JobColor.white)),
-            ),
-          ),
-        ),
-      ),
+
+
     );
   }
 
@@ -330,31 +304,7 @@ class _JobDetailsState extends State<JobDetails> {
                       ),
                       Row(
                         children: [
-                          InkWell(
-                            splashColor: JobColor.transparent,
-                            highlightColor: JobColor.transparent,
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const JobApply();
-                                },
-                              ));
-                            },
-                            child: Container(
-                              height: height / 15,
-                              width: width / 2.2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: JobColor.lightblue,
-                              ),
-                              child: Center(
-                                child: Text("Apply_with_CV".tr,
-                                    style: urbanistSemiBold.copyWith(
-                                        fontSize: 16,
-                                        color: JobColor.appcolor)),
-                              ),
-                            ),
-                          ),
+
                           const Spacer(),
                           InkWell(
                             splashColor: JobColor.transparent,

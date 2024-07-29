@@ -104,10 +104,10 @@ class _YoloVideoState extends State<YoloVideo> {
   Future<void> loadYoloModel() async {
     await vision.loadYoloModel(
         labels: 'assets/labels.txt',
-        modelPath: 'assets/yolov8n.tflite',
-        modelVersion: "yolov8",
+        modelPath: 'assets/yolov5s.tflite',
+        modelVersion: "yolov5",
         numThreads: 1,
-        useGpu: true);
+        useGpu: false);
     setState(() {
       isLoaded = true;
     });
@@ -148,20 +148,20 @@ class _YoloVideoState extends State<YoloVideo> {
       isDetecting = false;
       yoloResults.clear();
     });
+    await controller.stopImageStream();
   }
 
   List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
-    if (yoloResults.isEmpty) return [];
-    double factorX = screen.width / (cameraImage?.height ?? 1);
-    double factorY = screen.height / (cameraImage?.width ?? 1);
+    if (yoloResults.isEmpty || cameraImage == null) return [];
 
-    Color colorPick = const Color.fromARGB(255, 50, 233, 30);
+    double scaleX = screen.width / cameraImage!.width;
+    double scaleY = screen.height / cameraImage!.height;
 
     return yoloResults.map((result) {
-      double objectX = result["box"][0] * factorX;
-      double objectY = result["box"][1] * factorY;
-      double objectWidth = (result["box"][2] - result["box"][0]) * factorX;
-      double objectHeight = (result["box"][3] - result["box"][1]) * factorY;
+      double objectX = result["box"][0] * scaleX;
+      double objectY = result["box"][1] * scaleY;
+      double objectWidth = (result["box"][2] - result["box"][0]) * scaleX;
+      double objectHeight = (result["box"][3] - result["box"][1]) * scaleY;
 
       return Positioned(
         left: objectX,
@@ -176,9 +176,9 @@ class _YoloVideoState extends State<YoloVideo> {
           child: Text(
             "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(2)}%",
             style: TextStyle(
-              background: Paint()..color = colorPick,
-              color: const Color.fromARGB(255, 115, 0, 255),
-              fontSize: 18.0,
+              background: Paint()..color = Colors.pink,
+              color: Colors.white,
+              fontSize: 14.0,
             ),
           ),
         ),

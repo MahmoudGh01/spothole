@@ -9,6 +9,7 @@ import 'package:job_seeker/Views/job_pages/job_theme/job_themecontroller.dart';
 
 //import '../../CameraScreen/camera_awesome.dart';
 import '../../../Services/yolo_model.dart';
+import '../../ObjectDetection/detection_screen.dart';
 import '../job_message/job_message.dart';
 import '../job_profile/job_profile.dart';
 import 'job_home.dart';
@@ -35,8 +36,8 @@ class _JobDashboardState extends State<JobDashboard> {
   final List<Widget> _pages =  [
     JobHome(),
     MapPage(),
+    DetectionScreen(),
     YoloVideo(),
-    JobMessage(),
     JobProfile()
   ];
 

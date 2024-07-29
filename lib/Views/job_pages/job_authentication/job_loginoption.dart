@@ -160,29 +160,38 @@ class _JobLoginoptionState extends State<JobLoginoption> {
             SizedBox(
               height: height / 46,
             ),
-            Container(
-              height: height / 15,
-              width: width / 1,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                      color: themedata.isdark
-                          ? JobColor.borderblack
-                          : JobColor.bggray)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    JobPngimage.apple,
-                    height: height / 30,
-                    color: themedata.isdark ? JobColor.white : JobColor.black,
-                  ),
-                  SizedBox(
-                    width: width / 36,
-                  ),
-                  Text("Continue_with_Apple".tr,
-                      style: urbanistSemiBold.copyWith(fontSize: 14)),
-                ],
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return JobLogin();
+                  },
+                ));
+              },
+              child: Container(
+                height: height / 15,
+                width: width / 1,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                        color: themedata.isdark
+                            ? JobColor.borderblack
+                            : JobColor.bggray)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      JobPngimage.email,
+                      height: height / 30,
+                      color: themedata.isdark ? JobColor.white : JobColor.black,
+                    ),
+                    SizedBox(
+                      width: width / 36,
+                    ),
+                    Text("Sign_in_with_password".tr,
+                        style: urbanistSemiBold.copyWith(fontSize: 14)),
+                  ],
+                ),
               ),
             ),
             SizedBox(
