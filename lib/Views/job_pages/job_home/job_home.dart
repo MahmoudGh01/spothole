@@ -55,7 +55,7 @@ class _JobHomeState extends State<JobHome> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: height/120,),
-                  Text("Good Morning 👋".tr,style: urbanistRegular.copyWith(fontSize: 16 )),
+                  Text("Good Morning 👋".tr,style: urbanistRegular.copyWith(fontSize: 10)),
                   SizedBox(height: height/120,),
                   Text("Mahmoud Gharbi".tr,style: urbanistBold.copyWith(fontSize: 19 )),
                 ],
@@ -120,7 +120,9 @@ class _JobHomeState extends State<JobHome> {
                 ),
               ),
               SizedBox(height: height/45,),
-              Text("Report Potholes around you     for a better city".tr,style: urbanistBold.copyWith(fontSize: 29 , color: Color(0xff2B3499) ),),
+              Text("Report Potholes around you".tr,style: urbanistBold.copyWith(fontSize: 25 , color: Color(0xff2B3499) ),),
+              Text("for a better city".tr,style: urbanistBold.copyWith(fontSize: 29 , color: Color(0xff2B3499) ),),
+
               SizedBox(height: height/26,),
               Image.asset(JobPngimage.homebanner,width: width/1,fit: BoxFit.fitWidth,),
 

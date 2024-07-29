@@ -155,7 +155,7 @@ class _DetectionScreenState extends State<DetectionScreen> {
                 Column(
                   children: [
                     Container(
-                      height: 500,
+                      height: 445,
                       width: 350,
                       decoration: BoxDecoration(
                         border: Border.all(color: JobColor.lightblue),
