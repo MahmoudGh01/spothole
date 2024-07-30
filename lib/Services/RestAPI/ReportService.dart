@@ -15,7 +15,6 @@ import '../../Utils/alert_dialog.dart';
 import '../../Utils/constants.dart';
 
 class ReportService {
-  
   Future<List<Report>> getReportsByUser(String userId) async {
     final response = await http.post(
       Uri.parse('${Constants.uri}/api/reports'),
@@ -28,7 +27,8 @@ class ReportService {
       throw Exception('Failed to load reports');
     }
   }
-  Future<void> submitReport(BuildContext context,Report report) async {
+
+  Future<void> submitReport(BuildContext context, Report report) async {
     final response = await http.post(
       Uri.parse('${Constants.uri}/api/submit/report'),
       headers: {
@@ -68,12 +68,15 @@ class ReportService {
         imagePath: JobPngimage.successlogo,
         title: 'Reported Submitted',
         titleColor: Colors.green,
-        message: 'Your Report has been successfully submitted. You can track the progress of your case through My Reports.',
+        message:
+            'Your Report has been successfully submitted. You can track the progress of your case through My Reports.',
         primaryButtonText: 'Go to My Reports',
         primaryButtonAction: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const JobApplication();
-          },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const JobApplication();
+            },
+          ));
           // Navigate to applications
           Navigator.pop(context); // Close the dialog
         },
@@ -84,7 +87,6 @@ class ReportService {
       ),
     );
   }
-
 
   Future<List<ReportComment>> getCommentsByCase(String caseId) async {
     final response = await http.post(
@@ -99,7 +101,8 @@ class ReportService {
     }
   }
 
-  Future<void> submitComment(String userType, String commentText, String caseId) async {
+  Future<void> submitComment(
+      String userType, String commentText, String caseId) async {
     final response = await http.post(
       Uri.parse('${Constants.uri}/api/submit/report/comment'),
       body: {
@@ -133,15 +136,5 @@ class ReportService {
     }
   }
 
-  Future<bool> detectPothole(String imageUrl) async {
-    final response = await http.post(
-      Uri.parse('${Constants.uri}/api/detect/single'),
-      body: {'image_url': imageUrl},
-    );
-    if (response.statusCode == 200) {
-      return json.decode(response.body)['result'];
-    } else {
-      throw Exception('Failed to detect pothole');
-    }
-  }
+
 }

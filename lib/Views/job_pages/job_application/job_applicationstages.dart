@@ -1,197 +1,154 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_seeker/Models/Report.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';
 import '../job_theme/job_themecontroller.dart';
 
-class JobApplicationStages extends StatefulWidget {
-  const JobApplicationStages({Key? key}) : super(key: key);
+class ReportDetail extends StatelessWidget {
+  final Report report;
 
-  @override
-  State<JobApplicationStages> createState() => _JobApplicationStagesState();
-}
+  const ReportDetail({Key? key, required this.report}) : super(key: key);
 
-class _JobApplicationStagesState extends State<JobApplicationStages> {
-  dynamic size;
-  double height = 0.00;
-  double width = 0.00;
-  final themedata = Get.put(JobThemecontroler());
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
-    height = size.height;
-    width = size.width;
+    final themedata = Get.put(JobThemecontroler());
+    final size = MediaQuery.of(context).size;
+    final height = size.height;
+    final width = size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Application_Stages".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+        leading: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Image.asset(
+            JobPngimage.logo,
+            height: height / 36,
+          ),
+        ),
+        title: Text("Report Detail".tr, style: urbanistBold.copyWith(fontSize: 22)),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Image.asset(
+              JobPngimage.more,
+              height: height / 36,
+              color: themedata.isdark ? JobColor.white : JobColor.black,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/36),
+          padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 36),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: width / 1,
+                width: width,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray,)),
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
+                ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width / 36, vertical: height / 46),
+                  padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 46),
                   child: Column(
                     children: [
                       Container(
-                        height: height / 10,
-                        width: height / 10,
+                        height:300,
+                        width: 300,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray,)),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(12),
-                          child: Image.asset(
-                            JobPngimage.google,
-                            height: height / 36,
-                          ),
+                          child: report.imageURL != null && report.imageURL!.isNotEmpty
+                              ? Image.network(report.imageURL!, fit: BoxFit.fill)
+                              : Image.asset('assets/job_assets/job_pngimage/logo.png'),
                         ),
                       ),
-                      SizedBox(
-                        height: height / 36,
-                      ),
+                      SizedBox(height: height / 100),
                       Text(
-                        "UI/UX Designer".tr,
+                        report.description,
                         style: urbanistSemiBold.copyWith(fontSize: 22),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(
-                        height: height / 80,
-                      ),
+                      SizedBox(height: height / 100),
                       Text(
-                        "City Hall".tr,
-                        style: urbanistMedium.copyWith(
-                            fontSize: 18, color: JobColor.appcolor),
+                        "Location: ${report.address}",
+                        style: urbanistMedium.copyWith(fontSize: 18, color: JobColor.appcolor),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(
-                        height: height / 96,
-                      ),
-                       Divider(
-                        color: themedata.isdark?JobColor.borderblack:JobColor.bggray,
-                      ),
-                      SizedBox(
-                        height: height / 96,
-                      ),
-                      Text(
-                        "California, United States".tr,
-                        style: urbanistMedium.copyWith(
-                            fontSize: 18, color: JobColor.textgray),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: height / 66,
-                      ),
-                      Text(
-                        "\$10,000 - \$25,000 /month".tr,
-                        style: urbanistSemiBold.copyWith(
-                            fontSize: 18, color: JobColor.appcolor),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: height / 66,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: JobColor.textgray)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width / 26,
-                                  vertical: height / 96),
-                              child: Text("Full Time".tr,
-                                  style: urbanistSemiBold.copyWith(
-                                      fontSize: 10, color: JobColor.textgray)),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width / 26,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(color: JobColor.textgray)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: width / 26,
-                                  vertical: height / 96),
-                              child: Text("Onsite".tr,
-                                  style: urbanistSemiBold.copyWith(
-                                      fontSize: 10, color: JobColor.textgray)),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: height / 66,
-                      ),
-                      Text("Posted 10 days ago, ends in 31 Dec.".tr,
-                          style: urbanistSemiBold.copyWith(
-                              fontSize: 14, color: JobColor.textgray)),
+                      SizedBox(height: height / 96),
+
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: height / 26,
-              ),
-              Text("Your_Application_Status".tr,style: urbanistSemiBold.copyWith(fontSize: 18 )),
-              SizedBox(
-                height: height / 36,
-              ),
+              SizedBox(height: height / 26),
+              Text("Report Information".tr, style: urbanistSemiBold.copyWith(fontSize: 18)),
+              SizedBox(height: height / 36),
               Container(
                 height: height / 15,
-                width: width / 1,
+                width: width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: JobColor.lightblue,
                 ),
                 child: Center(
-                  child: Text("Application_Sent".tr,
-                      style: urbanistSemiBold.copyWith(
-                          fontSize: 16,
-                          color: JobColor.appcolor)),
+                  child: Text(
+                    "Report Status: ${report.status}".tr,
+                    style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.appcolor),
+                  ),
+                ),
+              ),
+              SizedBox(height: height / 36),
+
+              Container(
+                width: width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 46),
+                  child: Column(
+                    children: [
+
+                      Text(
+                        "Reported by User ID: ${report.userId}",
+                        style: urbanistMedium.copyWith(fontSize: 18, color: JobColor.textgray),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: height / 66),
+                      Text(
+                        "Severity: ${report.severity}",
+                        style: urbanistSemiBold.copyWith(fontSize: 18, color: JobColor.appcolor),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: height / 66),
+                      Text(
+                        "Posted on: ${report.createdDate}",
+                        style: urbanistSemiBold.copyWith(fontSize: 14, color: JobColor.textgray),
+                      ),
+                      SizedBox(height: height / 66),
+
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/56),
-        child: InkWell(
-          splashColor:JobColor.transparent,
-          highlightColor:JobColor.transparent,
-          onTap: () {
-          },
-          child: Container(
-            height: height/15,
-            width: width/1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color:JobColor.lightblue,
-            ),
-            child: Center(
-              child: Text("Waiting...".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.appcolor)),
-            ),
-          ),
-        ),
-      ),
+
     );
   }
 }

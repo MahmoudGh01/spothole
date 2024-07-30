@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:job_seeker/ViewModels/authority_provider.dart';
+import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import '../../Utils/constants.dart';
 import '../../ViewModels/report_provider.dart';
+import '../job_pages/job_application/job_applicationstages.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -79,10 +82,20 @@ class _MapPageState extends State<MapPage> {
                 zoom: 15,
               ),
               markers: reportProvider.reports.map((report) {
+               // BitmapDescriptor icon = BitmapDescriptor.asset(ImageConfiguration(), JobPngimage.logo) as BitmapDescriptor;
+
                 return Marker(
+                //  icon:  ,
                   markerId: MarkerId(report.caseId),
                   position: LatLng(double.parse(report.latitude),double.parse(report.longitude)),
                   infoWindow: InfoWindow(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return  ReportDetail(report: report);
+                        },
+                      ));
+                    },
                     title: report.description,
                     snippet: report.address,
                   ),
@@ -224,6 +237,8 @@ class _MapPageState extends State<MapPage> {
       polylines[id] = polyline;
     });
   }
+
+
 }
 
 class BottomSheetContent extends StatefulWidget {
