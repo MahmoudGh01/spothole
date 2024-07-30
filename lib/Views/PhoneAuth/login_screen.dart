@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../Utils/alert_dialog.dart';
 import '../job_gloabelclass/job_color.dart';
@@ -51,18 +52,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: urbanistRegular.copyWith(fontSize: 14),
               ),
               SizedBox(height: height / 36),
-              TextField(
-                keyboardType: TextInputType.phone,
+              IntlPhoneField(
                 controller: phoneController,
-                decoration: InputDecoration(
-                  fillColor: Colors.grey.withOpacity(0.25),
+                flagsButtonPadding: const EdgeInsets.all(8),
+                dropdownIconPosition: IconPosition.trailing,
+                style: urbanistSemiBold.copyWith(fontSize: 16),
+                keyboardType: TextInputType.number,
+                dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16,color: themedata.isdark?JobColor.white:JobColor.textgray,),
+                disableLengthCheck: true,
+                decoration:  InputDecoration(
+                  hintText: "00000000000",
+                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
-                  hintText: "Enter Phone",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
+                  hintStyle: urbanistRegular,
+                  enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderSide: BorderSide.none
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderSide: BorderSide(color: JobColor.appcolor)
                   ),
                 ),
+                initialCountryCode: 'TN',
+                onChanged: (phone) {
+                },
               ),
               SizedBox(height: 20),
               isloading
@@ -76,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
 
                   await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: phoneController.text,
+                    phoneNumber: "+216"+phoneController.text,
                     verificationCompleted: (phoneAuthCredential) {},
                     verificationFailed: (error) {
                       log(error.toString());

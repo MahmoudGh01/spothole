@@ -59,16 +59,20 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                 try {
                   final UserCredential userCredential =
                       await signInWithFacebook();
-                  if (context.mounted) {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return  JobDashboard("0");
-                      },
-                    ));
-                  }
+
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return JobDashboard("0");
+                    },
+                  ));
                 } catch (e) {
                   print(e.toString());
                 }
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return JobDashboard("0");
+                  },
+                ));
               },
               child: Container(
                 height: height / 15,
@@ -102,7 +106,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
               onTap: () async {
                 try {
                   final UserCredential userCredential =
-                  await signInWithGoogle();
+                      await signInWithGoogle();
                   if (context.mounted) {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
@@ -161,7 +165,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
               height: height / 46,
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return JobLogin();
@@ -284,6 +288,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
 
   Future<UserCredential> signInWithFacebook() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
+    print(loginResult.accessToken?.tokenString);
     final OAuthCredential facebookAuthCredential =
         FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
@@ -291,7 +296,8 @@ class _JobLoginoptionState extends State<JobLoginoption> {
 
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
     final OAuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,

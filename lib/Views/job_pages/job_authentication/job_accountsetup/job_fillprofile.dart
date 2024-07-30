@@ -7,6 +7,7 @@ import '../../job_theme/job_themecontroller.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'job_createnewpin.dart';
+import 'job_setfacerecognition.dart';
 
 class JobFillProfile extends StatefulWidget {
   const JobFillProfile({Key? key}) : super(key: key);
@@ -183,25 +184,50 @@ class _JobFillProfileState extends State<JobFillProfile> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/56),
-        child: InkWell(
-          splashColor:JobColor.transparent,
-          highlightColor:JobColor.transparent,
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return const JobCreatenewPin();
-            },));
-          },
-          child: Container(
-            height: height/15,
-            width: width/1,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color:JobColor.appcolor,
+        child: Row(
+          children: [
+            InkWell(
+              splashColor:JobColor.transparent,
+              highlightColor:JobColor.transparent,
+              onTap: () {
+                /* Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const JobSelectexpertise();
+                },));*/
+              },
+              child: Container(
+                height: height/15,
+                width: width/2.2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color:JobColor.lightblue,
+                ),
+                child: Center(
+                  child: Text("Skip".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.appcolor)),
+                ),
+              ),
             ),
-            child: Center(
-              child: Text("Continue".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.white)),
+            const Spacer(),
+            InkWell(
+              splashColor:JobColor.transparent,
+              highlightColor:JobColor.transparent,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const JobCreatenewPin();
+                },));
+              },
+              child: Container(
+                height: height/15,
+                width: width/2.2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color:JobColor.appcolor,
+                ),
+                child: Center(
+                  child: Text("Continue".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.white)),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
