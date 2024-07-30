@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
@@ -51,20 +54,18 @@ class ReportProvider with ChangeNotifier {
     }
   }
 
-  Future<void> uploadFile(List<int> fileBytes) async {
+  Future<String?> uploadFile(File file) async {
     try {
-      await _reportService.uploadFile(fileBytes);
-      notifyListeners();
+
+        await _reportService.uploadFile(file);
+        notifyListeners();
+        return file.path;
+
+
     } catch (error) {
       throw error;
     }
   }
 
-  Future<bool> detectPothole(String imageUrl) async {
-    try {
-      return await _reportService.detectPothole(imageUrl);
-    } catch (error) {
-      throw error;
-    }
-  }
+
 }

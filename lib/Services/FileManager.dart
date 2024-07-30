@@ -97,7 +97,7 @@ class FileManager {
     }
   }
 
-  static Future<http.Response?> uploadFiles(String url, List<PlatformFile> files) async {
+   Future<http.Response?> uploadFiles(String url, List<PlatformFile> files) async {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
