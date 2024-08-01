@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Views/job_pages/job_authentication/job_accountsetup/job_fillprofile.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_accountsetup/job_selectcountry.dart';
@@ -95,13 +96,19 @@ class _JobSignupState extends State<JobSignup> {
               SizedBox(height: height/46,),
               TextField(
                 style: urbanistSemiBold.copyWith(fontSize: 16),
-                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16),
-                  hintText: "Mobile".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  hintStyle: urbanistRegular.copyWith(fontSize: 16,),
+                  hintText: "Password".tr,
+                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
-                  prefixIcon:Icon(Icons.call,size: height/46,),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText2 ? Icons.visibility_off : Icons.visibility,size: height/46,
+                    ),
+                    onPressed: _togglePasswordStatus2,
+                  ),
+
+                  prefixIcon:Icon(Icons.lock,size: height/46,),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none
@@ -117,7 +124,7 @@ class _JobSignupState extends State<JobSignup> {
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,),
-                  hintText: "Password".tr,
+                  hintText: "Confirm Password".tr,
                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                   filled: true,
                   suffixIcon: IconButton(
@@ -173,7 +180,7 @@ class _JobSignupState extends State<JobSignup> {
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const JobSelectCountry();
+                      return const JobFillProfile();
                     },
                   ));
                 },

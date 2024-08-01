@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:job_seeker/Services/FileManager.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_application/job_application.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_applyjob.dart';
+import 'package:path/path.dart';
 
 import '../../Models/Report.dart';
 import '../../Models/ReportComment.dart';
@@ -23,7 +27,8 @@ class ReportService {
       throw Exception('Failed to load reports');
     }
   }
-  Future<void> submitReport(BuildContext context,Report report) async {
+
+  Future<void> submitReport(BuildContext context, Report report) async {
     final response = await http.post(
       Uri.parse('${Constants.uri}/api/submit/report'),
       headers: {
@@ -63,12 +68,15 @@ class ReportService {
         imagePath: JobPngimage.successlogo,
         title: 'Reported Submitted',
         titleColor: Colors.green,
-        message: 'Your Report has been successfully submitted. You can track the progress of your case through My Reports.',
+        message:
+            'Your Report has been successfully submitted. You can track the progress of your case through My Reports.',
         primaryButtonText: 'Go to My Reports',
         primaryButtonAction: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const JobApplication();
-          },));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return const JobApplication();
+            },
+          ));
           // Navigate to applications
           Navigator.pop(context); // Close the dialog
         },
@@ -79,7 +87,6 @@ class ReportService {
       ),
     );
   }
-
 
   Future<List<ReportComment>> getCommentsByCase(String caseId) async {
     final response = await http.post(
@@ -94,7 +101,8 @@ class ReportService {
     }
   }
 
-  Future<void> submitComment(String userType, String commentText, String caseId) async {
+  Future<void> submitComment(
+      String userType, String commentText, String caseId) async {
     final response = await http.post(
       Uri.parse('${Constants.uri}/api/submit/report/comment'),
       body: {
@@ -108,25 +116,25 @@ class ReportService {
     }
   }
 
-  Future<void> uploadFile(List<int> fileBytes) async {
-    final response = await http.post(
+  Future<String> uploadFile(File file) async {
+    final request = http.MultipartRequest(
+      'POST',
       Uri.parse('${Constants.uri}/api/upload'),
-      body: {'bytes': base64Encode(fileBytes)},
     );
-    if (response.statusCode != 200) {
+    request.files.add(await http.MultipartFile.fromPath(
+      'file',
+      file.path,
+    ));
+
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final jsonResponse = jsonDecode(responseData);
+      return jsonResponse['fileUrl'];
+    } else {
       throw Exception('Failed to upload file');
     }
   }
 
-  Future<bool> detectPothole(String imageUrl) async {
-    final response = await http.post(
-      Uri.parse('${Constants.uri}/api/detect/single'),
-      body: {'image_url': imageUrl},
-    );
-    if (response.statusCode == 200) {
-      return json.decode(response.body)['result'];
-    } else {
-      throw Exception('Failed to detect pothole');
-    }
-  }
+
 }

@@ -15,6 +15,7 @@ class AuthorityProvider with ChangeNotifier {
   Future<void> fetchAllReports() async {
     try {
       _reports = await _authorityService.getAllReports();
+      print(_reports.toList().first.caseId);
       notifyListeners();
     } catch (error) {
       throw error;

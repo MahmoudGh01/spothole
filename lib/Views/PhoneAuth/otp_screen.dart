@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import 'package:job_seeker/Utils/utils.dart';
 import '../job_pages/job_theme/job_themecontroller.dart';
-import 'home_screen.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import '../job_gloabelclass/job_fontstyle.dart';

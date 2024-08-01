@@ -41,24 +41,24 @@ class Report {
       status: json['status'] ?? '',
       createdDate: json['created_date'] ?? '',
       lastUpdated: json['last_updated'] ?? '',
-      address: json['location'] ?? '',
-      locationPoint: json['location_point'] ?? '',
+      address: json['address'] ?? '',
+      locationPoint: '',
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'data': {
-        'description': description,
-        'locationLatLng': {
-          'lat': latitude,
-          'lng': longitude,
-        },
-        'imageURL': imageURL,
-        'severity': severity,
-        'userId': userId,
-        'location': address,
+      'description': description,
+      'locationLatLng': {
+        'lat': latitude,
+        'lng': longitude,
       },
+      'imageURL': imageURL,
+      'address': address,
+      'status': status,
+      'severity': severity,
+      'userId': userId,
+      'location': address,
     };
   }
 

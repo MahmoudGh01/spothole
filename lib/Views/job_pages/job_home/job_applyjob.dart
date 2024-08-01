@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
+import '../../../Models/Report.dart';
+import '../../../ViewModels/report_provider.dart';
 import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
@@ -45,6 +48,93 @@ class _JobApplyState extends State<JobApply> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
+    Future<void> uploadImageAndSubmitReport() async {
+
+
+      if (widget.image != null) {
+
+
+        // Show loading indicator
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Row(
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(width: 20),
+                Text('Uploading...'),
+              ],
+            ),
+          ),
+        );
+
+        try {
+          // Upload file and get URL
+          var reportProvider = Provider.of<ReportProvider>(context, listen: false);
+          String? fileUrl = await reportProvider.uploadFile(widget.image);
+
+          // Close loading indicator
+          Navigator.of(context).pop();
+
+
+          // Create Report object
+          Report report = Report(
+            caseId: '',
+            description: _descriptionController.text,
+            imageURL: fileUrl!,
+            latitude: widget.latitude.toString(),
+            longitude: widget.longitude.toString(),
+            severity: int.parse(_severityController.text),
+            userId: '1',
+            status: "submitted",
+            createdDate: DateTime.now().toString(),
+            lastUpdated:DateTime.now().toString(),
+            address: _locationController.text,
+            locationPoint: '',
+          );
+
+          // Submit Report
+          await reportProvider.submitReport(context, report);
+
+          // Show success message
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Report Submitted'),
+              content: Text('Your report has been submitted successfully.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        } catch (e) {
+          // Close loading indicator
+          Navigator.of(context).pop();
+
+          // Show error message
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Upload Failed'),
+              content: Text(e.toString()),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      }
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -89,16 +179,20 @@ class _JobApplyState extends State<JobApply> {
               SizedBox(height: height / 66),
               Text("Upload Images".tr, style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
-              Container(
-                height: height / 3,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.file(widget.image, fit: BoxFit.cover),
+              InkWell(
+                onTap:(){
+                },
+                child: Container(
+                  height: height / 3,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.file(widget.image, fit: BoxFit.cover),
+                  ),
                 ),
               ),
               SizedBox(height: height / 33),
@@ -144,7 +238,7 @@ class _JobApplyState extends State<JobApply> {
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
                 onTap: () {
-                  // Add your submit logic here
+                  uploadImageAndSubmitReport();
                 },
                 child: Container(
                   height: height / 15,
