@@ -121,7 +121,7 @@ class _JobApplyState extends State<JobApply> {
             context: context,
             builder: (context) => AlertDialog(
               title: Text('Upload Failed'),
-              content: Text('Failed to upload image. Please try again.'),
+              content: Text(e.toString()),
               actions: <Widget>[
                 TextButton(
                   child: Text('OK'),
