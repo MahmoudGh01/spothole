@@ -12,6 +12,7 @@ import 'ViewModels/authority_provider.dart';
 import 'ViewModels/publicuser_provider.dart';
 import 'ViewModels/report_provider.dart';
 import 'ViewModels/userprovider.dart';
+import 'Views/YoloRealTime/yolo_realtime_view.dart';
 import 'Views/job_pages/job_theme/job_theme.dart';
 import 'Views/job_pages/job_theme/job_themecontroller.dart';
 import 'Views/job_pages/job_translation/stringtranslation.dart';
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: JobApptranslation(),
       locale: const Locale('en', 'US'),
-      home: JobSplash()
+      home: const YoloRealTimeViewExample()
     );
   }
 }

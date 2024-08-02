@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_facebook_auth: any
+  yolo_realtime_plugin: ^1.0.2
   firebase_core: ^3.2.0
   firebase_auth: ^5.1.2
   provider: ^6.1.1
