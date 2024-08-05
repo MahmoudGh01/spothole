@@ -43,6 +43,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   fl_score_bar: ^0.2.4
   flutter_local_notifications: ^17.2.1+2
+  flutter_speed_dial: ^7.0.0
   object_3d: ^1.0.0
   smooth_page_indicator: ^1.1.0
   http: ^1.2.0
