@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_pages/job_profile/job_setting/job_setting.dart';
+import 'package:provider/provider.dart';
+import '../../../ViewModels/userprovider.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';
 import '../job_application/job_application.dart';
@@ -30,6 +32,8 @@ class _JobProfileState extends State<JobProfile> {
   final themedata = Get.put(JobThemecontroler());
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context).user;
+
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
@@ -71,7 +75,7 @@ class _JobProfileState extends State<JobProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: height/120,),
-                      Text("Name_Last_Name".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+                      Text(user.name,style: urbanistBold.copyWith(fontSize: 22 )),
                       SizedBox(height: height/120,),
                      Text("+216 NumTel".tr,style: urbanistMedium.copyWith(fontSize: 15,color: JobColor.textgray)),
                     ],

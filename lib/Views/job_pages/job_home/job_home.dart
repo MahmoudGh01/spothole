@@ -5,6 +5,7 @@ import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:provider/provider.dart';
 import '../../../ViewModels/authority_provider.dart';
+import '../../../ViewModels/userprovider.dart';
 import '../job_application/job_applicationstages.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_details.dart';
@@ -35,6 +36,8 @@ class _JobHomeState extends State<JobHome> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context).user;
+
     final _reports =Provider.of<AuthorityProvider>(context).reports;
   size = MediaQuery.of(context).size;
   height = size.height;
@@ -58,7 +61,7 @@ class _JobHomeState extends State<JobHome> {
                   SizedBox(height: height/120,),
                   Text("Good Morning 👋".tr,style: urbanistRegular.copyWith(fontSize: 10)),
                   SizedBox(height: height/120,),
-                  Text("Mahmoud Gharbi".tr,style: urbanistBold.copyWith(fontSize: 19 )),
+                  Text(user.name,style: urbanistBold.copyWith(fontSize: 19 )),
                 ],
               ),
               const Spacer(),

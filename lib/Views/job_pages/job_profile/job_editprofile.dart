@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
@@ -23,8 +24,10 @@ class _JobEditprofileState extends State<JobEditprofile> {
   final themedata = Get.put(JobThemecontroler());
 
   final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController middleNameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +91,15 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 ),
               ),
               SizedBox(height: height / 46,),
-              Text("Middle_Name".tr, style: urbanistMedium.copyWith(fontSize: 16)),
-              SizedBox(height: height / 66,),
               TextField(
-                controller: middleNameController,
+                controller: dobController,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
-                  hintText: "Middle_Name".tr,
+                  hintText: "DOB".tr,
                   fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
+                  suffixIcon: Icon(Icons.calendar_month_rounded, size: height / 36, color: JobColor.textgray,),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none
@@ -130,6 +132,32 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 ),
               ),
               SizedBox(height: height / 46,),
+              IntlPhoneField(
+                controller: phoneController,
+                flagsButtonPadding: const EdgeInsets.all(8),
+                dropdownIconPosition: IconPosition.trailing,
+                style: urbanistSemiBold.copyWith(fontSize: 16),
+                keyboardType: TextInputType.number,
+                disableLengthCheck: true,
+                dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16, color: themedata.isdark ? JobColor.white : JobColor.textgray,),
+                decoration: InputDecoration(
+                  hintText: "00000000000",
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                  filled: true,
+                  hintStyle: urbanistRegular,
+                  enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderSide: BorderSide.none
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderSide: BorderSide(color: JobColor.appcolor)
+                  ),
+                ),
+                initialCountryCode: 'TN',
+                onChanged: (phone) {},
+              ),
+              SizedBox(height: height / 46,),
             ],
           ),
         ),
@@ -145,8 +173,8 @@ class _JobEditprofileState extends State<JobEditprofile> {
               name: fullNameController.text,
               email: userProvider.user.email,
               lastname: lastNameController.text,
-              phone: userProvider.user.phone,
-              birthdate: userProvider.user.birthdate,
+              phone: "216"+phoneController.toString(),
+              birthdate: dobController.text,
             );
             Navigator.pop(context); // Navigate back after saving
           },
