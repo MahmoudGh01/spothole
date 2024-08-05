@@ -28,6 +28,11 @@ class _JobLoginState extends State<JobLogin> {
       email: emailController.text,
       password: passwordController.text,
     );
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => JobDashboard("0"),
+        ),
+            (route) => false);
   }
   dynamic size;
   double height = 0.00;

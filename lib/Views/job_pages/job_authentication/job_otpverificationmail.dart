@@ -14,7 +14,7 @@ class JobOtpverificationMail extends StatefulWidget {
   final String email;
   final String password;
 
-  const JobOtpverificationMail({ required this.email, required this.password}) ;
+  const JobOtpverificationMail({required this.email, required this.password});
 
   @override
   State<JobOtpverificationMail> createState() => _JobOtpverificationMailState();
@@ -23,21 +23,20 @@ class JobOtpverificationMail extends StatefulWidget {
 class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
   final TextEditingController codeController = TextEditingController();
   final AuthService authService = AuthService();
-  String OTPcode ="" ;
+  String OTPcode = "";
   void verifyCode(BuildContext context) async {
     final code = OTPcode;
     print(OTPcode);
     final result = await authService.verifyCode(
         context: context, email: widget.email, code: code);
     if (result == 200) {
-
-      authService.signInUser(context: context, email: widget.email, password: widget.password);
+      authService.signInUser(
+          context: context, email: widget.email, password: widget.password);
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return const JobFillProfile();
         },
       ));
-
     } else {
       // Handle verification failure (e.g., show an error message)
       showDialog(
@@ -45,7 +44,7 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
         builder: (context) => AlertDialog(
           title: Text("Verification Failed"),
           content:
-          Text("The verification code is incorrect. Please try again."),
+              Text("The verification code is incorrect. Please try again."),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -56,23 +55,25 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
       );
     }
   }
+
   dynamic size;
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     startTimer();
   }
-  bool isresend=false;
+
+  bool isresend = false;
   Timer? countdownTimer;
   Duration myDuration = const Duration(minutes: 2);
   void startTimer() {
     countdownTimer =
         Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
   }
+
   void setCountDown() {
     const reduceSecondsBy = 1;
     setState(() {
@@ -85,6 +86,7 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -96,42 +98,52 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
     return Scaffold(
       appBar: AppBar(
-        title: Text("OTP_Code_Verification".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+        title: Text("OTP_Code_Verification".tr,
+            style: urbanistBold.copyWith(fontSize: 22)),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/36),
+        padding:
+            EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 36),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: height/10,),
-            Text("Code has been send to your email".tr,style: urbanistMedium.copyWith(fontSize: 16,)),
-            SizedBox(height: height/36,),
+            SizedBox(
+              height: height / 10,
+            ),
+            Text("Code has been send to your email".tr,
+                style: urbanistMedium.copyWith(
+                  fontSize: 16,
+                )),
+            SizedBox(
+              height: height / 36,
+            ),
             Form(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    height: height/11,
-                    width: height/11,
+                    height: height / 11,
+                    width: height / 11,
                     child: TextFormField(
-                      onChanged: (value){
-                        if(value.length == 1){
-                          OTPcode+=value;
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          OTPcode += value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
-                      onSaved: (pin1){},
+                      onSaved: (pin1) {},
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none
-                        ),
+                            borderSide: BorderSide.none),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: JobColor.appcolor)
-                        ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                            borderSide:
+                                const BorderSide(color: JobColor.appcolor)),
+                        fillColor: themedata.isdark
+                            ? JobColor.lightblack
+                            : JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -145,26 +157,27 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
                     ),
                   ),
                   SizedBox(
-                    height: height/11,
-                    width: height/11,
+                    height: height / 11,
+                    width: height / 11,
                     child: TextFormField(
-                      onChanged: (value){
-                        if(value.length == 1){
-                          OTPcode+=value;
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          OTPcode += value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
-                      onSaved: (pin1){},
+                      onSaved: (pin1) {},
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none
-                        ),
+                            borderSide: BorderSide.none),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: JobColor.appcolor)
-                        ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                            borderSide:
+                                const BorderSide(color: JobColor.appcolor)),
+                        fillColor: themedata.isdark
+                            ? JobColor.lightblack
+                            : JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -178,26 +191,27 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
                     ),
                   ),
                   SizedBox(
-                    height: height/11,
-                    width: height/11,
+                    height: height / 11,
+                    width: height / 11,
                     child: TextFormField(
-                      onChanged: (value){
-                        if(value.length == 1){
-                          OTPcode+=value;
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          OTPcode += value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
-                      onSaved: (pin1){},
+                      onSaved: (pin1) {},
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none
-                        ),
+                            borderSide: BorderSide.none),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: JobColor.appcolor)
-                        ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                            borderSide:
+                                const BorderSide(color: JobColor.appcolor)),
+                        fillColor: themedata.isdark
+                            ? JobColor.lightblack
+                            : JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -211,26 +225,27 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
                     ),
                   ),
                   SizedBox(
-                    height: height/11,
-                    width: height/11,
+                    height: height / 11,
+                    width: height / 11,
                     child: TextFormField(
-                      onChanged: (value){
-                        if(value.length == 1){
-                          OTPcode+=value;
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          OTPcode += value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
-                      onSaved: (pin1){},
+                      onSaved: (pin1) {},
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide.none
-                        ),
+                            borderSide: BorderSide.none),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
-                            borderSide: const BorderSide(color: JobColor.appcolor)
-                        ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                            borderSide:
+                                const BorderSide(color: JobColor.appcolor)),
+                        fillColor: themedata.isdark
+                            ? JobColor.lightblack
+                            : JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -246,13 +261,16 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
                 ],
               ),
             ),
-            SizedBox(height: height/36),
+            SizedBox(height: height / 36),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Resend_code_in".tr,style: urbanistRegular.copyWith(fontSize: 16)),
-                SizedBox(width: width/96),
-                Text("${minutes.toString()}:${seconds.toString()}s".tr,style: urbanistMedium.copyWith(fontSize: 16,color: JobColor.appcolor)),
+                Text("Resend_code_in".tr,
+                    style: urbanistRegular.copyWith(fontSize: 16)),
+                SizedBox(width: width / 96),
+                Text("${minutes.toString()}:${seconds.toString()}s".tr,
+                    style: urbanistMedium.copyWith(
+                        fontSize: 16, color: JobColor.appcolor)),
               ],
             ),
             const Spacer(),
@@ -261,16 +279,20 @@ class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
               highlightColor: JobColor.transparent,
               onTap: () {
                 verifyCode(context);
-
               },
               child: Container(
-                height: height/15,
-                width: width/1,
+                height: height / 15,
+                width: width / 1,
                 decoration: BoxDecoration(
                   color: JobColor.appcolor,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Center(child: Text("Verify".tr,style: urbanistBold.copyWith(fontSize: 16,color: JobColor.white),)),
+                child: Center(
+                    child: Text(
+                  "Verify".tr,
+                  style: urbanistBold.copyWith(
+                      fontSize: 16, color: JobColor.white),
+                )),
               ),
             ),
           ],

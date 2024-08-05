@@ -82,11 +82,7 @@ class AuthService extends GetxController {
           await prefs.setString('refresh', jsonDecode(res.body)['refresh']);
           await prefs.setBool('isLoggedIn', true);
           isAuthenticated.value = true;
-          navigator.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => JobDashboard("0"),
-              ),
-              (route) => false);
+
         },
       );
     } catch (e) {
@@ -303,4 +299,46 @@ class AuthService extends GetxController {
           'Error sending Google Sign-In data to backend: ${response.statusCode}');
     }
   }
-}
+
+
+  Future<void> editUser({
+    required String userId,
+    required String name,
+    required String email,
+    String? profilePicturePath,
+    String? lastname,
+    String? phone,
+    String? birthdate,
+    String? role,
+    List<String>? skills,
+  }) async {
+    try {
+      Uri uri = Uri.parse('${Constants.uri}/edit-user/$userId');
+      Map<String, dynamic> body = {
+        'name': name,
+        'email': email,
+        'profile_picture': profilePicturePath ?? '',
+        'lastname': lastname ?? '',
+        'phone': phone ?? '',
+        'birthdate': birthdate ?? '',
+        'role': role ?? 'User',
+        'skills': skills ?? [],
+      };
+
+      http.Response res = await http.put(
+        uri,
+        body: jsonEncode(body),
+        headers: <String, String>{
+          'Content-Type': "application/json; charset=UTF-8"
+        },
+      );
+
+      if (res.statusCode == 200) {
+        print('User details updated successfully');
+      } else {
+        print('Failed to update user details: ${res.statusCode}');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }}

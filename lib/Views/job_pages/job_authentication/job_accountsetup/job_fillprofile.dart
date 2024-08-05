@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import '../../../../Services/Auth.dart';
 import '../../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_theme/job_themecontroller.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import 'job_createnewpin.dart';
 import 'job_setfacerecognition.dart';
-
 class JobFillProfile extends StatefulWidget {
   const JobFillProfile({Key? key}) : super(key: key);
 
@@ -21,6 +21,14 @@ class _JobFillProfileState extends State<JobFillProfile> {
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
+  final AuthService authService = Get.find<AuthService>();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -28,11 +36,11 @@ class _JobFillProfileState extends State<JobFillProfile> {
     width = size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fill_Your_Profile".tr,style: urbanistBold.copyWith(fontSize: 22 )),
+        title: Text("Fill_Your_Profile".tr, style: urbanistBold.copyWith(fontSize: 22)),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/36),
+          padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 36),
           child: Column(
             children: [
               Stack(
@@ -42,28 +50,28 @@ class _JobFillProfileState extends State<JobFillProfile> {
                     backgroundImage: AssetImage(JobPngimage.profile),
                   ),
                   Positioned(
-                    bottom: 0,
+                      bottom: 0,
                       right: 0,
                       child: Container(
-                        width: height/26,
-                        height: height/26,
+                        width: height / 26,
+                        height: height / 26,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: JobColor.appcolor
+                            borderRadius: BorderRadius.circular(5),
+                            color: JobColor.appcolor
                         ),
-                        child: const Icon(Icons.edit_sharp,size: 22,color: JobColor.white,),
+                        child: const Icon(Icons.edit_sharp, size: 22, color: JobColor.white,),
                       ))
                 ],
               ),
-              SizedBox(height: height/30,),
+              SizedBox(height: height / 30,),
               TextField(
+                controller: nameController,
                 style: urbanistSemiBold.copyWith(fontSize: 16,),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
                   hintText: "Full_name".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
-                //  prefixIcon:Icon(Icons.search_rounded,size: height/36,color: JobColor.textgray,),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none
@@ -74,34 +82,16 @@ class _JobFillProfileState extends State<JobFillProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: height/46,),
+              SizedBox(height: height / 46,),
               TextField(
-                style: urbanistSemiBold.copyWith(fontSize: 16,),
-                decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
-                  hintText: "Nickname".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
-                  filled: true,
-                  //  prefixIcon:Icon(Icons.search_rounded,size: height/36,color: JobColor.textgray,),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
-                  ),
-                ),
-              ),
-              SizedBox(height: height/46,),
-              TextField(
+                controller: dobController,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
                   hintText: "DOB".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
-                  suffixIcon:Icon(Icons.calendar_month_rounded,size: height/36,color: JobColor.textgray,),
+                  suffixIcon: Icon(Icons.calendar_month_rounded, size: height / 36, color: JobColor.textgray,),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none
@@ -112,15 +102,16 @@ class _JobFillProfileState extends State<JobFillProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: height/46,),
+              SizedBox(height: height / 46,),
               TextField(
+                controller: emailController,
                 style: urbanistSemiBold.copyWith(fontSize: 16,),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
                   hintText: "Email".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
-                  suffixIcon:Icon(Icons.email_outlined,size: height/36,color: JobColor.textgray,),
+                  suffixIcon: Icon(Icons.email_outlined, size: height / 36, color: JobColor.textgray,),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none
@@ -131,21 +122,22 @@ class _JobFillProfileState extends State<JobFillProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: height/46,),
+              SizedBox(height: height / 46,),
               IntlPhoneField(
+                controller: phoneController,
                 flagsButtonPadding: const EdgeInsets.all(8),
                 dropdownIconPosition: IconPosition.trailing,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 keyboardType: TextInputType.number,
                 disableLengthCheck: true,
-                dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16,color: themedata.isdark?JobColor.white:JobColor.textgray,),
+                dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16, color: themedata.isdark ? JobColor.white : JobColor.textgray,),
                 decoration: InputDecoration(
                   hintText: "00000000000",
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   hintStyle: urbanistRegular,
                   enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
                       borderSide: BorderSide.none
                   ),
                   focusedBorder: const OutlineInputBorder(
@@ -153,20 +145,19 @@ class _JobFillProfileState extends State<JobFillProfile> {
                       borderSide: BorderSide(color: JobColor.appcolor)
                   ),
                 ),
-                initialCountryCode: 'IN',
-
-                onChanged: (phone) {
-                },
+                initialCountryCode: 'TN',
+                onChanged: (phone) {},
               ),
-              SizedBox(height: height/46,),
+              SizedBox(height: height / 46,),
               TextField(
+                controller: genderController,
                 style: urbanistSemiBold.copyWith(fontSize: 16,),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
                   hintText: "Gender".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
-                  suffixIcon:Icon(Icons.arrow_drop_down_sharp,size: height/36,color: JobColor.textgray,),
+                  suffixIcon: Icon(Icons.arrow_drop_down_sharp, size: height / 36, color: JobColor.textgray,),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none
@@ -177,53 +168,60 @@ class _JobFillProfileState extends State<JobFillProfile> {
                   ),
                 ),
               ),
-              SizedBox(height: height/46,),
+              SizedBox(height: height / 46,),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/56),
+        padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
         child: Row(
           children: [
             InkWell(
-              splashColor:JobColor.transparent,
-              highlightColor:JobColor.transparent,
+              splashColor: JobColor.transparent,
+              highlightColor: JobColor.transparent,
               onTap: () {
                 /* Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const JobSelectexpertise();
                 },));*/
               },
               child: Container(
-                height: height/15,
-                width: width/2.2,
+                height: height / 15,
+                width: width / 2.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color:JobColor.lightblue,
+                  color: JobColor.lightblue,
                 ),
                 child: Center(
-                  child: Text("Skip".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.appcolor)),
+                  child: Text("Skip".tr, style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.appcolor)),
                 ),
               ),
             ),
             const Spacer(),
             InkWell(
-              splashColor:JobColor.transparent,
-              highlightColor:JobColor.transparent,
-              onTap: () {
+              splashColor: JobColor.transparent,
+              highlightColor: JobColor.transparent,
+              onTap: () async {
+                await authService.editUser(
+                  userId: authService.currentUser.value!.id,
+                  name: nameController.text,
+                  email: emailController.text,
+                  phone: phoneController.text,
+                  birthdate: dobController.text,
+                );
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const JobCreatenewPin();
                 },));
               },
               child: Container(
-                height: height/15,
-                width: width/2.2,
+                height: height / 15,
+                width: width / 2.2,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color:JobColor.appcolor,
+                  color: JobColor.appcolor,
                 ),
                 child: Center(
-                  child: Text("Continue".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color:JobColor.white)),
+                  child: Text("Continue".tr, style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.white)),
                 ),
               ),
             ),

@@ -18,7 +18,7 @@ class UserProvider extends ChangeNotifier {
     password: '',
     profilePicturePath: '',
     birthdate: '',
-    title: '',
+    phone: '',
     role: 'user',
     refresh: '',
   );
@@ -40,14 +40,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserProfile(String birthdate, String jobTitle , List<String> skills) {
-    // Update the user's profile on the backend
-    // Then update the local user object
-    _user.birthdate = birthdate;
-    _user.title = jobTitle;
-    _user.skills = skills ;
-    notifyListeners();
-  }
+
 
   void addSkill(String skill) {
     if (!_user.skills.contains(skill)) {
@@ -131,6 +124,49 @@ class UserProvider extends ChangeNotifier {
     } else {
       // Handle other errors or scenarios as needed
       print("An error occurred: ${body['message']}");
+    }
+  }
+
+  Future<void> editUser({
+    required String userId,
+    required String name,
+    required String email,
+    String? profilePicturePath,
+    String? lastname,
+    String? phone,
+    String? birthdate,
+    String? role,
+    List<String>? skills,
+  }) async {
+    try {
+      Uri uri = Uri.parse('${Constants.uri}/edit-user/$userId');
+      Map<String, dynamic> body = {
+        'name': name,
+        'email': email,
+        'profile_picture': profilePicturePath ?? '',
+        'lastname': lastname ?? '',
+        'phone': phone ?? '',
+        'birthdate': birthdate ?? '',
+        'role': role ?? 'User',
+        'skills': skills ?? [],
+      };
+
+      http.Response res = await http.put(
+        uri,
+        body: jsonEncode(body),
+        headers: <String, String>{
+          'Content-Type': "application/json; charset=UTF-8"
+        },
+      );
+
+      if (res.statusCode == 200) {
+        print('User details updated successfully');
+        fetchUserData(); // Refresh user data after update
+      } else {
+        print('Failed to update user details: ${res.statusCode}');
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 

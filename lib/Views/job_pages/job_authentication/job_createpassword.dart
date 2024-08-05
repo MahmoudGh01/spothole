@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
-import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+
+import 'package:provider/provider.dart';
+import '../../../ViewModels/userprovider.dart';
+import '../../../services/Auth.dart';
+import '../../../utils/utils.dart';
+import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
+import '../../job_gloabelclass/job_icons.dart';
+import '../job_home/job_dashboard.dart';
 import '../job_theme/job_themecontroller.dart';
 
 class JobCreatenewPassword extends StatefulWidget {
@@ -13,6 +19,42 @@ class JobCreatenewPassword extends StatefulWidget {
 }
 
 class _JobCreatenewPasswordState extends State<JobCreatenewPassword> {
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+  TextEditingController();
+  final AuthService authService = AuthService();
+
+  void changePassword(BuildContext context) {
+    final newPassword = passwordController.text;
+    final confirmPassword = confirmPasswordController.text;
+
+    if (newPassword != confirmPassword) {
+      showSnackBar(context, 'Passwords do not match');
+      return;
+    }
+
+    // Get the email from the UserProvider
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    final email = userProvider.user.email;
+
+    if (email.isEmpty) {
+      showSnackBar(context, 'Email address not found');
+      return;
+    }
+
+    authService.changePassword(
+      context: context,
+      email: email,
+      newPassword: newPassword,
+    );
+    success();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => JobDashboard("0"),
+      ),
+    );
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -63,13 +105,14 @@ class _JobCreatenewPasswordState extends State<JobCreatenewPassword> {
             SizedBox(height: height/26,),
             Text("Create_Your_New_Password".tr,style: urbanistMedium.copyWith(fontSize: 18,)),
             SizedBox(height: height/36,),
-            TextField(
+            TextFormField(
+              controller: passwordController,
               obscureText: _obscureText2,
               style: urbanistSemiBold.copyWith(fontSize: 16,),
               decoration: InputDecoration(
                 hintStyle: urbanistRegular.copyWith(fontSize: 16,),
                 hintText: "New_Password".tr,
-               fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                 filled: true,
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -90,13 +133,14 @@ class _JobCreatenewPasswordState extends State<JobCreatenewPassword> {
               ),
             ),
             SizedBox(height: height/46,),
-            TextField(
+            TextFormField(
+              controller: confirmPasswordController,
               obscureText: _obscureText1,
               style: urbanistSemiBold.copyWith(fontSize: 16),
               decoration: InputDecoration(
                 hintStyle: urbanistRegular.copyWith(fontSize: 16,),
                 hintText: "Confirm_New_Password".tr,
-               fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                 filled: true,
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -150,7 +194,9 @@ class _JobCreatenewPasswordState extends State<JobCreatenewPassword> {
               splashColor:JobColor.transparent,
               highlightColor:JobColor.transparent,
               onTap: () {
-                success();
+                changePassword(context);
+
+
               },
               child: Container(
                 height: height/15,
@@ -188,7 +234,8 @@ class _JobCreatenewPasswordState extends State<JobCreatenewPassword> {
                   Image.asset(JobPngimage.processer,height: height/15,fit: BoxFit.fitHeight,),
                 ],
               ),
-            )
+            ),
+
           ],
         ),
         context: context);

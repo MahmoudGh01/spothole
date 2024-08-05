@@ -9,7 +9,7 @@ class User {
   String password;
   String profilePicturePath;
   String lastname;
-  String title;
+  String phone;
   String birthdate;
   String role;
   List<String> skills;
@@ -24,7 +24,7 @@ class User {
     required this.password,
     this.profilePicturePath = "",
     this.lastname = "",
-    this.title = "",
+    this.phone = "",
     this.birthdate = "",
     this.role = "User",
     this.skills = const[""],
@@ -44,7 +44,7 @@ class User {
       password: userJson['password'] ?? '',
       name: userJson['name'] ?? '',
       lastname: userJson['lastname'] ?? '',
-      title: userJson['title'] ?? "",
+      phone: userJson['title'] ?? "",
       birthdate: userJson['birthdate'] ?? "",
       role: userJson['role'] ?? "User",
       profilePicturePath: userJson['profile_picture'] ?? "",
@@ -63,7 +63,7 @@ class User {
       'password': password,
       'profile_picture': profilePicturePath,
       'lastname': lastname,
-      'title': title,
+      'phone': phone,
       'birthdate': birthdate,
       'role': role,
     };

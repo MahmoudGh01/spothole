@@ -58,7 +58,7 @@ class Report {
       'status': status,
       'severity': severity,
       'userId': userId,
-      'location': address,
+      'createdDate': createdDate,
     };
   }
 
