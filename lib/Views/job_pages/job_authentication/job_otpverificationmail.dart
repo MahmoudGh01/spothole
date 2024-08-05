@@ -2,21 +2,25 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import '../../../services/Auth.dart';
 import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
+import 'job_accountsetup/job_fillprofile.dart';
 import 'job_createpassword.dart';
 
-class JobOtpverification extends StatefulWidget {
+class JobOtpverificationMail extends StatefulWidget {
   final String email;
-  const JobOtpverification({ required this.email}) ;
+  final String password;
+
+  const JobOtpverificationMail({ required this.email, required this.password}) ;
 
   @override
-  State<JobOtpverification> createState() => _JobOtpverificationState();
+  State<JobOtpverificationMail> createState() => _JobOtpverificationMailState();
 }
 
-class _JobOtpverificationState extends State<JobOtpverification> {
+class _JobOtpverificationMailState extends State<JobOtpverificationMail> {
   final TextEditingController codeController = TextEditingController();
   final AuthService authService = AuthService();
   String OTPcode ="" ;
@@ -26,9 +30,11 @@ class _JobOtpverificationState extends State<JobOtpverification> {
     final result = await authService.verifyCode(
         context: context, email: widget.email, code: code);
     if (result == 200) {
+
+      authService.signInUser(context: context, email: widget.email, password: widget.password);
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
-          return const JobCreatenewPassword();
+          return const JobFillProfile();
         },
       ));
 
@@ -125,7 +131,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -158,7 +164,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -191,7 +197,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -224,7 +230,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),

@@ -6,7 +6,9 @@ import 'package:job_seeker/Views/job_pages/job_authentication/job_login.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import 'package:job_seeker/Views/job_pages/job_profile/job_setting/job_invitefriends.dart';
 
+import '../../../../Services/Auth.dart';
 import '../../../job_gloabelclass/job_fontstyle.dart';
+import '../../job_authentication/job_loginoption.dart';
 import '../../job_theme/job_themecontroller.dart';
 import 'job_deactivateaccount.dart';
 import 'job_helpcenter.dart';
@@ -449,6 +451,7 @@ class _JobSettingState extends State<JobSetting> {
   }
 
   _showlogoutbottomsheet() {
+    AuthService auth = AuthService();
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -473,8 +476,7 @@ class _JobSettingState extends State<JobSetting> {
                           Text(
                             "Logout".tr,
                             style: urbanistSemiBold.copyWith(
-                              fontSize: 22,color: JobColor.red
-                            ),
+                                fontSize: 22, color: JobColor.red),
                           ),
                           SizedBox(
                             height: height / 56,
@@ -487,10 +489,13 @@ class _JobSettingState extends State<JobSetting> {
                             "Are_you_sure_you_want_to_log_out".tr,
                             style: urbanistBold.copyWith(
                               fontSize: 18,
-                            ),textAlign: TextAlign.center,maxLines: 1,overflow: TextOverflow.ellipsis,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
-                              height: height / 36,
+                            height: height / 36,
                           ),
                           Row(
                             children: [
@@ -520,9 +525,12 @@ class _JobSettingState extends State<JobSetting> {
                                 splashColor: JobColor.transparent,
                                 highlightColor: JobColor.transparent,
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                    return const JobLogin();
-                                  },));
+                                  auth.signOut(context);
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return const JobLoginoption();
+                                    },
+                                  ));
                                 },
                                 child: Container(
                                   height: height / 15,
@@ -546,7 +554,6 @@ class _JobSettingState extends State<JobSetting> {
               });
         });
   }
-
     _showbottomsheet() {
     showModalBottomSheet(
         context: context,
