@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import '../../../Services/Auth.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_otpverification.dart';
@@ -14,6 +15,19 @@ class JobForgotPassword extends StatefulWidget {
 }
 
 class _JobForgotPasswordState extends State<JobForgotPassword> {
+  final TextEditingController emailController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void submitEmail(BuildContext context) {
+    final email = emailController.text;
+    authService.forgotPassword(context: context, email: email);
+    // Pass the email to the Verification Code screen
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return const JobOtpverification(email: '',);
+    },
+    )
+    );
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -96,7 +110,7 @@ class _JobForgotPasswordState extends State<JobForgotPassword> {
                 highlightColor:JobColor.transparent,
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const JobOtpverification();
+                    return const JobOtpverification(email: '',);
                   },));
                 },
                 child: Container(

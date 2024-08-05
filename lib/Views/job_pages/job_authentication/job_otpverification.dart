@@ -2,19 +2,54 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
+import '../../../services/Auth.dart';
+import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_createpassword.dart';
 
 class JobOtpverification extends StatefulWidget {
-  const JobOtpverification({Key? key}) : super(key: key);
+  final String email;
+  const JobOtpverification({ required this.email}) ;
 
   @override
   State<JobOtpverification> createState() => _JobOtpverificationState();
 }
 
 class _JobOtpverificationState extends State<JobOtpverification> {
+  final TextEditingController codeController = TextEditingController();
+  final AuthService authService = AuthService();
+  String OTPcode ="" ;
+  void verifyCode(BuildContext context) async {
+    final code = OTPcode;
+    print(OTPcode);
+    final result = await authService.verifyCode(
+        context: context, email: widget.email, code: code);
+    if (result == 200) {
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) {
+          return const JobCreatenewPassword();
+        },
+      ));
+
+    } else {
+      // Handle verification failure (e.g., show an error message)
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Verification Failed"),
+          content:
+          Text("The verification code is incorrect. Please try again."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -49,6 +84,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
+
     String strDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = strDigits(myDuration.inMinutes.remainder(2));
     final seconds = strDigits(myDuration.inSeconds.remainder(60));
@@ -63,7 +99,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: height/10,),
-            Text("Code has been send to +1 111 ******99".tr,style: urbanistMedium.copyWith(fontSize: 16,)),
+            Text("Code has been send to your email".tr,style: urbanistMedium.copyWith(fontSize: 16,)),
             SizedBox(height: height/36,),
             Form(
               child: Row(
@@ -75,6 +111,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                     child: TextFormField(
                       onChanged: (value){
                         if(value.length == 1){
+                          OTPcode+=value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
@@ -88,7 +125,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -107,6 +144,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                     child: TextFormField(
                       onChanged: (value){
                         if(value.length == 1){
+                          OTPcode+=value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
@@ -120,7 +158,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -139,6 +177,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                     child: TextFormField(
                       onChanged: (value){
                         if(value.length == 1){
+                          OTPcode+=value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
@@ -152,7 +191,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -171,6 +210,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                     child: TextFormField(
                       onChanged: (value){
                         if(value.length == 1){
+                          OTPcode+=value;
                           FocusScope.of(context).nextFocus();
                         }
                       },
@@ -184,7 +224,7 @@ class _JobOtpverificationState extends State<JobOtpverification> {
                             borderRadius: BorderRadius.circular(16),
                             borderSide: const BorderSide(color: JobColor.appcolor)
                         ),
-                       fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                        fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
                         filled: true,
                       ),
                       style: urbanistSemiBold.copyWith(fontSize: 20),
@@ -214,11 +254,8 @@ class _JobOtpverificationState extends State<JobOtpverification> {
               splashColor: JobColor.transparent,
               highlightColor: JobColor.transparent,
               onTap: () {
-                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return const JobCreatenewPassword();
-                    },
-                  ));
+                verifyCode(context);
+
               },
               child: Container(
                 height: height/15,

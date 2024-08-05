@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_signup.dart';
+import '../../../Services/Auth.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_home/job_dashboard.dart';
 import '../job_theme/job_themecontroller.dart';
@@ -16,6 +18,17 @@ class JobLogin extends StatefulWidget {
 }
 
 class _JobLoginState extends State<JobLogin> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  final AuthService authService = AuthService();
+  void loginUser() {
+    authService.signInUser(
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+    );
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -56,6 +69,7 @@ class _JobLoginState extends State<JobLogin> {
             Text("Login_to_Your_Account".tr,style: urbanistBold.copyWith(fontSize: 30 )),
             SizedBox(height: height/26,),
             TextField(
+              controller: emailController,
               style: urbanistSemiBold.copyWith(fontSize: 16,),
               decoration: InputDecoration(
                 hintStyle: urbanistRegular.copyWith(fontSize: 16,),
@@ -75,6 +89,7 @@ class _JobLoginState extends State<JobLogin> {
             ),
             SizedBox(height: height/46,),
             TextField(
+              controller: passwordController,
               style: urbanistSemiBold.copyWith(fontSize: 16),
               decoration: InputDecoration(
                 hintStyle: urbanistRegular.copyWith(fontSize: 16,),
@@ -145,11 +160,7 @@ class _JobLoginState extends State<JobLogin> {
               splashColor: JobColor.transparent,
               highlightColor: JobColor.transparent,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return JobDashboard("0");
-                  },
-                ));
+                loginUser();
               },
               child: Container(
                 height: height/15,
