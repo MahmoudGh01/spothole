@@ -5,7 +5,6 @@ import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_applyjob.dart';
-import 'job_applyjobwithprofile.dart';
 
 class JobDetails extends StatefulWidget {
   const JobDetails({Key? key}) : super(key: key);
@@ -310,11 +309,7 @@ class _JobDetailsState extends State<JobDetails> {
                             splashColor: JobColor.transparent,
                             highlightColor: JobColor.transparent,
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return const JobApplywithProfile();
-                                },
-                              ));
+
                             },
                             child: Container(
                               height: height / 15,
