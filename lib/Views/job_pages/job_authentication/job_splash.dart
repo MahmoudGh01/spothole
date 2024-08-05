@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:provider/provider.dart';
 
+import '../../../ViewModels/userprovider.dart';
+import '../job_home/job_dashboard.dart';
 import 'job_welcomescreen.dart';
 
 class JobSplash extends StatefulWidget {
@@ -14,17 +17,20 @@ class _JobSplashState extends State<JobSplash> {
   @override
   void initState() {
     super.initState();
-    goup();
+    _navigateToNextScreen();
   }
 
-  goup() async {
-    var navigator = Navigator.of(context);
-    await Future.delayed(const Duration(seconds: 5));
-    navigator.push(MaterialPageRoute(
-      builder: (context) {
-        return const JobWelcome();
-      },
-    ));
+  void _navigateToNextScreen() async {
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.fetchUserData();
+
+    if (userProvider.user.token.isNotEmpty) {
+      // If user data exists, navigate to Dashboard
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => JobDashboard("0")));
+    } else {
+      // Navigate to LoginOption if no user data
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => JobWelcome()));
+    }
   }
 
   dynamic size;

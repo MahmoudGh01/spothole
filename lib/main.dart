@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_splash.dart';
 import 'package:provider/provider.dart';
+import 'Services/Auth.dart';
 import 'Services/notifi_service.dart';
 import 'ViewModels/authority_provider.dart';
 import 'ViewModels/publicuser_provider.dart';
@@ -20,6 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   DartPluginRegistrant.ensureInitialized();
+  Get.put(AuthService());
 
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
@@ -43,6 +45,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final AuthService authService = Get.find();
+
   final themedata = Get.put(JobThemecontroler());
   @override
   Widget build(BuildContext context) {

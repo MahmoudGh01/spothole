@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_accountsetup/job_fillprofile.dart';
+import '../../../Services/Auth.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_accountsetup/job_selectcountry.dart';
 import 'job_login.dart';
+import 'job_otpverificationmail.dart';
 
 class JobSignup extends StatefulWidget {
   const JobSignup({Key? key}) : super(key: key);
@@ -16,11 +18,38 @@ class JobSignup extends StatefulWidget {
 }
 
 class _JobSignupState extends State<JobSignup> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void submitEmail(BuildContext context) {
+    final email = emailController.text;
+    final password = passwordController.text;
+
+    // Call otpverif method from AuthService
+    authService.otpverif(context: context, email: email);
+
+    // Pass the email and password to the Verification Code screen
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return JobOtpverificationMail(email: email, password: password);
+    }));
+  }
+
+  void signupUser() {
+    authService.signUpUser(
+
+      email: emailController.text,
+      password: passwordController.text,
+      name: nameController.text,
+    );
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
   bool _obscureText2 = true;
+
   void _togglePasswordStatus2() {
     setState(() {
       _obscureText2 = !_obscureText2;
@@ -57,6 +86,7 @@ class _JobSignupState extends State<JobSignup> {
               Text("Create_New_Account".tr,style: urbanistBold.copyWith(fontSize: 30 )),
               SizedBox(height: height/26,),
               TextField(
+                controller: nameController,
                 style: urbanistSemiBold.copyWith(fontSize: 16,),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,),
@@ -76,6 +106,7 @@ class _JobSignupState extends State<JobSignup> {
               ),
               SizedBox(height: height/46,),
               TextField(
+                controller: emailController,
                 style: urbanistSemiBold.copyWith(fontSize: 16,),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,),
@@ -95,6 +126,7 @@ class _JobSignupState extends State<JobSignup> {
               ),
               SizedBox(height: height/46,),
               TextField(
+                controller: passwordController,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16,),
@@ -178,11 +210,9 @@ class _JobSignupState extends State<JobSignup> {
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return const JobFillProfile();
-                    },
-                  ));
+                  submitEmail(context);
+                  signupUser();
+
                 },
                 child: Container(
                   height: height/15,
