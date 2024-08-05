@@ -31,7 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_facebook_auth: any
-  yolo_realtime_plugin: ^1.0.2
   firebase_core: ^3.2.0
   firebase_auth: ^5.1.2
   provider: ^6.1.1
@@ -44,6 +43,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   fl_score_bar: ^0.2.4
   flutter_local_notifications: ^17.2.1+2
+  flutter_speed_dial: ^7.0.0
   object_3d: ^1.0.0
   smooth_page_indicator: ^1.1.0
   http: ^1.2.0

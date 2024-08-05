@@ -5,6 +5,7 @@ import 'package:job_seeker/Views/MapIntegration/map_page.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Views/job_pages/job_application/job_application.dart';
 import 'package:job_seeker/Views/job_pages/job_theme/job_themecontroller.dart';
 
 //import '../../CameraScreen/camera_awesome.dart';
@@ -36,8 +37,8 @@ class _JobDashboardState extends State<JobDashboard> {
   final List<Widget> _pages =  [
     JobHome(),
     MapPage(),
-    DetectionScreen(),
-    YoloVideo(),
+    ModelScreen(),
+    JobApplication(),
     JobProfile()
   ];
 
