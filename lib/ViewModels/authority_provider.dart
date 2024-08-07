@@ -67,28 +67,5 @@ class AuthorityProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> detectPothole(String imageUrl) async {
-    try {
-      return await _authorityService.detectPothole(imageUrl);
-    } catch (error) {
-      throw error;
-    }
-  }
 
-  Future<void> updateProfile(String userId, String email, String name, String photoUrl) async {
-    try {
-      await _authorityService.updateProfile(userId, email, name, photoUrl);
-      notifyListeners();
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  Future<bool> validateUser(String emailId) async {
-    try {
-      return await _authorityService.validateUser(emailId);
-    } catch (error) {
-      throw error;
-    }
-  }
 }

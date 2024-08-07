@@ -49,11 +49,7 @@ class _JobApplyState extends State<JobApply> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     Future<void> uploadImageAndSubmitReport() async {
-
-
       if (widget.image != null) {
-
-
         // Show loading indicator
         showDialog(
           context: context,
@@ -70,12 +66,12 @@ class _JobApplyState extends State<JobApply> {
 
         try {
           // Upload file and get URL
-          var reportProvider = Provider.of<ReportProvider>(context, listen: false);
+          var reportProvider =
+              Provider.of<ReportProvider>(context, listen: false);
           String? fileUrl = await reportProvider.uploadFile(widget.image);
 
           // Close loading indicator
           Navigator.of(context).pop();
-
 
           // Create Report object
           Report report = Report(
@@ -84,11 +80,11 @@ class _JobApplyState extends State<JobApply> {
             imageURL: fileUrl!,
             latitude: widget.latitude.toString(),
             longitude: widget.longitude.toString(),
-            severity: int.parse(_severityController.text),
+            severity: _severity!,
             userId: '1',
             status: "submitted",
             createdDate: DateTime.now().toString(),
-            lastUpdated:DateTime.now().toString(),
+            lastUpdated: DateTime.now().toString(),
             address: _locationController.text,
             locationPoint: '',
           );
@@ -159,7 +155,7 @@ class _JobApplyState extends State<JobApply> {
                   ),
                   hintText: "New York, United States".tr,
                   fillColor:
-                  themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   prefixIcon: Icon(
                     Icons.location_on,
@@ -177,11 +173,11 @@ class _JobApplyState extends State<JobApply> {
                 ),
               ),
               SizedBox(height: height / 66),
-              Text("Upload Images".tr, style: urbanistMedium.copyWith(fontSize: 16)),
+              Text("Upload Images".tr,
+                  style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
               InkWell(
-                onTap:(){
-                },
+                onTap: () {},
                 child: Container(
                   height: height / 3,
                   width: double.infinity,
@@ -196,16 +192,18 @@ class _JobApplyState extends State<JobApply> {
                 ),
               ),
               SizedBox(height: height / 33),
-              Text("Extra Description".tr, style: urbanistMedium.copyWith(fontSize: 16)),
+              Text("Extra Description".tr,
+                  style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
               TextField(
                 controller: _descriptionController,
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: "Describe your report...".tr,
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray),
+                  hintStyle: urbanistRegular.copyWith(
+                      fontSize: 16, color: JobColor.textgray),
                   fillColor:
-                  themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(16),

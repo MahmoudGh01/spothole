@@ -3,11 +3,18 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'dart:async';
 import 'package:flutter_vision/flutter_vision.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
+
+import '../Views/job_pages/job_home/job_applyjob.dart';
 
 enum Options { none, imagev5, imagev8, imagev8seg, frame, tesseract, vision }
 
@@ -41,13 +48,11 @@ class _ModelScreenState extends State<ModelScreen> {
     return Scaffold(
       body: task(option),
       floatingActionButton: SpeedDial(
-        //margin bottom
-        icon: Icons.menu, //icon on Floating action button
-        activeIcon: Icons.close, //icon when menu is expanded on button
-        backgroundColor: Colors.black12, //background color of button
-        foregroundColor: Colors.white, //font color, icon color in button
-        activeBackgroundColor:
-            Colors.deepPurpleAccent, //background color when menu is expanded
+        icon: Icons.menu,
+        activeIcon: Icons.close,
+        backgroundColor: Colors.black12,
+        foregroundColor: Colors.white,
+        activeBackgroundColor: Colors.deepPurpleAccent,
         activeForegroundColor: Colors.white,
         visible: true,
         closeManually: false,
@@ -57,7 +62,6 @@ class _ModelScreenState extends State<ModelScreen> {
         buttonSize: const Size(56.0, 56.0),
         children: [
           SpeedDialChild(
-            //speed dial child
             child: const Icon(Icons.video_call),
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
@@ -105,30 +109,6 @@ class _ModelScreenState extends State<ModelScreen> {
               });
             },
           ),
-          SpeedDialChild(
-            child: const Icon(Icons.text_snippet_outlined),
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.green,
-            label: 'Tesseract',
-            labelStyle: const TextStyle(fontSize: 18.0),
-            onTap: () {
-              setState(() {
-                option = Options.tesseract;
-              });
-            },
-          ),
-          // SpeedDialChild(
-          //   child: const Icon(Icons.document_scanner),
-          //   foregroundColor: Colors.white,
-          //   backgroundColor: Colors.green,
-          //   label: 'Vision',
-          //   labelStyle: const TextStyle(fontSize: 18.0),
-          //   onTap: () {
-          //     setState(() {
-          //       option = Options.vision;
-          //     });
-          //   },
-          // ),
         ],
       ),
     );
@@ -147,10 +127,8 @@ class _ModelScreenState extends State<ModelScreen> {
     if (option == Options.imagev8seg) {
       return YoloImageV8Seg(vision: vision);
     }
-    if (option == Options.tesseract) {
-      return TesseractImage(vision: vision);
-    }
-    return const Center(child: Text("Choose Task"));
+
+    return YoloVideo(vision: vision);
   }
 }
 
@@ -168,6 +146,8 @@ class _YoloVideoState extends State<YoloVideo> {
   CameraImage? cameraImage;
   bool isLoaded = false;
   bool isDetecting = false;
+  Position? currentPosition;
+  String? currentAddress;
 
   @override
   void initState() {
@@ -218,35 +198,53 @@ class _YoloVideoState extends State<YoloVideo> {
         Positioned(
           bottom: 75,
           width: MediaQuery.of(context).size.width,
-          child: Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                  width: 5, color: Colors.white, style: BorderStyle.solid),
-            ),
-            child: isDetecting
-                ? IconButton(
-                    onPressed: () async {
-                      stopDetection();
-                    },
-                    icon: const Icon(
-                      Icons.stop,
-                      color: Colors.red,
-                    ),
-                    iconSize: 50,
-                  )
-                : IconButton(
-                    onPressed: () async {
-                      await startDetection();
-                    },
-                    icon: const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                    ),
-                    iconSize: 50,
-                  ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      width: 5, color: Colors.white, style: BorderStyle.solid),
+                ),
+                child: isDetecting
+                    ? IconButton(
+                        onPressed: () async {
+                          stopDetection();
+                        },
+                        icon: const Icon(
+                          Icons.stop,
+                          color: Colors.red,
+                        ),
+                        iconSize: 50,
+                      )
+                    : IconButton(
+                        onPressed: () async {
+                          await startDetection();
+                        },
+                        icon: const Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                        ),
+                        iconSize: 50,
+                      ),
+              ),
+              const SizedBox(width: 20),
+              Visibility(
+                visible: yoloResults.isNotEmpty,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (cameraImage != null) {
+                      await _getCurrentLocation();
+                      await _navigateToJobApply(cameraImage!);
+                    }
+                  },
+                  child: const Text("Report"),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -274,8 +272,6 @@ class _YoloVideoState extends State<YoloVideo> {
       confThreshold: 0.25,
     );
     if (result.isNotEmpty) {
-
-
       setState(() {
         yoloResults = result;
       });
@@ -333,6 +329,77 @@ class _YoloVideoState extends State<YoloVideo> {
         ),
       );
     }).toList();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      currentPosition = position;
+    });
+    _getAddressFromLatLng(position);
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemarks[0];
+      setState(() {
+        currentAddress =
+            "${place.locality}, ${place.postalCode}, ${place.country}";
+      });
+    } catch (e) {
+      print("Error getting address: $e");
+    }
+  }
+
+  Future<void> _navigateToJobApply(CameraImage cameraImage) async {
+    // Convert CameraImage to File
+    final imageFile = await _convertCameraImageToFile(cameraImage);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => JobApply(
+          image: imageFile,
+          address: currentAddress ?? '',
+          latitude: currentPosition?.latitude,
+          longitude: currentPosition?.longitude,
+        ),
+      ),
+    );
+  }
+
+  Future<File> _convertCameraImageToFile(CameraImage cameraImage) async {
+    final int width = cameraImage.width;
+    final int height = cameraImage.height;
+    final img.Image image = img.Image(height: height, width: width);
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        final int index = i * width + j;
+        final int uvIndex = (i ~/ 2) * width + (j ~/ 2);
+        final int y = cameraImage.planes[0].bytes[index];
+        final int u = cameraImage.planes[1].bytes[uvIndex];
+        final int v = cameraImage.planes[2].bytes[uvIndex];
+
+        final int r = (y + (1.370705 * (v - 128))).clamp(0, 255).toInt();
+        final int g = (y - (0.698001 * (v - 128)) - (0.337633 * (u - 128)))
+            .clamp(0, 255)
+            .toInt();
+        final int b = (y + (1.732446 * (u - 128))).clamp(0, 255).toInt();
+
+        image.setPixel(j, i, img.ColorRgb8(r, g, b));
+      }
+    }
+
+    final Directory tempDir = await getTemporaryDirectory();
+    final String tempPath = '${tempDir.path}/temp_image.png';
+    final File file = File(tempPath);
+    file.writeAsBytesSync(img.encodePng(image));
+
+    return file;
   }
 }
 
@@ -823,104 +890,5 @@ class PolygonPainter extends CustomPainter {
   }
 }
 
-class TesseractImage extends StatefulWidget {
-  final FlutterVision vision;
-  const TesseractImage({Key? key, required this.vision}) : super(key: key);
 
-  @override
-  State<TesseractImage> createState() => _TesseractImageState();
-}
 
-class _TesseractImageState extends State<TesseractImage> {
-  late List<Map<String, dynamic>> tesseractResults = [];
-  File? imageFile;
-  bool isLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    loadTesseractModel().then((value) {
-      setState(() {
-        isLoaded = true;
-        tesseractResults = [];
-      });
-    });
-  }
-
-  @override
-  void dispose() async {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!isLoaded) {
-      return const Scaffold(
-        body: Center(
-          child: Text("Model not loaded, waiting for it"),
-        ),
-      );
-    }
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            imageFile != null ? Image.file(imageFile!) : const SizedBox(),
-            tesseractResults.isEmpty
-                ? const SizedBox()
-                : Align(child: Text(tesseractResults[0]["text"])),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: pickImage,
-                  child: const Text("Pick an image"),
-                ),
-                ElevatedButton(
-                  onPressed: tesseractOnImage,
-                  child: const Text("Get Text"),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> loadTesseractModel() async {
-    await widget.vision.loadTesseractModel(
-      args: {
-        'psm': '11',
-        'oem': '1',
-        'preserve_interword_spaces': '1',
-      },
-      language: 'spa',
-    );
-    setState(() {
-      isLoaded = true;
-    });
-  }
-
-  Future<void> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    // Capture a photo
-    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
-    if (photo != null) {
-      setState(() {
-        imageFile = File(photo.path);
-      });
-    }
-  }
-
-  tesseractOnImage() async {
-    tesseractResults.clear();
-    Uint8List byte = await imageFile!.readAsBytes();
-    final result = await widget.vision.tesseractOnImage(bytesList: byte);
-    if (result.isNotEmpty) {
-      setState(() {
-        tesseractResults = result;
-      });
-    }
-  }
-}

@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:job_seeker/Services/FileManager.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_application/job_application.dart';
-import 'package:job_seeker/Views/job_pages/job_home/job_applyjob.dart';
-import 'package:path/path.dart';
 
 import '../../Models/Report.dart';
 import '../../Models/ReportComment.dart';
