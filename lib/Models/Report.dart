@@ -31,7 +31,7 @@ class Report {
 
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
-      caseId: json['case_id'] ?? '',
+      caseId: json['_id'] ?? '',
       description: json['description'] ?? '',
       imageURL: json['imageURL'] ?? '',
       latitude: (json['locationLatLng']?['lat'] ?? 0.0).toDouble(),
