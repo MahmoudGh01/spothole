@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:job_seeker/Utils/constants.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import '../../Models/Report.dart';
+import '../../Utils/constants.dart';
 import '../../ViewModels/authority_provider.dart';
 import '../../Views/job_pages/job_application/job_applicationstages.dart';
 
@@ -17,6 +19,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
   final Location _locationController = Location();
   final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
   StreamSubscription<LocationData>? _locationSubscription;
@@ -49,6 +52,7 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void dispose() {
+    _customInfoWindowController.dispose();
     _locationSubscription?.cancel(); // Cancel location updates
     super.dispose();
   }
@@ -68,35 +72,35 @@ class _MapPageState extends State<MapPage> {
           } else {
             return _currentP == null
                 ? const Center(child: Text("Loading..."))
-                : GoogleMap(
-              onMapCreated: (GoogleMapController controller) {
-                if (!_mapController.isCompleted) {
-                  _mapController.complete(controller);
-                }
-              },
-              initialCameraPosition: const CameraPosition(
-                target: _pGooglePlex,
-                zoom: 15,
-              ),
-              markers: reportProvider.reports.map((report) {
-                return Marker(
-                  icon: _customIcon ?? BitmapDescriptor.defaultMarker,
-                  markerId: MarkerId(report.caseId),
-                  position: LatLng(report.latitude, report.longitude),
-                  infoWindow: InfoWindow(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return ReportDetail(report: report);
-                        },
-                      ));
-                    },
-                    title: report.description,
-                    snippet: report.address,
+                : Stack(
+              children: [
+                GoogleMap(
+                  onMapCreated: (GoogleMapController controller) {
+                    _customInfoWindowController.googleMapController = controller;
+                    if (!_mapController.isCompleted) {
+                      _mapController.complete(controller);
+                    }
+                  },
+                  initialCameraPosition: const CameraPosition(
+                    target: _pGooglePlex,
+                    zoom: 15,
                   ),
-                );
-              }).toSet(),
-              polylines: Set<Polyline>.of(polylines.values),
+                  markers: _buildMarkers(reportProvider.reports),
+                  polylines: Set<Polyline>.of(polylines.values),
+                  onTap: (position) {
+                    _customInfoWindowController.hideInfoWindow!();
+                  },
+                  onCameraMove: (position) {
+                    _customInfoWindowController.onCameraMove!();
+                  },
+                ),
+                CustomInfoWindow(
+                  controller: _customInfoWindowController,
+                  height: 100,
+                  width: 200,
+                  offset: 50,
+                ),
+              ],
             );
           }
         },
@@ -131,7 +135,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> _loadCustomMarker() async {
-    final BitmapDescriptor customIcon = await BitmapDescriptor.asset(
+    final BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
       const ImageConfiguration(size: Size(48, 48)),
       'assets/pothole.png',
     );
@@ -194,8 +198,10 @@ class _MapPageState extends State<MapPage> {
     double dLat = _degreeToRadian(end.latitude - start.latitude);
     double dLon = _degreeToRadian(end.longitude - start.longitude);
     double a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(_degreeToRadian(start.latitude)) * cos(_degreeToRadian(end.latitude)) *
-            sin(dLon / 2) * sin(dLon / 2);
+        cos(_degreeToRadian(start.latitude)) *
+            cos(_degreeToRadian(end.latitude)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     return R * c * 1000; // Distance in meters
   }
@@ -241,6 +247,81 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       polylines[id] = polyline;
     });
+  }
+
+  Set<Marker> _buildMarkers(List<Report> reports) {
+    Set<Marker> markers = {};
+    for (var report in reports) {
+      markers.add(
+        Marker(
+          icon: _customIcon ?? BitmapDescriptor.defaultMarker,
+          markerId: MarkerId(report.caseId),
+          position: LatLng(report.latitude, report.longitude),
+          onTap: () {
+            _customInfoWindowController.addInfoWindow!(
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 2),
+                      blurRadius: 6,
+                    ),
+                  ],
+                ),
+                width: double.infinity,
+                height: double.infinity,
+                child: InkWell(
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                            image: DecorationImage(
+                              image: NetworkImage(report.imageURL), // Replace with your image URL field
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          color: Colors.black38,
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            report.description,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return ReportDetail(report: report);
+                    },
+                  ));
+                },),
+              ),
+              LatLng(report.latitude, report.longitude),
+            );
+          },
+        ),
+      );
+    }
+    return markers;
   }
 }
 
