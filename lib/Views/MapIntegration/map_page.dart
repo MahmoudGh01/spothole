@@ -1,17 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:job_seeker/ViewModels/authority_provider.dart';
-import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Utils/constants.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-
-import '../../Utils/constants.dart';
-import '../../ViewModels/report_provider.dart';
-import '../job_pages/job_application/job_applicationstages.dart';
+import '../../ViewModels/authority_provider.dart';
+import '../../Views/job_pages/job_application/job_applicationstages.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -21,18 +17,18 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Location _locationController = Location();
-  Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
+  final Location _locationController = Location();
+  final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
   StreamSubscription<LocationData>? _locationSubscription;
 
   static const LatLng _pGooglePlex = LatLng(36.407866, 10.561065);
-  static const LatLng _pApplePark = LatLng(36.379215, 10.538584);
   LatLng? _currentP;
   LatLng? _previousP;
   LatLng? _sourceLocation;
   LatLng? _destinationLocation;
 
   Map<PolylineId, Polyline> polylines = {};
+  BitmapDescriptor? _customIcon;
 
   @override
   void initState() {
@@ -41,6 +37,7 @@ class _MapPageState extends State<MapPage> {
       Provider.of<AuthorityProvider>(context, listen: false).fetchAllReports();
     });
     _initializeMap();
+    _loadCustomMarker();
     getLocationUpdates().then(
           (_) {
         getPolylinePoints().then((coordinates) {
@@ -77,22 +74,20 @@ class _MapPageState extends State<MapPage> {
                   _mapController.complete(controller);
                 }
               },
-              initialCameraPosition: CameraPosition(
+              initialCameraPosition: const CameraPosition(
                 target: _pGooglePlex,
                 zoom: 15,
               ),
               markers: reportProvider.reports.map((report) {
-               // BitmapDescriptor icon = BitmapDescriptor.asset(ImageConfiguration(), JobPngimage.logo) as BitmapDescriptor;
-
                 return Marker(
-                //  icon:  ,
+                  icon: _customIcon ?? BitmapDescriptor.defaultMarker,
                   markerId: MarkerId(report.caseId),
-                  position: LatLng(report.latitude,report.longitude),
+                  position: LatLng(report.latitude, report.longitude),
                   infoWindow: InfoWindow(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return  ReportDetail(report: report);
+                          return ReportDetail(report: report);
                         },
                       ));
                     },
@@ -126,7 +121,7 @@ class _MapPageState extends State<MapPage> {
             },
           );
         },
-        child: Icon(Icons.directions),
+        child: const Icon(Icons.directions),
       ),
     );
   }
@@ -135,35 +130,45 @@ class _MapPageState extends State<MapPage> {
     await getLocationUpdates();
   }
 
+  Future<void> _loadCustomMarker() async {
+    final BitmapDescriptor customIcon = await BitmapDescriptor.asset(
+      const ImageConfiguration(size: Size(48, 48)),
+      'assets/pothole.png',
+    );
+    setState(() {
+      _customIcon = customIcon;
+    });
+  }
+
   Future<void> _cameraToPosition(LatLng pos) async {
     final GoogleMapController controller = await _mapController.future;
-    CameraPosition _newCameraPosition = CameraPosition(
+    CameraPosition newCameraPosition = CameraPosition(
       target: pos,
       zoom: 15,
     );
     if (mounted) {
       await controller.animateCamera(
-        CameraUpdate.newCameraPosition(_newCameraPosition),
+        CameraUpdate.newCameraPosition(newCameraPosition),
       );
     }
   }
 
   Future<void> getLocationUpdates() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
 
-    _serviceEnabled = await _locationController.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _locationController.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await _locationController.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _locationController.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await _locationController.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _locationController.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await _locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await _locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
@@ -188,10 +193,10 @@ class _MapPageState extends State<MapPage> {
     const double R = 6371; // Radius of the Earth in km
     double dLat = _degreeToRadian(end.latitude - start.latitude);
     double dLon = _degreeToRadian(end.longitude - start.longitude);
-    double a = sin(dLat/2) * sin(dLat/2) +
-            cos(_degreeToRadian(start.latitude)) * cos(_degreeToRadian(end.latitude)) *
-                sin(dLon/2) * sin(dLon/2);
-    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degreeToRadian(start.latitude)) * cos(_degreeToRadian(end.latitude)) *
+            sin(dLon / 2) * sin(dLon / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
     return R * c * 1000; // Distance in meters
   }
 
@@ -226,7 +231,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
       color: Colors.black,
@@ -237,8 +242,6 @@ class _MapPageState extends State<MapPage> {
       polylines[id] = polyline;
     });
   }
-
-
 }
 
 class BottomSheetContent extends StatefulWidget {
@@ -257,26 +260,26 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: _sourceController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Source Location',
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextField(
             controller: _destinationController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Destination Location',
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               // Convert the entered text to LatLng
@@ -286,7 +289,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
               widget.onLocationSubmitted(source, destination);
               Navigator.pop(context);
             },
-            child: Text('Submit'),
+            child: const Text('Submit'),
           ),
         ],
       ),
