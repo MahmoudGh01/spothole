@@ -310,7 +310,7 @@ class AuthService extends GetxController {
     String? phone,
     String? birthdate,
     String? role,
-    List<String>? skills,
+
   }) async {
     try {
       Uri uri = Uri.parse('${Constants.uri}/edit-user/$userId');
@@ -322,7 +322,7 @@ class AuthService extends GetxController {
         'phone': phone ?? '',
         'birthdate': birthdate ?? '',
         'role': role ?? 'User',
-        'skills': skills ?? [],
+
       };
 
       http.Response res = await http.put(

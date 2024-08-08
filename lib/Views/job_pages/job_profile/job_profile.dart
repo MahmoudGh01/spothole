@@ -68,7 +68,9 @@ class _JobProfileState extends State<JobProfile> {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    backgroundImage: AssetImage(JobPngimage.profile),
+                    backgroundImage: user.profilePicturePath.isNotEmpty
+                        ? NetworkImage(user.profilePicturePath)
+                        :  AssetImage(JobPngimage.profile) as ImageProvider,
                   ),
                   SizedBox(width: width/26,),
                   Column(

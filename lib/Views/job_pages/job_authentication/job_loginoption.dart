@@ -9,6 +9,7 @@ import 'package:job_seeker/Views/PhoneAuth/login_screen.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
+import '../../../Services/Auth.dart';
 import '../../../Utils/alert_dialog.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
@@ -23,6 +24,31 @@ class JobLoginoption extends StatefulWidget {
 }
 
 class _JobLoginoptionState extends State<JobLoginoption> {
+  final AuthService authService = AuthService();
+
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+      '104792978938-smu99c48hkqint3g8afkm42ffeuikqig.apps.googleusercontent.com',
+      scopes: ['email']);
+
+  Future<void> _handleSignIn() async {
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser != null) {
+        // Send Google Sign-In data to the backend
+        final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+        final String? code = googleAuth.idToken;
+
+        if (code != null) {
+          await authService.sendGoogleSignInDataToBackend(code, context);
+        }
+      }
+    } catch (error) {
+      print('Error during Google Sign-In: $error');
+    }
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -105,6 +131,11 @@ class _JobLoginoptionState extends State<JobLoginoption> {
             InkWell(
               onTap: () async {
                 try {
+                  await _handleSignIn();
+                } catch (error) {
+                  print('Error during Google Sign-In: $error');
+                }
+/*                try {
                   final UserCredential userCredential =
                       await signInWithGoogle();
                   if (context.mounted) {
@@ -134,7 +165,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                       },
                     ),
                   );
-                }
+                }*/
               },
               child: Container(
                 height: height / 15,

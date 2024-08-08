@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Utils/constants.dart';
+import '../../../ViewModels/report_provider.dart';
 import '../../../ViewModels/userprovider.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
@@ -27,6 +31,18 @@ class _JobEditprofileState extends State<JobEditprofile> {
   final TextEditingController dobController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<File?> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
+    return _profileImage;
+  }
 
 
   @override
@@ -36,7 +52,10 @@ class _JobEditprofileState extends State<JobEditprofile> {
     width = size.width;
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-
+    var reportProvider = Provider.of<ReportProvider>(context, listen: false);
+  /*  fullNameController.text = userProvider.user.name;
+    dobController.text = userProvider.user.birthdate;
+    phoneController.text = userProvider.user.phone;*/
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile".tr, style: urbanistBold.copyWith(fontSize: 22)),
@@ -50,9 +69,26 @@ class _JobEditprofileState extends State<JobEditprofile> {
               Center(
                 child: Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage(JobPngimage.profile),
+                    InkWell(
+
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage:  _profileImage != null
+                            ? FileImage(_profileImage!)
+                            : userProvider.user.profilePicturePath.isNotEmpty
+                            ? NetworkImage(userProvider.user.profilePicturePath)
+                            :  AssetImage(JobPngimage.profile)
+                        as ImageProvider,
+                      ),
+                      onTap: () async {
+                        final pickedFile = await _pickImage();
+                        setState(() {
+                          if (pickedFile != null) {
+                            _profileImage = File(pickedFile.path);
+                            // user.profilePicturePath = _profileImage!.path;
+                          }
+                        });
+                      },
                     ),
                     Positioned(
                         bottom: 0,
@@ -77,7 +113,7 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
-                  hintText: "Full_name".tr,
+                  hintText: userProvider.user.name,
                   fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
@@ -96,7 +132,7 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
-                  hintText: "DOB".tr,
+                  hintText: userProvider.user.birthdate,
                   fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   suffixIcon: Icon(Icons.calendar_month_rounded, size: height / 36, color: JobColor.textgray,),
@@ -141,7 +177,7 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 disableLengthCheck: true,
                 dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16, color: themedata.isdark ? JobColor.white : JobColor.textgray,),
                 decoration: InputDecoration(
-                  hintText: "00000000000",
+                  hintText: userProvider.user.phone,
                   fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   hintStyle: urbanistRegular,
@@ -168,11 +204,13 @@ class _JobEditprofileState extends State<JobEditprofile> {
           splashColor: JobColor.transparent,
           highlightColor: JobColor.transparent,
           onTap: () async {
+            String? fileUrl = await reportProvider.uploadFile(_profileImage!);
             await userProvider.editUser(
+              profilePicturePath: fileUrl,
               userId: userProvider.user.id,
               name: fullNameController.text,
               email: userProvider.user.email,
-              lastname: lastNameController.text,
+              //lastname: lastNameController.text,
               phone: "216"+phoneController.toString(),
               birthdate: dobController.text,
             );

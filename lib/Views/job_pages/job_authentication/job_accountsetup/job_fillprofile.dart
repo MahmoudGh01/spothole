@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
+import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
+import 'package:provider/provider.dart';
 import '../../../../Services/Auth.dart';
+import '../../../../ViewModels/userprovider.dart';
 import '../../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_theme/job_themecontroller.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -31,6 +34,8 @@ class _JobFillProfileState extends State<JobFillProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
@@ -108,7 +113,7 @@ class _JobFillProfileState extends State<JobFillProfile> {
                 style: urbanistSemiBold.copyWith(fontSize: 16,),
                 decoration: InputDecoration(
                   hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
-                  hintText: "Email".tr,
+                  hintText: userProvider.user.email,
                   fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   suffixIcon: Icon(Icons.email_outlined, size: height / 36, color: JobColor.textgray,),
@@ -149,26 +154,7 @@ class _JobFillProfileState extends State<JobFillProfile> {
                 onChanged: (phone) {},
               ),
               SizedBox(height: height / 46,),
-              TextField(
-                controller: genderController,
-                style: urbanistSemiBold.copyWith(fontSize: 16,),
-                decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
-                  hintText: "Gender".tr,
-                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
-                  filled: true,
-                  suffixIcon: Icon(Icons.arrow_drop_down_sharp, size: height / 36, color: JobColor.textgray,),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
-                  ),
-                ),
-              ),
-              SizedBox(height: height / 46,),
+
             ],
           ),
         ),
@@ -202,16 +188,17 @@ class _JobFillProfileState extends State<JobFillProfile> {
               splashColor: JobColor.transparent,
               highlightColor: JobColor.transparent,
               onTap: () async {
-                await authService.editUser(
-                  userId: authService.currentUser.value!.id,
+                await userProvider.editUser(
+                  userId: userProvider.user.id,
                   name: nameController.text,
-                  email: emailController.text,
-                  phone: phoneController.text,
+                  email: userProvider.user.email,
+                  //lastname: lastNameController.text,
+                  phone: "+216"+phoneController.toString(),
                   birthdate: dobController.text,
                 );
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const JobCreatenewPin();
-                },));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                  return  JobDashboard("0");
+                },)); // Navigate back after saving
               },
               child: Container(
                 height: height / 15,
