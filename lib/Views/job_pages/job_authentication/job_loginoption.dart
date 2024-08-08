@@ -28,7 +28,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId:
-      '104792978938-smu99c48hkqint3g8afkm42ffeuikqig.apps.googleusercontent.com',
+      '104792978938-63p40oqgf9lu49nd89lmptvjqgegfk7k.apps.googleusercontent.com',
       scopes: ['email']);
 
   Future<void> _handleSignIn() async {
