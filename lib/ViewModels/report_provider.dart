@@ -59,9 +59,9 @@ class ReportProvider with ChangeNotifier {
   Future<String?> uploadFile(File file) async {
     try {
 
-        await _reportService.uploadFile(file);
+        var fileUrl = await _reportService.uploadFile(file);
         notifyListeners();
-        return file.path;
+        return fileUrl;
 
 
     } catch (error) {
