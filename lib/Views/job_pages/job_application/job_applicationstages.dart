@@ -113,7 +113,7 @@ class ReportDetail extends StatelessWidget {
                 width: width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
+                  border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.appcolor),
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 46),
@@ -127,6 +127,7 @@ class ReportDetail extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: height / 66),
+                      Divider(),
                       Text(
                         "Severity: ${report.severity}",
                         style: urbanistSemiBold.copyWith(fontSize: 18, color: JobColor.appcolor),
@@ -134,6 +135,7 @@ class ReportDetail extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: height / 66),
+
                       Text(
                         "Posted on: ${report.createdDate}",
                         style: urbanistSemiBold.copyWith(fontSize: 14, color: JobColor.textgray),

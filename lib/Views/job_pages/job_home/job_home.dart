@@ -242,7 +242,12 @@ class _JobHomeState extends State<JobHome> {
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(report.address,style: urbanistMedium.copyWith(fontSize: 18 ),maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                      Row(
+                                        children: [
+                                          Text("Severity : ",style: urbanistBold.copyWith(fontSize: 19,color: JobColor.appcolor)),
+                                          Text(report.severity.toString(),style: urbanistMedium.copyWith(fontSize: 18 ),maxLines: 1,overflow: TextOverflow.ellipsis),
+                                        ],
+                                      ),
                                       SizedBox(height: height/66,),
 
                                       Row(

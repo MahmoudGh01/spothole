@@ -276,6 +276,7 @@ class _JobDetailsState extends State<JobDetails> {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return Container(
+             // color: JobColor.appcolor,
                 height: height / 4.8,
                 decoration: const BoxDecoration(
                   // color: Colors.white,
