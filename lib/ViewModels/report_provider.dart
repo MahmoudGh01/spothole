@@ -26,7 +26,9 @@ class ReportProvider with ChangeNotifier {
   }
 
   Future<void> submitReport(BuildContext context,Report report) async {
+    print(report.toJson());
     try {
+      print(report.toJson());
       await _reportService.submitReport(context,report);
 
       notifyListeners();

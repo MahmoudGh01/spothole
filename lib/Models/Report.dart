@@ -4,8 +4,8 @@ class Report {
   String caseId;
   String description;
   String imageURL;
-  String latitude;
-  String longitude;
+  double latitude;
+  double longitude;
   int severity;
   String userId;
   String status;
@@ -34,8 +34,9 @@ class Report {
       caseId: json['case_id'] ?? '',
       description: json['description'] ?? '',
       imageURL: json['imageURL'] ?? '',
-      latitude: json['locationLatLng']['lat'].toString() ?? '',
-      longitude: json['locationLatLng']['lng'].toString() ?? '',
+      latitude: (json['locationLatLng']?['lat'] ?? 0.0).toDouble(),
+      longitude: (json['locationLatLng']?['lng'] ?? 0.0).toDouble(),
+
       severity: json['severity'] ?? 0,
       userId: json['userId'] ?? '',
       status: json['status'] ?? '',
@@ -47,18 +48,19 @@ class Report {
   }
 
   Map<String, dynamic> toMap() {
+
     return {
       'description': description,
       'locationLatLng': {
-        'lat': double.parse(latitude),
-        'lng': double.parse(longitude),
+       'lat': latitude,
+        'lng': longitude,
       },
       'imageURL': imageURL,
       'location': address,
       'status': status,
       'severity': severity,
       'userId': userId,
-      'createdDate': createdDate,
+      //'createdDate': createdDate,
     };
   }
 

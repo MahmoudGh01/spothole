@@ -158,7 +158,7 @@ class _JobApplicationState extends State<JobApplication> {
                                   height: height / 80,
                                 ),
                                 Text(
-                                  postMdl.reports[index].longitude,
+                                  postMdl.reports[index].longitude.toString(),
                                   style: urbanistMedium.copyWith(
                                       fontSize: 16, color: JobColor.textgray),
                                   maxLines: 1,

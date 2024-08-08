@@ -32,7 +32,7 @@ class _JobApplyState extends State<JobApply> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _severityController = TextEditingController();
-  int? _severity = 5;
+  int _severity = 5;
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -53,6 +53,7 @@ class _JobApplyState extends State<JobApply> {
         // Show loading indicator
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (context) => AlertDialog(
             content: Row(
               children: <Widget>[
@@ -66,22 +67,24 @@ class _JobApplyState extends State<JobApply> {
 
         try {
           // Upload file and get URL
-          var reportProvider =
-              Provider.of<ReportProvider>(context, listen: false);
+          var reportProvider = Provider.of<ReportProvider>(context, listen: false);
           String? fileUrl = await reportProvider.uploadFile(widget.image);
 
           // Close loading indicator
           Navigator.of(context).pop();
+
+          // Debugging logs
+          print('File uploaded successfully, URL: $fileUrl');
 
           // Create Report object
           Report report = Report(
             caseId: '',
             description: _descriptionController.text,
             imageURL: fileUrl!,
-            latitude: widget.latitude.toString(),
-            longitude: widget.longitude.toString(),
-            severity: _severity!,
-            userId: '1',
+            latitude: widget.latitude!.toDouble(),
+            longitude: widget.longitude!.toDouble(),
+            severity: _severity,
+            userId: "1",
             status: "submitted",
             createdDate: DateTime.now().toString(),
             lastUpdated: DateTime.now().toString(),
@@ -89,48 +92,26 @@ class _JobApplyState extends State<JobApply> {
             locationPoint: '',
           );
 
+          // Debugging logs
+          print('Report created: ${report.toJson()}');
+
           // Submit Report
           await reportProvider.submitReport(context, report);
 
           // Show success message
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Report Submitted'),
-              content: Text('Your report has been submitted successfully.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          );
+
         } catch (e) {
           // Close loading indicator
           Navigator.of(context).pop();
 
-          // Show error message
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Upload Failed'),
-              content: Text(e.toString()),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          );
+          // Debugging logs
+          print('Error: $e');
+
+
         }
       }
     }
+
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -219,15 +200,16 @@ class _JobApplyState extends State<JobApply> {
               Text("Severity".tr, style: urbanistMedium.copyWith(fontSize: 16)),
               SizedBox(height: height / 66),
               Slider(
-                value: _severity!.toDouble(),
+                value: _severity.toDouble(),
                 min: 1,
                 max: 10,
                 divisions: 9,
-                label: _severity!.toString(),
+                label: _severity.toString(),
                 onChanged: (double value) {
+                  print(value.toInt());
                   setState(() {
                     _severity = value.toInt();
-                    _severityController.text = value.toInt().toString();
+                    _severityController.text = value.toString();
                   });
                 },
               ),

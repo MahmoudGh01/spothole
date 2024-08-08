@@ -87,7 +87,7 @@ class _MapPageState extends State<MapPage> {
                 return Marker(
                 //  icon:  ,
                   markerId: MarkerId(report.caseId),
-                  position: LatLng(double.parse(report.latitude),double.parse(report.longitude)),
+                  position: LatLng(report.latitude,report.longitude),
                   infoWindow: InfoWindow(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(

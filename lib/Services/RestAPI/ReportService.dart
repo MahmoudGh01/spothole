@@ -25,6 +25,7 @@ class ReportService {
   }
 
   Future<void> submitReport(BuildContext context, Report report) async {
+    print(report.toJson());
     final response = await http.post(
       Uri.parse('${Constants.uri}/api/submit/report'),
       headers: {
@@ -126,7 +127,7 @@ class ReportService {
     if (response.statusCode == 200) {
       final responseData = await response.stream.bytesToString();
       final jsonResponse = jsonDecode(responseData);
-      return jsonResponse['fileUrl'];
+      return jsonResponse['filename'][0];
     } else {
       throw Exception('Failed to upload file');
     }
