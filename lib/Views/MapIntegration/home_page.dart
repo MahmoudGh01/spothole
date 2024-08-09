@@ -110,8 +110,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     _polylines.add(Polyline(
         polylineId: PolylineId(polylineIdVal),
-        width: 2,
-        color: Colors.blue,
+        width: 3,
+        color: Colors.red,
         points: points.map((e) => LatLng(e.latitude, e.longitude)).toList()));
   }
 
@@ -261,8 +261,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                         onTap: (point) {
                           _customInfoWindowController.hideInfoWindow!();
 
-                          tappedPoint = point;
-                          _setCircle(point);
+                         // tappedPoint = point;
+                         // _setCircle(point);
                         },
                         onCameraMove: (position) {
                           _customInfoWindowController.onCameraMove!();
@@ -911,6 +911,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       );
     }
+    _markers.addAll(markers);
     return markers;
   }
   _buildReviewItem(review) {
