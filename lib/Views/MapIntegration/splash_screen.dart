@@ -17,7 +17,7 @@ class _MapSplashState extends State<MapSplash> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 5)).then((value) => Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => const HomePage())));
+        .push(MaterialPageRoute(builder: (context) => const HomePage())));
   }
 
   @override
