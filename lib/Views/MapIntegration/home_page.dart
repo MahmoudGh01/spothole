@@ -261,8 +261,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                         onTap: (point) {
                           _customInfoWindowController.hideInfoWindow!();
 
-                         // tappedPoint = point;
-                         // _setCircle(point);
+                          tappedPoint = point;
+                          _setCircle(point);
                         },
                         onCameraMove: (position) {
                           _customInfoWindowController.onCameraMove!();
@@ -840,7 +840,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   Set<Marker> _buildMarkers(List<Report> reports) {
-    Set<Marker> markers = {};
+    Set<Marker> markers = _markers;
     for (var report in reports) {
       markers.add(
         Marker(
@@ -911,7 +911,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       );
     }
-    _markers.addAll(markers);
+    //_markers.addAll(markers);
     return markers;
   }
   _buildReviewItem(review) {
