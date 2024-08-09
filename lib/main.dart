@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_splash.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacy_provider;
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'Services/Auth.dart';
 import 'Services/notifi_service.dart';
 import 'ViewModels/authority_provider.dart';
@@ -32,14 +33,19 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => UserProvider()),
-    ChangeNotifierProvider<AuthorityProvider>(
-        create: (_) => AuthorityProvider()),
-    ChangeNotifierProvider<ReportProvider>(create: (_) => ReportProvider()),
-    ChangeNotifierProvider<PublicUserProvider>(
-        create: (_) => PublicUserProvider()),
-  ], child: const MyApp()));
+  runApp(
+    riverpod.ProviderScope(
+      child: legacy_provider.MultiProvider(
+        providers: [
+          legacy_provider.ChangeNotifierProvider(create: (_) => UserProvider()),
+          legacy_provider.ChangeNotifierProvider(create: (_) => AuthorityProvider()),
+          legacy_provider.ChangeNotifierProvider(create: (_) => ReportProvider()),
+          legacy_provider.ChangeNotifierProvider(create: (_) => PublicUserProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

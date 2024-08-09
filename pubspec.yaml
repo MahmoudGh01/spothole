@@ -50,6 +50,14 @@ dependencies:
   http: ^1.2.0
   path: ^1.8.0
   google_maps_flutter: ^2.5.0
+  lottie:
+  dartz:
+
+  flutter_riverpod:
+  fab_circular_menu:
+
+  flutter_rating_stars:
+  flip_card:
   location: ^6.0.2
   flutter_polyline_points: ^2.0.0
   flutter_lints: ^4.0.0
@@ -115,6 +123,8 @@ flutter:
     - assets/yolov8n.tflite
     - assets/labels/
     - assets/models/
+    - assets/animassets/mapanimation.json
+    - assets/mapicons/
 
 
   # To add assets to your application, add an assets section, like this:
