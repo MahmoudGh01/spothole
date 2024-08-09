@@ -56,7 +56,7 @@ class Report {
         'lng': longitude,
       },
       'imageURL': imageURL,
-      'location': address,
+      'address': address,
       'status': status,
       'severity': severity,
       'userId': userId,

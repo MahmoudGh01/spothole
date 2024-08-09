@@ -10,11 +10,15 @@ import 'dart:async';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 
+import '../Views/job_gloabelclass/job_color.dart';
+import '../Views/job_gloabelclass/job_fontstyle.dart';
 import '../Views/job_pages/job_home/job_applyjob.dart';
+import '../Views/job_pages/job_theme/job_themecontroller.dart';
 
 enum Options { none, imagev5, imagev8, imagev8seg, frame, tesseract, vision }
 
@@ -148,6 +152,10 @@ class _YoloVideoState extends State<YoloVideo> {
   bool isDetecting = false;
   Position? currentPosition;
   String? currentAddress;
+  dynamic size;
+  double height = 0.00;
+  double width = 0.00;
+  final themedata = Get.put(JobThemecontroler());
 
   @override
   void initState() {
@@ -177,7 +185,9 @@ class _YoloVideoState extends State<YoloVideo> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
     if (!isLoaded) {
       return const Scaffold(
         body: Center(
@@ -234,7 +244,7 @@ class _YoloVideoState extends State<YoloVideo> {
               const SizedBox(width: 20),
               Visibility(
                 visible: yoloResults.isNotEmpty,
-                child: ElevatedButton(
+                child: /*ElevatedButton(
                   onPressed: () async {
                     if (cameraImage != null) {
                       await _getCurrentLocation();
@@ -242,6 +252,29 @@ class _YoloVideoState extends State<YoloVideo> {
                     }
                   },
                   child: const Text("Report"),
+                ),*/
+                InkWell(
+                  splashColor: JobColor.transparent,
+                  highlightColor: JobColor.transparent,
+                  onTap: () async {
+                    if (cameraImage != null) {
+                      await _getCurrentLocation();
+                      await _navigateToJobApply(cameraImage!);
+                    }
+                  },
+                  child: Container(
+                    height: height / 15,
+                    width: width / 2.2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: JobColor.appcolor,
+                    ),
+                    child: Center(
+                      child: Text("Detect".tr,
+                          style: urbanistSemiBold.copyWith(
+                              fontSize: 16, color: JobColor.white)),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -711,6 +744,10 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
   int imageHeight = 1;
   int imageWidth = 1;
   bool isLoaded = false;
+  dynamic size;
+  double height = 0.00;
+  double width = 0.00;
+  final themedata = Get.put(JobThemecontroler());
 
   @override
   void initState() {
@@ -730,7 +767,9 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
     if (!isLoaded) {
       return const Scaffold(
         body: Center(
@@ -744,18 +783,57 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
         imageFile != null ? Image.file(imageFile!) : const SizedBox(),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: pickImage,
-                child: const Text("Pick image"),
-              ),
-              ElevatedButton(
-                onPressed: yoloOnImage,
-                child: const Text("Detect"),
-              )
-            ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: width / 36, vertical: height / 56),
+            child: Row(
+              children: [
+                InkWell(
+                  splashColor: JobColor.transparent,
+                  highlightColor: JobColor.transparent,
+                  onTap: () {
+                    pickImage();
+                    /* Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const JobSelectexpertise();
+                },));*/
+                  },
+                  child: Container(
+                    height: height / 15,
+                    width: width / 2.2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: JobColor.lightblue,
+                    ),
+                    child: Center(
+                      child: Text("Pick Image".tr,
+                          style: urbanistSemiBold.copyWith(
+                              fontSize: 16, color: JobColor.appcolor)),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                InkWell(
+                  splashColor: JobColor.transparent,
+                  highlightColor: JobColor.transparent,
+                  onTap: () async {
+                    yoloOnImage();
+                  },
+                  child: Container(
+                    height: height / 15,
+                    width: width / 2.2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: JobColor.appcolor,
+                    ),
+                    child: Center(
+                      child: Text("Detect".tr,
+                          style: urbanistSemiBold.copyWith(
+                              fontSize: 16, color: JobColor.white)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         ...displayBoxesAroundRecognizedObjects(size),
@@ -766,7 +844,7 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
   Future<void> loadYoloModel() async {
     await widget.vision.loadYoloModel(
         labels: 'assets/labels.txt',
-        modelPath: 'assets/yolov8n.tflite',
+        modelPath: 'assets/models/best_float32.tflite',
         modelVersion: "yolov8seg",
         quantization: false,
         numThreads: 2,
@@ -816,9 +894,10 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
     double newHeight = newWidth / imgRatio;
     double factorY = newHeight / (imageHeight);
 
-    double pady = (screen.height - newHeight) / 2;
+    double pady = ((screen.height - 56.0) - newHeight) / 2;
 
-    Color colorPick = const Color.fromARGB(255, 50, 233, 30);
+    //Color colorPick = const Color.fromARGB(255, 50, 233, 30);
+    Color colorPick = Colors.transparent;
     return yoloResults.map((result) {
       return Stack(children: [
         Positioned(
@@ -829,7 +908,7 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              border: Border.all(color: Colors.pink, width: 2.0),
+              border: Border.all(color: Colors.transparent, width: 2.0),
             ),
             child: Text(
               "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
@@ -889,6 +968,3 @@ class PolygonPainter extends CustomPainter {
     return false;
   }
 }
-
-
-
