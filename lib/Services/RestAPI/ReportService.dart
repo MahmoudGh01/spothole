@@ -38,7 +38,7 @@ class ReportService {
       showDialog(
         context: context,
         builder: (context) => GlobalAlertDialog(
-          imagePath: JobPngimage.applyfail,
+          imagePath: 'fail.json',
           title: 'Oops, Failed!',
           titleColor: Colors.red,
           message: 'Please check your internet connection then try again.',
@@ -62,7 +62,7 @@ class ReportService {
     showDialog(
       context: context,
       builder: (context) => GlobalAlertDialog(
-        imagePath: JobPngimage.successlogo,
+        imagePath: 'success.json',
         title: 'Reported Submitted',
         titleColor: Colors.green,
         message:

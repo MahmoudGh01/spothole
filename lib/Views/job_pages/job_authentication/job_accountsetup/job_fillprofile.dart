@@ -193,7 +193,7 @@ class _JobFillProfileState extends State<JobFillProfile> {
                   name: nameController.text,
                   email: userProvider.user.email,
                   //lastname: lastNameController.text,
-                  phone: "+216"+phoneController.toString(),
+                  phone: "+216"+phoneController.text,
                   birthdate: dobController.text,
                 );
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:job_seeker/Utils/alert_dialog.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -160,7 +161,7 @@ class UserProvider extends ChangeNotifier {
       );
 
       if (res.statusCode == 200) {
-        print('User details updated successfully');
+        //success(context);
         fetchUserData(); // Refresh user data after update
       } else {
         print('Failed to update user details: ${res.statusCode}');

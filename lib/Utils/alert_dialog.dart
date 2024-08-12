@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class GlobalAlertDialog extends StatelessWidget {
   final String imagePath;
@@ -33,7 +34,8 @@ class GlobalAlertDialog extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
           child: Column(
             children: [
-              Image.asset(imagePath, height: height / 6, fit: BoxFit.fitHeight),
+              LottieBuilder.asset('assets/animassets/${imagePath}'),
+              //Image.asset(imagePath, height: height / 6, fit: BoxFit.fitHeight),
               SizedBox(height: height / 30),
               Text(
                 title,
@@ -130,4 +132,31 @@ void failed(BuildContext context) {
       },
     ),
   );
+}
+
+class CustomLoadingWidget extends StatelessWidget {
+  final String lottieFile;
+  final double width;
+  final double height;
+  final BoxFit fit;
+
+  const CustomLoadingWidget({
+    Key? key,
+    required this.lottieFile,
+    this.width = 100.0,
+    this.height = 100.0,
+    this.fit = BoxFit.contain,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Lottie.asset(
+        lottieFile,
+        width: width,
+        height: height,
+        fit: fit,
+      ),
+    );
+  }
 }

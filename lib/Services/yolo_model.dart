@@ -13,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
+import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../Views/job_gloabelclass/job_color.dart';
@@ -93,7 +94,7 @@ class _ModelScreenState extends State<ModelScreen> {
             child: const Icon(Icons.camera),
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
-            label: 'YoloV8 on Image',
+            label: 'YoloV8seg on Video',
             labelStyle: const TextStyle(fontSize: 18.0),
             onTap: () {
               setState(() {
@@ -126,7 +127,7 @@ class _ModelScreenState extends State<ModelScreen> {
       return YoloImageV5(vision: vision);
     }
     if (option == Options.imagev8) {
-      return YoloImageV8(vision: vision);
+      return YoloVideoV8Seg(vision: vision);
     }
     if (option == Options.imagev8seg) {
       return YoloImageV8Seg(vision: vision);
@@ -189,9 +190,9 @@ class _YoloVideoState extends State<YoloVideo> {
     height = size.height;
     width = size.width;
     if (!isLoaded) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(
-          child: Text("Model not loaded, waiting for it"),
+          child: LottieBuilder.asset('assets/loading_animation.json'),
         ),
       );
     }
@@ -253,7 +254,7 @@ class _YoloVideoState extends State<YoloVideo> {
                   },
                   child: const Text("Report"),
                 ),*/
-                InkWell(
+                    InkWell(
                   splashColor: JobColor.transparent,
                   highlightColor: JobColor.transparent,
                   onTap: () async {
@@ -471,9 +472,9 @@ class _YoloImageV5State extends State<YoloImageV5> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     if (!isLoaded) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(
-          child: Text("Model not loaded, waiting for it"),
+          child: LottieBuilder.asset('assets/loading_animation.json'),
         ),
       );
     }
@@ -618,9 +619,9 @@ class _YoloImageV8State extends State<YoloImageV8> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     if (!isLoaded) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(
-          child: Text("Model not loaded, waiting for it"),
+          child: LottieBuilder.asset('assets/loading_animation.json'),
         ),
       );
     }
@@ -771,9 +772,9 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
     height = size.height;
     width = size.width;
     if (!isLoaded) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(
-          child: Text("Model not loaded, waiting for it"),
+          child: LottieBuilder.asset('assets/loading_animation.json'),
         ),
       );
     }
@@ -966,5 +967,215 @@ class PolygonPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class YoloVideoV8Seg extends StatefulWidget {
+  final FlutterVision vision;
+  const YoloVideoV8Seg({Key? key, required this.vision}) : super(key: key);
+
+  @override
+  State<YoloVideoV8Seg> createState() => _YoloVideoV8SegState();
+}
+
+class _YoloVideoV8SegState extends State<YoloVideoV8Seg> {
+  late CameraController controller;
+  late List<Map<String, dynamic>> yoloResults;
+  CameraImage? cameraImage;
+  bool isLoaded = false;
+  bool isDetecting = false;
+  double height = 0.00;
+  double width = 0.00;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    cameras = await availableCameras();
+    controller = CameraController(cameras[0], ResolutionPreset.medium);
+    controller.initialize().then((value) {
+      loadYoloModel().then((value) {
+        setState(() {
+          isLoaded = true;
+          isDetecting = false;
+          yoloResults = [];
+        });
+      });
+    });
+  }
+
+  @override
+  void dispose() async {
+    super.dispose();
+    controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
+
+    if (!isLoaded) {
+      return Scaffold(
+        body: Center(
+          child: LottieBuilder.asset('assets/loading_animation.json'),
+        ),
+      );
+    }
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        AspectRatio(
+          aspectRatio: controller.value.aspectRatio,
+          child: CameraPreview(controller),
+        ),
+        ...displayBoxesAroundRecognizedObjects(size),
+        Positioned(
+          bottom: 75,
+          width: width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    width: 5,
+                    color: Colors.white,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child: isDetecting
+                    ? IconButton(
+                        onPressed: () async {
+                          stopDetection();
+                        },
+                        icon: const Icon(
+                          Icons.stop,
+                          color: Colors.red,
+                        ),
+                        iconSize: 50,
+                      )
+                    : IconButton(
+                        onPressed: () async {
+                          await startDetection();
+                        },
+                        icon: const Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                        ),
+                        iconSize: 50,
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> loadYoloModel() async {
+    await widget.vision.loadYoloModel(
+      labels: 'assets/labels.txt',
+      modelPath: 'assets/models/best_float32.tflite',
+      modelVersion: "yolov8seg",
+      numThreads: 2,
+      useGpu: true,
+    );
+    setState(() {
+      isLoaded = true;
+    });
+  }
+
+  Future<void> yoloOnFrame(CameraImage cameraImage) async {
+    final result = await widget.vision.yoloOnFrame(
+      bytesList: cameraImage.planes.map((plane) => plane.bytes).toList(),
+      imageHeight: cameraImage.height,
+      imageWidth: cameraImage.width,
+      iouThreshold: 0.45,
+      confThreshold: 0.25,
+    );
+    if (result.isNotEmpty) {
+      setState(() {
+        yoloResults = result;
+      });
+    }
+  }
+
+  Future<void> startDetection() async {
+    setState(() {
+      isDetecting = true;
+    });
+    if (controller.value.isStreamingImages) {
+      return;
+    }
+    await controller.startImageStream((image) async {
+      if (isDetecting) {
+        cameraImage = image;
+        yoloOnFrame(image);
+      }
+    });
+  }
+
+  Future<void> stopDetection() async {
+    setState(() {
+      isDetecting = false;
+      yoloResults.clear();
+    });
+  }
+
+  List<Widget> displayBoxesAroundRecognizedObjects(Size screen) {
+    if (yoloResults.isEmpty) return [];
+
+    double factorX = screen.width / (cameraImage?.height ?? 1);
+    double factorY = (screen.height - 56.0) / (cameraImage?.width ?? 1);
+
+    Color colorPick = const Color.fromARGB(255, 50, 233, 30);
+
+    return yoloResults.map((result) {
+      return Stack(children: [
+        Positioned(
+          left: result["box"][0] * factorX,
+          top: result["box"][1] * factorY,
+          width: (result["box"][2] - result["box"][0]) * factorX,
+          height: (result["box"][3] - result["box"][1]) * factorY,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              border: Border.all(color: Colors.pink, width: 2.0),
+            ),
+            child: Text(
+              "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
+              style: TextStyle(
+                background: Paint()..color = colorPick,
+                color: Colors.white,
+                fontSize: 18.0,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+            left: result["box"][0] * factorX,
+            top: result["box"][1] * factorY,
+            width: (result["box"][2] - result["box"][0]) * factorX,
+            height: (result["box"][3] - result["box"][1]) * factorY,
+            child: CustomPaint(
+              painter: PolygonPainter(
+                points: (result["polygons"] as List<dynamic>).map((e) {
+                  Map<String, double> xy = Map<String, double>.from(e);
+                  xy['x'] = (xy['x'] as double) * factorX;
+                  xy['y'] = (xy['y'] as double) * factorY;
+                  return xy;
+                }).toList(),
+              ),
+            )),
+      ]);
+    }).toList();
   }
 }

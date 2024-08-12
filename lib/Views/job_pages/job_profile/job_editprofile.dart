@@ -13,7 +13,6 @@ import '../../../ViewModels/userprovider.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 
-
 class JobEditprofile extends StatefulWidget {
   const JobEditprofile({Key? key}) : super(key: key);
 
@@ -44,7 +43,6 @@ class _JobEditprofileState extends State<JobEditprofile> {
     return _profileImage;
   }
 
-
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -53,7 +51,7 @@ class _JobEditprofileState extends State<JobEditprofile> {
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     var reportProvider = Provider.of<ReportProvider>(context, listen: false);
-  /*  fullNameController.text = userProvider.user.name;
+    /*  fullNameController.text = userProvider.user.name;
     dobController.text = userProvider.user.birthdate;
     phoneController.text = userProvider.user.phone;*/
     return Scaffold(
@@ -62,7 +60,8 @@ class _JobEditprofileState extends State<JobEditprofile> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 36),
+          padding: EdgeInsets.symmetric(
+              horizontal: width / 36, vertical: height / 36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -70,15 +69,15 @@ class _JobEditprofileState extends State<JobEditprofile> {
                 child: Stack(
                   children: [
                     InkWell(
-
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage:  _profileImage != null
+                        backgroundImage: _profileImage != null
                             ? FileImage(_profileImage!)
                             : userProvider.user.profilePicturePath.isNotEmpty
-                            ? NetworkImage(userProvider.user.profilePicturePath)
-                            :  AssetImage(JobPngimage.profile)
-                        as ImageProvider,
+                                ? NetworkImage(
+                                    userProvider.user.profilePicturePath)
+                                : AssetImage(JobPngimage.profile)
+                                    as ImageProvider,
                       ),
                       onTap: () async {
                         final pickedFile = await _pickImage();
@@ -98,108 +97,143 @@ class _JobEditprofileState extends State<JobEditprofile> {
                           height: height / 26,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: JobColor.appcolor
+                              color: JobColor.appcolor),
+                          child: const Icon(
+                            Icons.edit_sharp,
+                            size: 22,
+                            color: JobColor.white,
                           ),
-                          child: const Icon(Icons.edit_sharp, size: 22, color: JobColor.white,),
                         ))
                   ],
                 ),
               ),
-              SizedBox(height: height / 30,),
-              Text("Full_name".tr, style: urbanistMedium.copyWith(fontSize: 16)),
-              SizedBox(height: height / 66,),
+              SizedBox(
+                height: height / 30,
+              ),
+              Text("Full_name".tr,
+                  style: urbanistMedium.copyWith(fontSize: 16)),
+              SizedBox(
+                height: height / 66,
+              ),
               TextField(
                 controller: fullNameController,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(
+                    fontSize: 16,
+                    color: JobColor.textgray,
+                  ),
                   hintText: userProvider.user.name,
-                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
+                      borderSide: BorderSide.none),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
-                  ),
+                      borderSide: const BorderSide(color: JobColor.appcolor)),
                 ),
               ),
-              SizedBox(height: height / 46,),
+              SizedBox(
+                height: height / 46,
+              ),
               TextField(
                 controller: dobController,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(
+                    fontSize: 16,
+                    color: JobColor.textgray,
+                  ),
                   hintText: userProvider.user.birthdate,
-                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
-                  suffixIcon: Icon(Icons.calendar_month_rounded, size: height / 36, color: JobColor.textgray,),
+                  suffixIcon: Icon(
+                    Icons.calendar_month_rounded,
+                    size: height / 36,
+                    color: JobColor.textgray,
+                  ),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
+                      borderSide: BorderSide.none),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
-                  ),
+                      borderSide: const BorderSide(color: JobColor.appcolor)),
                 ),
               ),
-              SizedBox(height: height / 46,),
-              Text("Last_Name".tr, style: urbanistMedium.copyWith(fontSize: 16)),
-              SizedBox(height: height / 66,),
+              SizedBox(
+                height: height / 46,
+              ),
+              Text("Last_Name".tr,
+                  style: urbanistMedium.copyWith(fontSize: 16)),
+              SizedBox(
+                height: height / 66,
+              ),
               TextField(
                 controller: lastNameController,
-                style: urbanistSemiBold.copyWith(fontSize: 16,),
+                style: urbanistSemiBold.copyWith(
+                  fontSize: 16,
+                ),
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(
+                    fontSize: 16,
+                    color: JobColor.textgray,
+                  ),
                   hintText: "Last_Name".tr,
-                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
-                  ),
+                      borderSide: BorderSide.none),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: JobColor.appcolor)
-                  ),
+                      borderSide: const BorderSide(color: JobColor.appcolor)),
                 ),
               ),
-              SizedBox(height: height / 46,),
+              SizedBox(
+                height: height / 46,
+              ),
               IntlPhoneField(
+                initialValue: userProvider.user.phone.toString(),
                 controller: phoneController,
                 flagsButtonPadding: const EdgeInsets.all(8),
                 dropdownIconPosition: IconPosition.trailing,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 keyboardType: TextInputType.number,
                 disableLengthCheck: true,
-                dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16, color: themedata.isdark ? JobColor.white : JobColor.textgray,),
+                dropdownTextStyle: urbanistSemiBold.copyWith(
+                  fontSize: 16,
+                  color: themedata.isdark ? JobColor.white : JobColor.textgray,
+                ),
                 decoration: InputDecoration(
                   hintText: userProvider.user.phone,
-                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   hintStyle: urbanistRegular,
                   enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)),
-                      borderSide: BorderSide.none
-                  ),
+                      borderSide: BorderSide.none),
                   focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)),
-                      borderSide: BorderSide(color: JobColor.appcolor)
-                  ),
+                      borderSide: BorderSide(color: JobColor.appcolor)),
                 ),
                 initialCountryCode: 'TN',
                 onChanged: (phone) {},
               ),
-              SizedBox(height: height / 46,),
+              SizedBox(
+                height: height / 46,
+              ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
+        padding:
+            EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
         child: InkWell(
           splashColor: JobColor.transparent,
           highlightColor: JobColor.transparent,
@@ -208,11 +242,23 @@ class _JobEditprofileState extends State<JobEditprofile> {
             await userProvider.editUser(
               profilePicturePath: fileUrl,
               userId: userProvider.user.id,
-              name: fullNameController.text,
-              email: userProvider.user.email,
-              //lastname: lastNameController.text,
-              phone: "216"+phoneController.toString(),
-              birthdate: dobController.text,
+              name: fullNameController.text.isNotEmpty
+                  ? fullNameController.text
+                  : userProvider
+                      .user.name, // Use provider's name if controller is empty
+              email:
+                  userProvider.user.email, // Email is fetched from the provider
+              lastname: lastNameController.text.isNotEmpty
+                  ? lastNameController.text
+                  : userProvider.user.lastname, // Uncomment and adapt if needed
+              phone: phoneController.text.isNotEmpty
+                  ? "+216" + phoneController.text
+                  : userProvider.user
+                      .phone, // Use provider's phone if controller is empty
+              birthdate: dobController.text.isNotEmpty
+                  ? dobController.text
+                  : userProvider.user
+                      .birthdate, // Use provider's birthdate if controller is empty
             );
             Navigator.pop(context); // Navigate back after saving
           },
@@ -224,7 +270,9 @@ class _JobEditprofileState extends State<JobEditprofile> {
               color: JobColor.appcolor,
             ),
             child: Center(
-              child: Text("Save".tr, style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.white)),
+              child: Text("Save".tr,
+                  style: urbanistSemiBold.copyWith(
+                      fontSize: 16, color: JobColor.white)),
             ),
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Models/Report.dart';
@@ -51,10 +52,10 @@ class _JobApplyState extends State<JobApply> {
     Future<void> uploadImageAndSubmitReport() async {
       if (widget.image != null) {
         // Show loading indicator
-        showDialog(
+/*        showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => AlertDialog(
+          builder: (context) => const AlertDialog(
             content: Row(
               children: <Widget>[
                 CircularProgressIndicator(),
@@ -63,8 +64,8 @@ class _JobApplyState extends State<JobApply> {
               ],
             ),
           ),
-        );
-
+        );*/
+        LottieBuilder.asset('assets/loading_animation.json');
         try {
           // Upload file and get URL
           var reportProvider = Provider.of<ReportProvider>(context, listen: false);

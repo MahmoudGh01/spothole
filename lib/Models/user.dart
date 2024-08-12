@@ -44,7 +44,7 @@ class User {
       password: userJson['password'] ?? '',
       name: userJson['name'] ?? '',
       lastname: userJson['lastname'] ?? '',
-      phone: userJson['title'] ?? "",
+      phone: userJson['phone'] ?? "",
       birthdate: userJson['birthdate'] ?? "",
       role: userJson['role'] ?? "User",
       profilePicturePath: userJson['profile_picture'] ?? "",
