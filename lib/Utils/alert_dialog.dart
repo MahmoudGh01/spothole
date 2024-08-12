@@ -34,12 +34,14 @@ class GlobalAlertDialog extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
           child: Column(
             children: [
-              LottieBuilder.asset('assets/animassets/${imagePath}'),
+              //LottieBuilder.asset('assets/animassets/${imagePath}'),
               //Image.asset(imagePath, height: height / 6, fit: BoxFit.fitHeight),
               SizedBox(height: height / 30),
-              Text(
-                title,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: titleColor),
+              Center(
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: titleColor),
+                ),
               ),
               SizedBox(height: height / 46),
               Text(

@@ -805,16 +805,14 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       ),
       floatingActionButton:    CircularMenu(
-        alignment: Alignment.bottomLeft,
-        backgroundWidget: Container(
-          color: Colors.transparent,
-        ),
+       // alignment: Alignment.bottomLeft,
+
         toggleButtonColor: Colors.blue.shade50,
         toggleButtonIconColor: Colors.black,
         items: [
           CircularMenuItem(
             icon: Icons.search,
-            color: Colors.blue.shade50,
+            color: Colors.blue.shade300,
             onTap: () {
               setState(() {
                 searchToggle = true;
@@ -827,7 +825,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           CircularMenuItem(
             icon: Icons.navigation,
-            color: Colors.red.shade100,
+            color: Colors.red.shade300,
             onTap: () {
               setState(() {
                 searchToggle = false;

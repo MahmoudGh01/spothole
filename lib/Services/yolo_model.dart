@@ -350,12 +350,12 @@ class _YoloVideoState extends State<YoloVideo> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            border: Border.all(color: Colors.pink, width: 2.0),
+            border: Border.all(color: JobColor.appcolor, width: 2.0),
           ),
           child: Text(
-            "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
-            style: TextStyle(
-              background: Paint()..color = colorPick,
+            "${(result['box'][4] * 100).toStringAsFixed(0)}%",
+            style: const TextStyle(
+             // background: Paint()..color = colorPick,
               color: Colors.white,
               fontSize: 18.0,
             ),
@@ -718,7 +718,7 @@ class _YoloImageV8State extends State<YoloImageV8> {
             border: Border.all(color: Colors.pink, width: 2.0),
           ),
           child: Text(
-            "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
+            " ${(result['box'][4] * 100).toStringAsFixed(0)}%",
             style: TextStyle(
               background: Paint()..color = colorPick,
               color: Colors.white,
@@ -912,7 +912,7 @@ class _YoloImageV8SegState extends State<YoloImageV8Seg> {
               border: Border.all(color: Colors.transparent, width: 2.0),
             ),
             child: Text(
-              "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
+              "${(result['box'][4] * 100).toStringAsFixed(0)}%",
               style: TextStyle(
                 background: Paint()..color = colorPick,
                 color: Colors.white,
@@ -1146,7 +1146,7 @@ class _YoloVideoV8SegState extends State<YoloVideoV8Seg> {
           width: (result["box"][2] - result["box"][0]) * factorX,
           height: (result["box"][3] - result["box"][1]) * factorY,
           child: Text(
-            "${result['tag']} ${(result['box'][4] * 100).toStringAsFixed(0)}%",
+            "${(result['box'][4] * 100).toStringAsFixed(0)}%",
             style: const TextStyle(
              // background: Paint()..color = colorPick,
               color: Colors.white,
