@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
 import 'dart:typed_data';
+import 'package:circular_menu/circular_menu.dart';
 
 import 'package:custom_info_window/custom_info_window.dart';
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -804,38 +804,42 @@ class _HomePageState extends ConsumerState<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FabCircularMenu(
-          alignment: Alignment.bottomLeft,
-          fabColor: Colors.blue.shade50,
-          fabOpenColor: Colors.red.shade100,
-          ringDiameter: 250.0,
-          ringWidth: 60.0,
-          ringColor: Colors.blue.shade50,
-          fabSize: 60.0,
-          children: [
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    searchToggle = true;
-                    radiusSlider = false;
-                    pressedNear = false;
-                    cardTapped = false;
-                    getDirections = false;
-                  });
-                },
-                icon: const Icon(Icons.search)),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    searchToggle = false;
-                    radiusSlider = false;
-                    pressedNear = false;
-                    cardTapped = false;
-                    getDirections = true;
-                  });
-                },
-                icon: const Icon(Icons.navigation))
-          ]),
+      floatingActionButton:    CircularMenu(
+        alignment: Alignment.bottomLeft,
+        backgroundWidget: Container(
+          color: Colors.transparent,
+        ),
+        toggleButtonColor: Colors.blue.shade50,
+        toggleButtonIconColor: Colors.black,
+        items: [
+          CircularMenuItem(
+            icon: Icons.search,
+            color: Colors.blue.shade50,
+            onTap: () {
+              setState(() {
+                searchToggle = true;
+                radiusSlider = false;
+                pressedNear = false;
+                cardTapped = false;
+                getDirections = false;
+              });
+            },
+          ),
+          CircularMenuItem(
+            icon: Icons.navigation,
+            color: Colors.red.shade100,
+            onTap: () {
+              setState(() {
+                searchToggle = false;
+                radiusSlider = false;
+                pressedNear = false;
+                cardTapped = false;
+                getDirections = true;
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 

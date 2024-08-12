@@ -54,7 +54,7 @@ dependencies:
   dartz:
 
   flutter_riverpod:
-  fab_circular_menu:
+  circular_menu: ^4.0.0
 
   flutter_rating_stars:
   flip_card:
