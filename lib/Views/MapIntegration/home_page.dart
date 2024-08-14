@@ -261,8 +261,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                         onTap: (point) {
                           _customInfoWindowController.hideInfoWindow!();
 
-                          tappedPoint = point;
-                          _setCircle(point);
+                   /*       tappedPoint = point;
+                          _setCircle(point);*/
                         },
                         onCameraMove: (position) {
                           _customInfoWindowController.onCameraMove!();
