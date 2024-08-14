@@ -4,6 +4,7 @@ import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:provider/provider.dart';
+import '../../../Utils/alert_dialog.dart';
 import '../../../ViewModels/authority_provider.dart';
 import '../../../ViewModels/userprovider.dart';
 import '../job_application/job_applicationstages.dart';
@@ -71,9 +72,26 @@ class _JobHomeState extends State<JobHome> {
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => GlobalAlertDialog(
+                      imagePath: 'success.json',
+                      title: 'Congratulations',
+                      titleColor: Colors.green,
+                      message: 'Your application has been successfully submitted. You can track the progress of your application through the applications menu.',
+                      primaryButtonText: 'Go to My Applications',
+                      primaryButtonAction: () {
+                        // Navigate to applications
+                      },
+                      secondaryButtonText: 'Cancel',
+                      secondaryButtonAction: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
+                /*  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const JobNotification();
-                  },));
+                  },));*/
                 },
                 child: Container(
                   height: height/16,

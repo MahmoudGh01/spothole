@@ -35,16 +35,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Phone Authentication".tr, style: urbanistBold.copyWith(fontSize: 22)),
+        title: Text("Phone Authentication".tr,
+            style: urbanistBold.copyWith(fontSize: 22)),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width / 26, vertical: height / 36),
+          padding: EdgeInsets.symmetric(
+              horizontal: width / 26, vertical: height / 36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Image.asset(JobPngimage.forgotpassword, height: height / 4),
+                child:
+                    Image.asset(JobPngimage.forgotpassword, height: height / 4),
               ),
               SizedBox(height: height / 36),
               Text(
@@ -58,97 +61,100 @@ class _LoginScreenState extends State<LoginScreen> {
                 dropdownIconPosition: IconPosition.trailing,
                 style: urbanistSemiBold.copyWith(fontSize: 16),
                 keyboardType: TextInputType.number,
-                dropdownTextStyle: urbanistSemiBold.copyWith(fontSize: 16,color: themedata.isdark?JobColor.white:JobColor.textgray,),
+                dropdownTextStyle: urbanistSemiBold.copyWith(
+                  fontSize: 16,
+                  color: themedata.isdark ? JobColor.white : JobColor.textgray,
+                ),
                 disableLengthCheck: true,
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   hintText: "00000000000",
-                  fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor:
+                      themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
                   hintStyle: urbanistRegular,
                   enabledBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)),
-                      borderSide: BorderSide.none
-                  ),
+                      borderSide: BorderSide.none),
                   focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)),
-                      borderSide: BorderSide(color: JobColor.appcolor)
-                  ),
+                      borderSide: BorderSide(color: JobColor.appcolor)),
                 ),
                 initialCountryCode: 'TN',
-                onChanged: (phone) {
-                },
+                onChanged: (phone) {},
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               isloading
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : InkWell(
-                splashColor: JobColor.transparent,
-                highlightColor: JobColor.transparent,
-                onTap: () async {
-                  setState(() {
-                    isloading = true;
-                  });
+                      splashColor: JobColor.transparent,
+                      highlightColor: JobColor.transparent,
+                      onTap: () async {
+                        setState(() {
+                          isloading = true;
+                        });
 
-                  await FirebaseAuth.instance.verifyPhoneNumber(
-                    phoneNumber: "+216"+phoneController.text,
-                    verificationCompleted: (phoneAuthCredential) {},
-                    verificationFailed: (error) {
-                      log(error.toString());
-                      showDialog(
-                        context: context,
-                        builder: (context) => GlobalAlertDialog(
-                          imagePath: JobPngimage.applyfail,
-                          title: 'Oops, Failed!',
-                          titleColor: Colors.red,
-                          message: error.toString(),
-                          primaryButtonText: 'Try Again',
-                          primaryButtonAction: () {
-                            // Retry action
+                        await FirebaseAuth.instance.verifyPhoneNumber(
+                          phoneNumber: "+216" + phoneController.text,
+                          verificationCompleted: (phoneAuthCredential) {},
+                          verificationFailed: (error) {
+                            log(error.toString());
+                            showDialog(
+                              context: context,
+                              builder: (context) => GlobalAlertDialog(
+                                imagePath: 'fail.json',
+                                title: 'Oops, Failed!',
+                                titleColor: Colors.red,
+                                message: error.toString(),
+                                primaryButtonText: 'Try Again',
+                                primaryButtonAction: () {
+                                  // Retry action
+                                },
+                                secondaryButtonText: 'Cancel',
+                                secondaryButtonAction: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            );
+                            setState(() {
+                              isloading = false;
+                            });
                           },
-                          secondaryButtonText: 'Cancel',
-                          secondaryButtonAction: () {
-                            Navigator.pop(context);
+                          codeSent: (verificationId, forceResendingToken) {
+                            setState(() {
+                              isloading = false;
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    OTPScreen(verificationId: verificationId),
+                              ),
+                            );
                           },
+                          codeAutoRetrievalTimeout: (verificationId) {
+                            log("Auto Retrieval timeout");
+                            setState(() {
+                              isloading = false;
+                            });
+                          },
+                        );
+                      },
+                      child: Container(
+                        height: height / 15,
+                        width: width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: JobColor.appcolor,
                         ),
-                      );
-                      setState(() {
-                        isloading = false;
-                      });
-                    },
-                    codeSent: (verificationId, forceResendingToken) {
-                      setState(() {
-                        isloading = false;
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OTPScreen(verificationId: verificationId),
+                        child: Center(
+                          child: Text(
+                            "Sign in".tr,
+                            style: urbanistSemiBold.copyWith(
+                                fontSize: 16, color: JobColor.white),
+                          ),
                         ),
-                      );
-                    },
-                    codeAutoRetrievalTimeout: (verificationId) {
-                      log("Auto Retrieval timeout");
-                      setState(() {
-                        isloading = false;
-                      });
-                    },
-                  );
-                },
-                child: Container(
-                  height: height / 15,
-                  width: width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: JobColor.appcolor,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Sign in".tr,
-                      style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.white),
+                      ),
                     ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),

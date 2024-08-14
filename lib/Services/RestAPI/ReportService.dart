@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_application/job_application.dart';
+import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 
 import '../../Models/Report.dart';
 import '../../Models/ReportComment.dart';
@@ -79,6 +80,11 @@ class ReportService {
         },
         secondaryButtonText: 'Exit',
         secondaryButtonAction: () {
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) {
+              return JobDashboard("0");
+            },
+          ));
           Navigator.pop(context); // Close the dialog
         },
       ),

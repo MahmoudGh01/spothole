@@ -82,9 +82,8 @@ class _OTPScreenState extends State<OTPScreen> {
               controller: otpController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                fillColor: themedata.isdark
-                    ? JobColor.lightblack
-                    : JobColor.appgray,
+                fillColor:
+                    themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                 filled: true,
                 hintText: "Enter OTP",
                 border: OutlineInputBorder(
@@ -99,50 +98,50 @@ class _OTPScreenState extends State<OTPScreen> {
             isLoading
                 ? const CircularProgressIndicator()
                 : InkWell(
-              splashColor: JobColor.transparent,
-              highlightColor: JobColor.transparent,
-              onTap: () async {
-                setState(() {
-                  isLoading = true;
-                });
+                    splashColor: JobColor.transparent,
+                    highlightColor: JobColor.transparent,
+                    onTap: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
 
-                try {
-                  final cred = PhoneAuthProvider.credential(
-                      verificationId: widget.verificationId,
-                      smsCode: otpController.text);
+                      try {
+                        final cred = PhoneAuthProvider.credential(
+                            verificationId: widget.verificationId,
+                            smsCode: otpController.text);
 
-                  await FirebaseAuth.instance.signInWithCredential(cred);
+                        await FirebaseAuth.instance.signInWithCredential(cred);
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>  JobDashboard("0"),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JobDashboard("0"),
+                          ),
+                        );
+                      } catch (e) {
+                        log(e.toString());
+                        showSnackBar(context, e.toString());
+                      }
+                      setState(() {
+                        isLoading = false;
+                      });
+                    },
+                    child: Container(
+                      height: height / 15,
+                      width: width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: JobColor.appcolor,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Sign in".tr,
+                          style: urbanistSemiBold.copyWith(
+                              fontSize: 16, color: JobColor.white),
+                        ),
+                      ),
                     ),
-                  );
-                } catch (e) {
-                  log(e.toString());
-                  showSnackBar(context, e.toString());
-                }
-                setState(() {
-                  isLoading = false;
-                });
-              },
-              child: Container(
-                height: height / 15,
-                width: width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: JobColor.appcolor,
-                ),
-                child: Center(
-                  child: Text(
-                    "Sign in".tr,
-                    style: urbanistSemiBold.copyWith(fontSize: 16, color: JobColor.white),
                   ),
-                ),
-              ),
-
-            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

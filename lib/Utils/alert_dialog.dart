@@ -11,7 +11,7 @@ class GlobalAlertDialog extends StatelessWidget {
   final String secondaryButtonText;
   final VoidCallback secondaryButtonAction;
 
-  const GlobalAlertDialog({
+  const GlobalAlertDialog({super.key,
     required this.imagePath,
     required this.title,
     required this.titleColor,
@@ -34,7 +34,7 @@ class GlobalAlertDialog extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 56),
           child: Column(
             children: [
-              //LottieBuilder.asset('assets/animassets/${imagePath}'),
+              LottieBuilder.asset('assets/animassets/${imagePath}'),
               //Image.asset(imagePath, height: height / 6, fit: BoxFit.fitHeight),
               SizedBox(height: height / 30),
               Center(

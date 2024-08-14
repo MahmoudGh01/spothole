@@ -114,7 +114,7 @@ flutter:
     - assets/yolov8n.tflite
     - assets/labels/
     - assets/models/
-    - assets/animassets/mapanimation.json
+    - assets/animassets/
     - assets/mapicons/
 
 

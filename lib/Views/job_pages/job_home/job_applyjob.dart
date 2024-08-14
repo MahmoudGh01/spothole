@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../Models/Report.dart';
 import '../../../ViewModels/report_provider.dart';
+import '../../../ViewModels/userprovider.dart';
 import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
@@ -47,28 +48,31 @@ class _JobApplyState extends State<JobApply> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context).user;
+
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     Future<void> uploadImageAndSubmitReport() async {
       if (widget.image != null) {
         // Show loading indicator
-/*        showDialog(
+        showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => const AlertDialog(
+          builder: (context) => AlertDialog(
             content: Row(
               children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(width: 20),
-                Text('Uploading...'),
+                LottieBuilder.asset('assets/loading_animation.json'),
+                const SizedBox(width: 20),
+                const Text('Uploading...'),
               ],
             ),
           ),
-        );*/
-        LottieBuilder.asset('assets/loading_animation.json');
+        );
+        //LottieBuilder.asset('assets/loading_animation.json');
         try {
           // Upload file and get URL
-          var reportProvider = Provider.of<ReportProvider>(context, listen: false);
+          var reportProvider =
+              Provider.of<ReportProvider>(context, listen: false);
           String? fileUrl = await reportProvider.uploadFile(widget.image);
 
           // Close loading indicator
@@ -85,7 +89,7 @@ class _JobApplyState extends State<JobApply> {
             latitude: widget.latitude!.toDouble(),
             longitude: widget.longitude!.toDouble(),
             severity: _severity,
-            userId: "1",
+            userId: user.id,
             status: "submitted",
             createdDate: DateTime.now().toString(),
             lastUpdated: DateTime.now().toString(),
@@ -100,28 +104,24 @@ class _JobApplyState extends State<JobApply> {
           await reportProvider.submitReport(context, report);
 
           // Show success message
-
         } catch (e) {
           // Close loading indicator
           Navigator.of(context).pop();
 
           // Debugging logs
           print('Error: $e');
-
-
         }
       }
     }
 
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text("Add Report"),
+        title: const Text("Add Report"),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
