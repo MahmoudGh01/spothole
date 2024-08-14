@@ -4,9 +4,11 @@ import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:job_seeker/Views/job_pages/job_authentication/job_accountsetup/job_fillprofile.dart';
 import '../../../Services/Auth.dart';
+import '../../../Utils/alert_dialog.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_login.dart';
+import 'job_loginoption.dart';
 import 'job_otpverificationmail.dart';
 
 class JobSignup extends StatefulWidget {
@@ -36,12 +38,35 @@ class _JobSignupState extends State<JobSignup> {
   }
 
   void signupUser() {
-    authService.signUpUser(
+    try {
+      authService.signUpUser(
 
-      email: emailController.text,
-      password: passwordController.text,
-      name: nameController.text,
-    );
+        email: emailController.text,
+        password: passwordController.text,
+        name: nameController.text,
+      );
+    } on Exception catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => GlobalAlertDialog(
+          imagePath: 'fail.json',
+          title: 'Oops, Failed!',
+          titleColor: Colors.red,
+          message: e.toString(),
+          primaryButtonText: 'Try Again',
+          primaryButtonAction: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) {
+                return const JobLoginoption();
+              },
+            ));                      },
+          secondaryButtonText: 'Cancel',
+          secondaryButtonAction: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+    }
   }
   dynamic size;
   double height = 0.00;
