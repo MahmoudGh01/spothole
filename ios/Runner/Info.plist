@@ -35,7 +35,7 @@
     <key>NSLocationAlwaysUsageDescription</key>
     <string>We need access to your location for providing better services.</string>
     <key>GIDClientID</key>
-    <string>105949764936-8jq6b15qudhkl3nqqcrkvf2ns0d1lk6o.apps.googleusercontent.com</string>
+    <string>105949764936-m8obgdnit7glhmfh88di38v0uq1a0vmt.apps.googleusercontent.com</string>
 
     <key>PLIST_VERSION</key>
     <string>1</string>
@@ -52,7 +52,7 @@
                 <string>Editor</string>
                 <key>CFBundleURLSchemes</key>
                 <array>
-                    <string>com.googleusercontent.apps.105949764936-8jq6b15qudhkl3nqqcrkvf2ns0d1lk6o</string>
+                    <string>com.googleusercontent.apps.105949764936-m8obgdnit7glhmfh88di38v0uq1a0vmt</string>
                 </array>
             </dict>
 		<dict>

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,16 +27,37 @@ class JobLoginoption extends StatefulWidget {
 
 class _JobLoginoptionState extends State<JobLoginoption> {
   final AuthService authService = AuthService();
+  late GoogleSignIn googleSignIn;  // Use 'late' because we'll initialize this later.
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(
-      clientId:
-      dotenv.env['CLIENT_ID'],
-      scopes: ['email']);
+  @override
+  void initState() {
+    super.initState();
+    initializeGoogleSignIn();  // Initialize GoogleSignIn after client ID is set.
+  }
 
+  void initializeGoogleSignIn() {
+    String clientId = getClientId();
+
+    googleSignIn = GoogleSignIn(
+      clientId: clientId,
+      scopes: ['email'],
+    );
+  }
+
+  String getClientId() {
+    if (Platform.isAndroid) {
+      return dotenv.env['ANDROID_CLIENT_ID']!;
+    } else if (Platform.isIOS) {
+      return dotenv.env['IOS_CLIENT_ID']!;
+    } else {
+      throw UnsupportedError("This platform is not supported");
+    }
+  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
+
 
   @override
   Widget build(BuildContext context) {
@@ -338,11 +360,12 @@ class _JobLoginoptionState extends State<JobLoginoption> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-   /* final String? code = googleAuth?.idToken;
+    final String? code = googleAuth?.idToken;
 
     if (code != null) {
       await authService.sendGoogleSignInDataToBackend(code, context);
-    }*/
+    }
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
+
 }

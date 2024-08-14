@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -257,7 +258,7 @@ class AuthService extends GetxController {
     final response = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'code': code}),
+      body: json.encode({'code': code , 'platform': Platform.isAndroid ? 'android' : 'ios'}),
     );
 
     if (response.statusCode == 200) {
