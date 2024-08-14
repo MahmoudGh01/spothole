@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_seeker/Services/Auth.dart';
 
-import '../../../services/Auth.dart';
 import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import 'package:provider/provider.dart';
 import '../../../ViewModels/userprovider.dart';
-import '../../../services/Auth.dart';
-import '../../../utils/utils.dart';
+import '../../../Services/Auth.dart';
+import '../../../Utils/utils.dart';
 import '../../job_gloabelclass/job_color.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../../job_gloabelclass/job_icons.dart';
