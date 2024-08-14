@@ -34,10 +34,9 @@
     <string>We need access to your location for providing better services.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>We need access to your location for providing better services.</string>
-    <key>CLIENT_ID</key>
-    <string>104792978938-63p40oqgf9lu49nd89lmptvjqgegfk7k.apps.googleusercontent.com</string>
-    <key>REVERSED_CLIENT_ID</key>
-    <string>com.googleusercontent.apps.104792978938-63p40oqgf9lu49nd89lmptvjqgegfk7k</string>
+    <key>GIDClientID</key>
+    <string>105949764936-8jq6b15qudhkl3nqqcrkvf2ns0d1lk6o.apps.googleusercontent.com</string>
+
     <key>PLIST_VERSION</key>
     <string>1</string>
     <key>BUNDLE_ID</key>
@@ -53,7 +52,7 @@
                 <string>Editor</string>
                 <key>CFBundleURLSchemes</key>
                 <array>
-                    <string>com.googleusercontent.apps.104792978938-63p40oqgf9lu49nd89lmptvjqgegfk7k</string>
+                    <string>com.googleusercontent.apps.105949764936-8jq6b15qudhkl3nqqcrkvf2ns0d1lk6o</string>
                 </array>
             </dict>
 		<dict>
