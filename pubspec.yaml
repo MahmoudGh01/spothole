@@ -111,7 +111,7 @@ flutter:
     - assets/
     - assets/job_assets/job_pngimage/
     - assets/labels.txt
-    - assets/yolov8n.tflite
+
     - assets/labels/
     - assets/models/
     - assets/animassets/
