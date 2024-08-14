@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -28,27 +29,9 @@ class _JobLoginoptionState extends State<JobLoginoption> {
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId:
-      '104792978938-63p40oqgf9lu49nd89lmptvjqgegfk7k.apps.googleusercontent.com',
+      dotenv.env['CLIENT_ID'],
       scopes: ['email']);
 
-  Future<void> _handleSignIn() async {
-    try {
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-
-      if (googleUser != null) {
-        // Send Google Sign-In data to the backend
-        final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-        final String? code = googleAuth.idToken;
-
-        if (code != null) {
-          await authService.sendGoogleSignInDataToBackend(code, context);
-        }
-      }
-    } catch (error) {
-      print('Error during Google Sign-In: $error');
-    }
-  }
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -106,7 +89,8 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                           builder: (context) {
                             return const JobLoginoption();
                           },
-                        ));                      },
+                        ));
+                      },
                       secondaryButtonText: 'Cancel',
                       secondaryButtonAction: () {
                         Navigator.pop(context);
@@ -114,7 +98,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                     ),
                   );
                 }
-              /*  Navigator.push(context, MaterialPageRoute(
+                /*  Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return JobDashboard("0");
                   },
@@ -150,14 +134,15 @@ class _JobLoginoptionState extends State<JobLoginoption> {
             ),
             InkWell(
               onTap: () async {
-                try {
+   /*             try {
                   await _handleSignIn();
                 } catch (error) {
                   print('Error during Google Sign-In: $error');
-                }
-/*                try {
+                }*/
+                try {
                   final UserCredential userCredential =
                       await signInWithGoogle();
+
                   if (context.mounted) {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
@@ -171,7 +156,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                   showDialog(
                     context: context,
                     builder: (context) => GlobalAlertDialog(
-                      imagePath: JobPngimage.applyfail,
+                      imagePath: 'fail.json',
                       title: 'Oops, Failed!',
                       titleColor: Colors.red,
                       message: e.toString(),
@@ -185,7 +170,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                       },
                     ),
                   );
-                }*/
+                }
               },
               child: Container(
                 height: height / 15,
@@ -353,6 +338,11 @@ class _JobLoginoptionState extends State<JobLoginoption> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
+   /* final String? code = googleAuth?.idToken;
+
+    if (code != null) {
+      await authService.sendGoogleSignInDataToBackend(code, context);
+    }*/
     return FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

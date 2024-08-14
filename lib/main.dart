@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
@@ -27,7 +28,7 @@ Future<void> main() async {
   NotificationService().initNotification();
   DartPluginRegistrant.ensureInitialized();
   Get.put(AuthService());
-
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
