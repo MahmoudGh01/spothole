@@ -72,7 +72,7 @@ class _JobHomeState extends State<JobHome> {
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
                 onTap: () {
-                  showDialog(
+                  /*showDialog(
                     context: context,
                     builder: (context) => GlobalAlertDialog(
                       imagePath: 'success.json',
@@ -88,7 +88,7 @@ class _JobHomeState extends State<JobHome> {
                         Navigator.pop(context);
                       },
                     ),
-                  );
+                  );*/
                 /*  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const JobNotification();
                   },));*/
