@@ -6,7 +6,6 @@ import 'package:job_seeker/Views/job_pages/job_authentication/job_accountsetup/j
 import '../../../Services/Auth.dart';
 import '../../job_gloabelclass/job_fontstyle.dart';
 import '../job_theme/job_themecontroller.dart';
-import 'job_accountsetup/job_selectcountry.dart';
 import 'job_login.dart';
 import 'job_otpverificationmail.dart';
 

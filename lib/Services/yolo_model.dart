@@ -56,13 +56,19 @@ class _ModelScreenState extends State<ModelScreen> {
       case 'ios':
         return Scaffold(
             body: Column(
-              children: [
-                const SizedBox(height: 100,),
-                LottieBuilder.asset('assets/animassets/not_supported.json'),
-                const SizedBox(),
-                 Text("IOS is not supported",style: urbanistBold.copyWith(fontSize: 25 , color: Color(0xff2B3499) ),)
-              ],
-            ));
+          children: [
+            const SizedBox(
+              height: 100,
+            ),
+            LottieBuilder.asset('assets/animassets/not_supported.json'),
+            const SizedBox(),
+            Text(
+              "IOS is not supported",
+              style: urbanistBold.copyWith(
+                  fontSize: 25, color: const Color(0xff2B3499)),
+            )
+          ],
+        ));
       case 'android':
         return Scaffold(
           body: task(option),
@@ -671,8 +677,8 @@ class _YoloImageV8State extends State<YoloImageV8> {
   Future<void> loadYoloModel() async {
     await widget.vision.loadYoloModel(
         labels: 'assets/labels.txt',
-        modelPath: 'assets/yolov8n.tflite',
-        modelVersion: "yolov8",
+        modelPath: 'assets/yolov5s.tflite',
+        modelVersion: "yolov5",
         quantization: false,
         numThreads: 2,
         useGpu: true);
