@@ -38,7 +38,9 @@ class _ModelScreenState extends State<ModelScreen> {
   @override
   void initState() {
     super.initState();
-    vision = FlutterVision();
+    if (Platform.operatingSystem == 'android') {
+      vision = FlutterVision();
+    }
   }
 
   @override
@@ -50,73 +52,89 @@ class _ModelScreenState extends State<ModelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: task(option),
-      floatingActionButton: SpeedDial(
-        icon: Icons.menu,
-        activeIcon: Icons.close,
-        backgroundColor: Colors.black12,
-        foregroundColor: Colors.white,
-        activeBackgroundColor: Colors.deepPurpleAccent,
-        activeForegroundColor: Colors.white,
-        visible: true,
-        closeManually: false,
-        curve: Curves.bounceIn,
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        buttonSize: const Size(56.0, 56.0),
-        children: [
-          SpeedDialChild(
-            child: const Icon(Icons.video_call),
-            backgroundColor: Colors.red,
+    switch (Platform.operatingSystem) {
+      case 'ios':
+        return Scaffold(
+            body: Column(
+              children: [
+                const SizedBox(height: 100,),
+                LottieBuilder.asset('assets/animassets/not_supported.json'),
+                const SizedBox(),
+                 Text("IOS is not supported",style: urbanistBold.copyWith(fontSize: 25 , color: Color(0xff2B3499) ),)
+              ],
+            ));
+      case 'android':
+        return Scaffold(
+          body: task(option),
+          floatingActionButton: SpeedDial(
+            icon: Icons.menu,
+            activeIcon: Icons.close,
+            backgroundColor: Colors.black12,
             foregroundColor: Colors.white,
-            label: 'Yolo on Frame',
-            labelStyle: const TextStyle(fontSize: 18.0),
-            onTap: () {
-              setState(() {
-                option = Options.frame;
-              });
-            },
+            activeBackgroundColor: Colors.deepPurpleAccent,
+            activeForegroundColor: Colors.white,
+            visible: true,
+            closeManually: false,
+            curve: Curves.bounceIn,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.5,
+            buttonSize: const Size(56.0, 56.0),
+            children: [
+              SpeedDialChild(
+                child: const Icon(Icons.video_call),
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                label: 'Yolo on Frame',
+                labelStyle: const TextStyle(fontSize: 18.0),
+                onTap: () {
+                  setState(() {
+                    option = Options.frame;
+                  });
+                },
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.camera),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                label: 'YoloV8seg on Image',
+                labelStyle: const TextStyle(fontSize: 18.0),
+                onTap: () {
+                  setState(() {
+                    option = Options.imagev8seg;
+                  });
+                },
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.camera),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                label: 'YoloV8seg on Video',
+                labelStyle: const TextStyle(fontSize: 18.0),
+                onTap: () {
+                  setState(() {
+                    option = Options.imagev8;
+                  });
+                },
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.camera),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                label: 'YoloV5 on Image',
+                labelStyle: const TextStyle(fontSize: 18.0),
+                onTap: () {
+                  setState(() {
+                    option = Options.imagev5;
+                  });
+                },
+              ),
+            ],
           ),
-          SpeedDialChild(
-            child: const Icon(Icons.camera),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            label: 'YoloV8seg on Image',
-            labelStyle: const TextStyle(fontSize: 18.0),
-            onTap: () {
-              setState(() {
-                option = Options.imagev8seg;
-              });
-            },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.camera),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            label: 'YoloV8seg on Video',
-            labelStyle: const TextStyle(fontSize: 18.0),
-            onTap: () {
-              setState(() {
-                option = Options.imagev8;
-              });
-            },
-          ),
-          SpeedDialChild(
-            child: const Icon(Icons.camera),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            label: 'YoloV5 on Image',
-            labelStyle: const TextStyle(fontSize: 18.0),
-            onTap: () {
-              setState(() {
-                option = Options.imagev5;
-              });
-            },
-          ),
-        ],
-      ),
-    );
+        );
+
+      default:
+        throw UnsupportedError('Unsupported platform');
+    }
   }
 
   Widget task(Options option) {
@@ -355,7 +373,7 @@ class _YoloVideoState extends State<YoloVideo> {
           child: Text(
             "${(result['box'][4] * 100).toStringAsFixed(0)}%",
             style: const TextStyle(
-             // background: Paint()..color = colorPick,
+              // background: Paint()..color = colorPick,
               color: Colors.white,
               fontSize: 18.0,
             ),
@@ -1148,7 +1166,7 @@ class _YoloVideoV8SegState extends State<YoloVideoV8Seg> {
           child: Text(
             "${(result['box'][4] * 100).toStringAsFixed(0)}%",
             style: const TextStyle(
-             // background: Paint()..color = colorPick,
+              // background: Paint()..color = colorPick,
               color: Colors.white,
               fontSize: 18.0,
             ),
