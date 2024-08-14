@@ -93,12 +93,32 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                   ));
                 } catch (e) {
                   print(e.toString());
+                  showDialog(
+                    context: context,
+                    builder: (context) => GlobalAlertDialog(
+                      imagePath: 'fail.json',
+                      title: 'Oops, Failed!',
+                      titleColor: Colors.red,
+                      message: e.toString(),
+                      primaryButtonText: 'Try Again',
+                      primaryButtonAction: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const JobLoginoption();
+                          },
+                        ));                      },
+                      secondaryButtonText: 'Cancel',
+                      secondaryButtonAction: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
                 }
-                Navigator.push(context, MaterialPageRoute(
+              /*  Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return JobDashboard("0");
                   },
-                ));
+                ));*/
               },
               child: Container(
                 height: height / 15,

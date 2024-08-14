@@ -60,7 +60,7 @@ class _ModelScreenState extends State<ModelScreen> {
                 const SizedBox(height: 100,),
                 LottieBuilder.asset('assets/animassets/not_supported.json'),
                 const SizedBox(),
-                 Text("IOS is not supported",style: urbanistBold.copyWith(fontSize: 25 , color: Color(0xff2B3499) ),)
+                 Text("IOS is not supported",style: urbanistBold.copyWith(fontSize: 25 , color: const Color(0xff2B3499) ),)
               ],
             ));
       case 'android':
