@@ -249,7 +249,8 @@ class AuthService extends GetxController {
     }
   }
 
-  Future<void> sendGoogleSignInDataToBackend(String code, BuildContext context) async {
+  Future<void> sendGoogleSignInDataToBackend(
+      String code, BuildContext context) async {
     final Uri uri = Uri.parse('${Constants.uri}/google-sign-in');
     var userProvider = Provider.of<UserProvider>(context, listen: false);
 
@@ -300,17 +301,17 @@ class AuthService extends GetxController {
     }
   }
 
-  Future<void> sendFBSignInDataToBackend(String token, BuildContext context) async {
+  Future<void> sendFBSignInDataToBackend(
+      String token, BuildContext context) async {
     print(token);
-    final Uri url = Uri.parse('${Constants.uri}/facebook-sign-in'); // Replace with your Flask backend URL
+    final Uri url = Uri.parse(
+        '${Constants.uri}/facebook-sign-in'); // Replace with your Flask backend URL
     final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8 ',
         'Authorization': 'Bearer $token',
-
       },
-
     );
 
     var userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -337,22 +338,75 @@ class AuthService extends GetxController {
         if (userProvider.user.role == "Recruiter") {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => JobChoosejobtype()),
-                (route) => false,
+            (route) => false,
           );
         } else {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => JobDashboard("0")),
-                (route) => false,
+            (route) => false,
           );
         }
       } else {
         print("Invalid response format received.");
       }
     } else {
-      print(
-          'Error sending Fb Sign-In data to backend: ${response.statusCode}');
+      print('Error sending Fb Sign-In data to backend: ${response.statusCode}');
     }
   }
+
+  Future<void> sendPhoneSignInDataToBackend(
+      String phoneNumber, BuildContext context) async {
+    final url = Uri.parse('${Constants.uri}/phone-sign-in'); // Your backend URL
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'phoneNumber': phoneNumber,
+      }),
+    );
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    if (response.statusCode == 200) {
+      final responseBody = json.decode(response.body);
+
+      // Directly use the decoded JSON if it matches your expected structure
+      if (responseBody != null && responseBody is Map<String, dynamic>) {
+        print(responseBody);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        userProvider.setUser(responseBody); // Pass decoded JSON map
+
+        await prefs.setString('token', responseBody['token']);
+        await prefs.setString('refresh', responseBody['refresh']);
+
+        // Store the token securely
+        await prefs.setString('x-auth-token', responseBody['token']);
+        await prefs.setBool('isLoggedIn', true);
+        isAuthenticated.value = true;
+        userProvider.fetchUserData();
+        if (userProvider.user.role == "Recruiter") {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => JobChoosejobtype()),
+            (route) => false,
+          );
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => JobDashboard("0")),
+            (route) => false,
+          );
+        }
+      } else {
+        print("Invalid response format received.");
+      }
+    } else {
+      print('Error sending Fb Sign-In data to backend: ${response.statusCode}');
+    }
+  }
+
   Future<void> editUser({
     required String userId,
     required String name,

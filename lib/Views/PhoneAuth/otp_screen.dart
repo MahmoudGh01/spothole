@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:job_seeker/Views/job_pages/job_home/job_dashboard.dart';
 import 'package:job_seeker/Utils/utils.dart';
+import '../../Services/Auth.dart';
 import '../job_pages/job_theme/job_themecontroller.dart';
 import 'package:get/get.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
@@ -24,6 +25,8 @@ class _OTPScreenState extends State<OTPScreen> {
   bool isresend = false;
   Timer? countdownTimer;
   Duration myDuration = const Duration(minutes: 2);
+
+  final AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -110,7 +113,14 @@ class _OTPScreenState extends State<OTPScreen> {
                             verificationId: widget.verificationId,
                             smsCode: otpController.text);
 
-                        await FirebaseAuth.instance.signInWithCredential(cred);
+                        // Sign in with Firebase
+                        final userCredential = await FirebaseAuth.instance.signInWithCredential(cred);
+
+                        // If successful, send user data to your backend
+                        final phoneNumber = userCredential.user?.phoneNumber;
+                        if (phoneNumber != null) {
+                          await authService.sendPhoneSignInDataToBackend(phoneNumber, context);
+                        }
 
                         Navigator.push(
                           context,
