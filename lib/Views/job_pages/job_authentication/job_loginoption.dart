@@ -1,6 +1,9 @@
-import 'dart:developer';
+import 'dart:convert';
+import 'dart:developer' as Log ;
 import 'dart:io';
+import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -88,8 +91,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
             InkWell(
               onTap: () async {
                 try {
-                  final UserCredential userCredential =
-                      await signInWithFacebook();
+                  await _signInWithFacebook();
 
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
@@ -174,7 +176,7 @@ class _JobLoginoptionState extends State<JobLoginoption> {
                   }
                 } catch (e) {
                   print(e.toString());
-                  log(e.toString());
+                  Log.log(e.toString());
                   showDialog(
                     context: context,
                     builder: (context) => GlobalAlertDialog(
@@ -344,13 +346,56 @@ class _JobLoginoptionState extends State<JobLoginoption> {
     );
   }
 
-  Future<UserCredential> signInWithFacebook() async {
+/*  Future<UserCredential> signInWithFacebook() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
-    print(loginResult.accessToken?.tokenString);
+    print("Token: ${loginResult.accessToken?.tokenString}");
     final OAuthCredential facebookAuthCredential =
         FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }*/
+
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
+
+  String generateNonce([int length = 32]) {
+    // Define the character set to be used in the nonce
+    const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-.';
+
+    // Create a secure random number generator
+    final random = Random.secure();
+
+    // Generate a string of the specified length using random characters from the charset
+    return String.fromCharCodes(List.generate(
+        length, (index) => charset.codeUnitAt(random.nextInt(charset.length))));
+  }
+
+  Future<void> _signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+    final result = await FacebookAuth.instance.login(
+      loginTracking: LoginTracking.limited,
+      nonce: nonce,
+    );
+
+    if (result.status == LoginStatus.success) {
+      print("Access token : ${result.accessToken!.tokenString }");
+      final token = result.accessToken as LimitedToken ;
+      // Create a credential from the access token
+      OAuthCredential credential = OAuthCredential(
+        providerId: 'facebook.com',
+        signInMethod: 'oauth',
+        idToken: token.tokenString,
+        rawNonce: rawNonce,
+      );
+      await authService.sendFBSignInDataToBackend(token!.tokenString ,context);
+     await FirebaseAuth.instance.signInWithCredential(credential);
+    }
+  }
+
 
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
