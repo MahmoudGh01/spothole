@@ -383,16 +383,16 @@ class _JobLoginoptionState extends State<JobLoginoption> {
 
     if (result.status == LoginStatus.success) {
       print("Access token : ${result.accessToken!.tokenString }");
-      final token = result.accessToken as LimitedToken ;
+      final token = result.accessToken ;
       // Create a credential from the access token
       OAuthCredential credential = OAuthCredential(
         providerId: 'facebook.com',
         signInMethod: 'oauth',
-        idToken: token.tokenString,
+        accessToken: token!.tokenString,
         rawNonce: rawNonce,
       );
       await authService.sendFBSignInDataToBackend(token!.tokenString ,context);
-     await FirebaseAuth.instance.signInWithCredential(credential);
+     //await FirebaseAuth.instance.signInWithCredential(credential);
     }
   }
 

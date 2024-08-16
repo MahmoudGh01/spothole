@@ -303,15 +303,22 @@ class AuthService extends GetxController {
 
   Future<void> sendFBSignInDataToBackend(
       String token, BuildContext context) async {
-    print(token);
-    final Uri url = Uri.parse(
-        '${Constants.uri}/facebook-sign-in'); // Replace with your Flask backend URL
+
+   String uri;
+    if (Platform.isAndroid) {
+      uri = "/facebook-sign-in-android";
+    }else{
+      uri = "/facebook-sign-in";
+    }
+// Replace with your Flask backend URL
+    final Uri url = Uri.parse('${Constants.uri}$uri');
     final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8 ',
         'Authorization': 'Bearer $token',
       },
+
     );
 
     var userProvider = Provider.of<UserProvider>(context, listen: false);
