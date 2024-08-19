@@ -23,14 +23,30 @@ class UserProvider extends ChangeNotifier {
     role: 'user',
     refresh: '',
   );
+  User _reportuser = User(
+    id: '',
+    name: '',
+    lastname: '',
+    email: '',
+    token: '',
+    password: '',
+    profilePicturePath: '',
+    birthdate: '',
+    phone: '',
+    role: 'user',
+    refresh: '',
+  );
 
   User get user => _user;
-
+  User get reportuser => _reportuser;
   void setUser(Map<String, dynamic> userMap) {
     _user = User.fromJson(userMap);
     notifyListeners();
   }
-
+  void setReportUser(Map<String, dynamic> userMap) {
+    _reportuser = User.fromJson(userMap);
+    notifyListeners();
+  }
   void setUserFromModel(User user) {
     _user = user;
     notifyListeners();
@@ -168,6 +184,30 @@ class UserProvider extends ChangeNotifier {
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> fetchUserById(String userId) async {
+
+
+    try {
+      Uri uri = Uri.parse('${Constants.uri}/users/$userId');  // Adjusted for fetching by ID
+      var response = await http.get(
+        uri,
+        headers: {
+          'Content-Type': "application/json; charset=UTF-8",
+          //'Authorization': "Bearer $token",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var userMap = jsonDecode(response.body) as Map<String, dynamic>;
+        setReportUser(userMap);  // Update the user state with the fetched user data
+      } else {
+        print('Failed to fetch user by ID: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
     }
   }
 
