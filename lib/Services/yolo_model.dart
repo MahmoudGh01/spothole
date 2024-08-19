@@ -90,7 +90,7 @@ class _ModelScreenState extends State<ModelScreen> {
                 child: const Icon(Icons.video_call),
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
-                label: 'Yolo on Frame',
+                label: 'Detect on Video',
                 labelStyle: const TextStyle(fontSize: 18.0),
                 onTap: () {
                   setState(() {
@@ -100,9 +100,9 @@ class _ModelScreenState extends State<ModelScreen> {
               ),
               SpeedDialChild(
                 child: const Icon(Icons.camera),
-                backgroundColor: Colors.blue,
+                backgroundColor: JobColor.appcolor,
                 foregroundColor: Colors.white,
-                label: 'YoloV8seg on Image',
+                label: 'Detect on Image Seg',
                 labelStyle: const TextStyle(fontSize: 18.0),
                 onTap: () {
                   setState(() {
@@ -110,9 +110,9 @@ class _ModelScreenState extends State<ModelScreen> {
                   });
                 },
               ),
-              SpeedDialChild(
+            /*  SpeedDialChild(
                 child: const Icon(Icons.camera),
-                backgroundColor: Colors.blue,
+                backgroundColor: JobColor.appcolor,
                 foregroundColor: Colors.white,
                 label: 'YoloV8seg on Video',
                 labelStyle: const TextStyle(fontSize: 18.0),
@@ -121,12 +121,12 @@ class _ModelScreenState extends State<ModelScreen> {
                     option = Options.imagev8;
                   });
                 },
-              ),
+              ),*/
               SpeedDialChild(
                 child: const Icon(Icons.camera),
-                backgroundColor: Colors.blue,
+                backgroundColor: JobColor.appcolor,
                 foregroundColor: Colors.white,
-                label: 'YoloV5 on Image',
+                label: 'Detect on Image',
                 labelStyle: const TextStyle(fontSize: 18.0),
                 onTap: () {
                   setState(() {
@@ -145,19 +145,24 @@ class _ModelScreenState extends State<ModelScreen> {
 
   Widget task(Options option) {
     if (option == Options.frame) {
-      return YoloVideo(vision: vision);
+      return YoloVideo(vision: resetVisionInstance());
     }
     if (option == Options.imagev5) {
-      return YoloImageV5(vision: vision);
+      return YoloImageV5(vision: resetVisionInstance());
     }
     if (option == Options.imagev8) {
-      return YoloVideoV8Seg(vision: vision);
+      return YoloVideoV8Seg(vision: resetVisionInstance());
     }
     if (option == Options.imagev8seg) {
-      return YoloImageV8Seg(vision: vision);
+      return YoloImageV8Seg(vision: resetVisionInstance());
     }
 
-    return YoloVideo(vision: vision);
+    return YoloVideo(vision: resetVisionInstance()); // Default option
+  }
+  FlutterVision resetVisionInstance() {
+    // Completely reset the FlutterVision instance for each switch
+    vision = FlutterVision();
+    return vision;
   }
 }
 
@@ -189,10 +194,12 @@ class _YoloVideoState extends State<YoloVideo> {
   }
 
   init() async {
+    await widget.vision.closeYoloModel();
+
     cameras = await availableCameras();
     controller = CameraController(cameras[0], ResolutionPreset.medium);
-    controller.initialize().then((value) {
-      loadYoloModel().then((value) {
+    controller.initialize().then((value) async {
+      await loadYoloModel().then((value) {
         setState(() {
           isLoaded = true;
           isDetecting = false;
@@ -206,6 +213,7 @@ class _YoloVideoState extends State<YoloVideo> {
   void dispose() async {
     super.dispose();
     controller.dispose();
+    widget.vision.closeYoloModel();
   }
 
   @override
@@ -390,11 +398,41 @@ class _YoloVideoState extends State<YoloVideo> {
   }
 
   Future<void> _getCurrentLocation() async {
+    // Check if location services are enabled
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // If not, request to enable it
+      serviceEnabled = await Geolocator.openLocationSettings();
+      if (!serviceEnabled) {
+        // If the service is still not enabled, return
+        return;
+      }
+    }
+
+    // Check for location permissions
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      // Request permission if it's denied
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, exit the method
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are permanently denied, handle it appropriately
+      return;
+    }
+
+    // If permissions are granted, get the current position
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+
     setState(() {
       currentPosition = position;
     });
+
     _getAddressFromLatLng(position);
   }
 
@@ -1018,10 +1056,12 @@ class _YoloVideoV8SegState extends State<YoloVideoV8Seg> {
   }
 
   init() async {
+    await widget.vision.closeYoloModel();
+
     cameras = await availableCameras();
     controller = CameraController(cameras[0], ResolutionPreset.medium);
-    controller.initialize().then((value) {
-      loadYoloModel().then((value) {
+    controller.initialize().then((value) async {
+      await loadYoloModel().then((value) {
         setState(() {
           isLoaded = true;
           isDetecting = false;
@@ -1035,6 +1075,7 @@ class _YoloVideoV8SegState extends State<YoloVideoV8Seg> {
   void dispose() async {
     super.dispose();
     controller.dispose();
+    widget.vision.closeYoloModel();
   }
 
   @override
