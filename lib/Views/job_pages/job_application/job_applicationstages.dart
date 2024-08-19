@@ -37,7 +37,7 @@ class _ReportDetailState extends State<ReportDetail> {
     final width = size.width;
 
     // Access the user data
-    var user = Provider.of<UserProvider>(context).reportuser;
+    var user = Provider.of<UserProvider>(context).getReportUser(widget.report.userId);
 
     return Scaffold(
       body: Column(
@@ -191,12 +191,12 @@ class _ReportDetailState extends State<ReportDetail> {
                     SizedBox(height: height / 36),
 
                     // User Info
-                    user.id.isNotEmpty
+                    user!.id.isNotEmpty
                         ? Row(
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          backgroundImage: user.profilePicturePath.isNotEmpty
+                          backgroundImage: user!.profilePicturePath.isNotEmpty
                               ? NetworkImage(user.profilePicturePath)
                               : const AssetImage('assets/job_assets/job_pngimage/logo.png') as ImageProvider,
                         ),
@@ -213,7 +213,7 @@ class _ReportDetailState extends State<ReportDetail> {
                             const SizedBox(height: 5),
                             Text(
                               "Posted on: ${widget.report.createdDate}",
-                              style: urbanistSemiBold.copyWith(fontSize: 14, color: JobColor.textgray),
+                              style: urbanistSemiBold.copyWith(fontSize: 13, color: JobColor.textgray),
                             ),
                           ],
                         ),
@@ -222,6 +222,18 @@ class _ReportDetailState extends State<ReportDetail> {
                         : const CircularProgressIndicator(),
 
                     const Divider(),
+                    Text(
+                      "Description",
+                      style: urbanistSemiBold.copyWith(
+                        fontSize: 15,
+                        color: themedata.isdark ? Colors.white : JobColor.appcolor,
+                      ),
+                      maxLines: 10,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: height / 100),
+
                     Text(
                       widget.report.description,
                       style: urbanistSemiBold.copyWith(

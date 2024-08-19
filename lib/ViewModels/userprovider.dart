@@ -23,28 +23,20 @@ class UserProvider extends ChangeNotifier {
     role: 'user',
     refresh: '',
   );
-  User _reportuser = User(
-    id: '',
-    name: '',
-    lastname: '',
-    email: '',
-    token: '',
-    password: '',
-    profilePicturePath: '',
-    birthdate: '',
-    phone: '',
-    role: 'user',
-    refresh: '',
-  );
+
 
   User get user => _user;
-  User get reportuser => _reportuser;
+  Map<String, User> _reportUsers = {}; // Store fetched report users by user ID
+
   void setUser(Map<String, dynamic> userMap) {
     _user = User.fromJson(userMap);
     notifyListeners();
   }
-  void setReportUser(Map<String, dynamic> userMap) {
-    _reportuser = User.fromJson(userMap);
+  User? getReportUser(String userId) {
+    return _reportUsers[userId];
+  }
+  void setReportUser(String userId, Map<String, dynamic> userMap) {
+    _reportUsers[userId] = User.fromJson(userMap);
     notifyListeners();
   }
   void setUserFromModel(User user) {
@@ -188,21 +180,21 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> fetchUserById(String userId) async {
-
+    // If user is already cached, no need to refetch
+    if (_reportUsers.containsKey(userId)) return;
 
     try {
-      Uri uri = Uri.parse('${Constants.uri}/users/$userId');  // Adjusted for fetching by ID
+      Uri uri = Uri.parse('${Constants.uri}/users/$userId');
       var response = await http.get(
         uri,
         headers: {
           'Content-Type': "application/json; charset=UTF-8",
-          //'Authorization': "Bearer $token",
         },
       );
 
       if (response.statusCode == 200) {
         var userMap = jsonDecode(response.body) as Map<String, dynamic>;
-        setReportUser(userMap);  // Update the user state with the fetched user data
+        setReportUser(userId, userMap);
       } else {
         print('Failed to fetch user by ID: ${response.statusCode}');
       }
