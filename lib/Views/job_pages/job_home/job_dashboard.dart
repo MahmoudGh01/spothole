@@ -111,15 +111,15 @@ class _JobDashboardState extends State<JobDashboard> {
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
-            JobPngimage.chat,
+            JobPngimage.chart,
             height: height / 36,
             color: themedata.isdark
                 ? JobColor.white
                 : JobColor.grey,
           ),
-          activeIcon: Image.asset(JobPngimage.chatfill,
+          activeIcon: Image.asset(JobPngimage.chart,
               height: height / 36,color: JobColor.appcolor),
-          label: 'Message',
+          label: 'Reports',
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
