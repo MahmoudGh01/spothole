@@ -79,7 +79,7 @@ class _JobProfileState extends State<JobProfile> {
                       SizedBox(height: height/120,),
                       Text(user.name,style: urbanistBold.copyWith(fontSize: 22 )),
                       SizedBox(height: height/120,),
-                     Text("+216 NumTel".tr,style: urbanistMedium.copyWith(fontSize: 15,color: JobColor.textgray)),
+                     Text(user.phone,style: urbanistMedium.copyWith(fontSize: 15,color: JobColor.textgray)),
                     ],
                   ),
                   const Spacer(),

@@ -71,11 +71,11 @@ class _JobSettingState extends State<JobSetting> {
                           children: [
                             Text("Profile_Completed".tr,style: urbanistBold.copyWith(fontSize: 20,color: JobColor.white)),
                             SizedBox(height: height/150),
-                            SizedBox(
+                            /*SizedBox(
                               width: width/1.6,
                               child: Text("A complete profile increases the chances of a recruiter being more interested in recruiting you.",
                                   style: urbanistMedium.copyWith(fontSize: 12,color: JobColor.white),maxLines: 3,overflow: TextOverflow.ellipsis),
-                            ),
+                            ),*/
                           ],
                         ),
                       ],
@@ -85,7 +85,7 @@ class _JobSettingState extends State<JobSetting> {
               ),
               SizedBox(height: height/80,),
                Divider(color: themedata.isdark?JobColor.borderblack:JobColor.bggray),
-              SizedBox(height: height/80,),
+/*              SizedBox(height: height/80,),
               InkWell(
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
@@ -105,7 +105,7 @@ class _JobSettingState extends State<JobSetting> {
                 ),
               ),
               SizedBox(height: height/56,),
-               Divider(color: themedata.isdark?JobColor.borderblack:JobColor.bggray),
+               Divider(color: themedata.isdark?JobColor.borderblack:JobColor.bggray),*/
               SizedBox(height: height/56,),
               Text("Account".tr,style: urbanistSemiBold.copyWith(fontSize: 16,color: JobColor.textgray)),
               SizedBox(height: height/36,),
@@ -169,14 +169,14 @@ class _JobSettingState extends State<JobSetting> {
                   ],
                 ),
               ),
-              SizedBox(height: height/36,),
+/*              SizedBox(height: height/36,),
               InkWell(
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
                 onTap: () {
-                  /*  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  *//*  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const ZomoNotification();
-                  },));*/
+                  },));*//*
                 },
                 child: Row(
                   children: [
@@ -187,7 +187,7 @@ class _JobSettingState extends State<JobSetting> {
                     const Icon(Icons.arrow_forward_ios_outlined,size: 15),
                   ],
                 ),
-              ),
+              ),*/
               SizedBox(height: height/36,),
               InkWell(
                 splashColor: JobColor.transparent,
@@ -412,9 +412,9 @@ class _JobSettingState extends State<JobSetting> {
                 splashColor: JobColor.transparent,
                 highlightColor: JobColor.transparent,
                 onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    /*Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const JobDeactivateAccount();
-                  },));
+                  },));*/
                 },
                 child: Row(
                   children: [

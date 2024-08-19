@@ -4,16 +4,12 @@ import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
 import 'package:provider/provider.dart';
-import '../../../Utils/alert_dialog.dart';
+import '../../../Models/user.dart';
 import '../../../ViewModels/authority_provider.dart';
 import '../../../ViewModels/userprovider.dart';
 import '../job_application/job_applicationstages.dart';
 import '../job_theme/job_themecontroller.dart';
 import 'job_details.dart';
-import 'job_notification.dart';
-import 'job_recentjobs.dart';
-import 'job_search.dart';
-
 class JobHome extends StatefulWidget {
   const JobHome({Key? key}) : super(key: key);
 
@@ -26,27 +22,31 @@ class _JobHomeState extends State<JobHome> {
   double height = 0.00;
   double width = 0.00;
   final themedata = Get.put(JobThemecontroler());
-  List text = ["All", "Design", "Technology", "Finance"];
-  int selected1 = 0;
-  int selected2 = 0;
+
+
   @override
   void initState() {
     super.initState();
-    Provider.of<AuthorityProvider>(context, listen: false).fetchAllReports();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    final authorityProvider = Provider.of<AuthorityProvider>(context, listen: false);
+    await authorityProvider.fetchAllReports();
   }
 
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<UserProvider>(context).user;
+    final _reports = Provider.of<AuthorityProvider>(context).reports;
+    size = MediaQuery.of(context).size;
+    height = size.height;
+    width = size.width;
+    final user = Provider.of<UserProvider>(context).user;
 
-    final _reports =Provider.of<AuthorityProvider>(context).reports;
-  size = MediaQuery.of(context).size;
-  height = size.height;
-  width = size.width;
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: width/1,
-        toolbarHeight: height/10,
+        leadingWidth: width / 1,
+        toolbarHeight: height / 10,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -56,8 +56,10 @@ class _JobHomeState extends State<JobHome> {
                 backgroundImage: user.profilePicturePath.isNotEmpty
                     ? NetworkImage(user.profilePicturePath)
                     :  AssetImage(JobPngimage.profile) as ImageProvider,
+
               ),
               SizedBox(width: width/26,),
+              SizedBox(width: width / 26),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -67,79 +69,38 @@ class _JobHomeState extends State<JobHome> {
                   Text(user.name,style: urbanistBold.copyWith(fontSize: 19 )),
                 ],
               ),
-              const Spacer(),
-              InkWell(
-                splashColor: JobColor.transparent,
-                highlightColor: JobColor.transparent,
-                onTap: () {
-                  /*showDialog(
-                    context: context,
-                    builder: (context) => GlobalAlertDialog(
-                      imagePath: 'success.json',
-                      title: 'Congratulations',
-                      titleColor: Colors.green,
-                      message: 'Your application has been successfully submitted. You can track the progress of your application through the applications menu.',
-                      primaryButtonText: 'Go to My Applications',
-                      primaryButtonAction: () {
-                        // Navigate to applications
-                      },
-                      secondaryButtonText: 'Cancel',
-                      secondaryButtonAction: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  );*/
-                /*  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const JobNotification();
-                  },));*/
-                },
-                child: Container(
-                  height: height/16,
-                  width: height/16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Image.asset(JobPngimage.notification,height: height/36,color: themedata.isdark?JobColor.white:JobColor.black,),
-                  ),
-                ),
-              )
             ],
           ),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: width/36,vertical: height/36),
+          padding: EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 36),
           child: Column(
             children: [
               TextField(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const JobSearch();
-                  },));
+                  // Handle search action
                 },
-                style: urbanistSemiBold.copyWith(fontSize: 16,),
+                style: urbanistSemiBold.copyWith(fontSize: 16),
                 readOnly: true,
                 decoration: InputDecoration(
-                  hintStyle: urbanistRegular.copyWith(fontSize: 16,color:JobColor.textgray,),
+                  hintStyle: urbanistRegular.copyWith(fontSize: 16, color: JobColor.textgray),
                   hintText: "Search for a report".tr,
-                 fillColor: themedata.isdark?JobColor.lightblack:JobColor.appgray,
+                  fillColor: themedata.isdark ? JobColor.lightblack : JobColor.appgray,
                   filled: true,
-                  prefixIcon:Icon(Icons.search_rounded,size: height/36,color: JobColor.textgray,),
+                  prefixIcon: Icon(Icons.search_rounded, size: height / 36, color: JobColor.textgray),
                   suffixIcon: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Image.asset(JobPngimage.filter,height: height/36,),
+                    child: Image.asset(JobPngimage.filter, height: height / 36),
                   ),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: BorderSide.none
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide:BorderSide.none
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
@@ -159,144 +120,123 @@ class _JobHomeState extends State<JobHome> {
                   Text("NearBy Reports".tr,style: urbanistBold.copyWith(fontSize: 20 )),
                   const Spacer(),
                   InkWell(
-                    splashColor: JobColor.transparent,
-                    highlightColor: JobColor.transparent,
+                      splashColor: JobColor.transparent,
+                      highlightColor: JobColor.transparent,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          return  const JobRecentJobs();
-                        },));
+
                       },
                       child: Text("See_All".tr,style: urbanistBold.copyWith(fontSize: 16,color: JobColor.appcolor))),
                 ],
               ),
               SizedBox(height: height/36,),
-
-              //SizedBox(height: height/36,),
               ListView.separated(
                 itemCount: _reports.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final report = _reports[index];
+                  final userProvider = Provider.of<UserProvider>(context);
+                  final reportUser = userProvider.getReportUser(report.userId);
+
+                  if (reportUser == null) {
+                    // If user is not yet available, fetch it
+                    userProvider.fetchUserById(report.userId);
+
+                    return const CircularProgressIndicator(); // Show loading indicator while fetching
+                  }
+
                   return InkWell(
-                    splashColor: JobColor.transparent,
-                    highlightColor: JobColor.transparent,
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                         builder: (context) {
-                          return  ReportDetail(report: _reports[index]);
+                          return ReportDetail(report: report);
                         },
                       ));
                     },
                     child: Container(
-                      width: width/1,
+                      width: width / 1,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(28),
-                          border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)
+                        borderRadius: BorderRadius.circular(28),
+                        border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width/26,vertical: height/46),
-                        child: InkWell(
-                          splashColor: JobColor.transparent,
-                          highlightColor: JobColor.transparent,
-                          onTap: () {
-                            setState(() {
-                              selected2 = index;
-                            });
-                          },
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: height/12,
-                                    width: height/12,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        border: Border.all(color: themedata.isdark?JobColor.borderblack:JobColor.bggray)
-                                    ),
-                                    child: _reports[index].imageURL.isNotEmpty
-                                        ? Image.network(
-                                      _reports[index].imageURL,
-                                      fit: BoxFit.fill,
-                                    )
-                                        : Image.asset(
-                                        'assets/job_assets/job_pngimage/logo.png'),
+                        padding: EdgeInsets.symmetric(horizontal: width / 26, vertical: height / 46),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  height: height / 12,
+                                  width: height / 12,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(28),
+                                    border: Border.all(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
                                   ),
-                                  SizedBox(width: width/26,),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                              width: width/1.8,
-                                              child: Text(report.address,style: urbanistSemiBold.copyWith(fontSize: 20 ),maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                                          SizedBox(width: width/56,),
-                                          Image.asset(selected2 == index?JobPngimage.savefill:JobPngimage.save,height: height/36,color: JobColor.appcolor,),
-                                        ],
-                                      ),
-                                      SizedBox(height: height/80,),
-                                      Text(report.description,style: urbanistMedium.copyWith(fontSize: 16 ),maxLines: 1,overflow: TextOverflow.ellipsis,),
-                                    ],
-                                  ),
-
-                                ],
-                              ),
-                              SizedBox(height: height/96,),
-                               Divider(color: themedata.isdark?JobColor.borderblack:JobColor.bggray),
-                              SizedBox(height: height/96,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: height/12,
-                                    width: height/12,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                  ),
-                                  SizedBox(width: width/26,),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text("Severity : ",style: urbanistBold.copyWith(fontSize: 19,color: JobColor.appcolor)),
-                                          Text(report.severity.toString(),style: urbanistMedium.copyWith(fontSize: 18 ),maxLines: 1,overflow: TextOverflow.ellipsis),
-                                        ],
-                                      ),
-                                      SizedBox(height: height/66,),
-
-                                      Row(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(6),
-                                                border: Border.all(color: JobColor.textgray)
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: width/26,vertical: height/96),
-                                              child: Text(report.status,style: urbanistSemiBold.copyWith(fontSize: 10,color: JobColor.textgray)),
-                                            ),
+                                  child: report.imageURL.isNotEmpty
+                                      ? Image.network(report.imageURL, fit: BoxFit.fill)
+                                      : Image.asset('assets/job_assets/job_pngimage/logo.png'),
+                                ),
+                                SizedBox(width: width / 26),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: width / 1.8,
+                                          child: Text(
+                                            report.address,
+                                            style: urbanistSemiBold.copyWith(fontSize: 20),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          SizedBox(width: width/26,),
+                                        ),
+                                        SizedBox(width: width / 56),
 
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 15,
+                                          backgroundImage: reportUser.profilePicturePath.isNotEmpty
+                                              ? NetworkImage(reportUser.profilePicturePath)
+                                              : AssetImage(JobPngimage.profile) as ImageProvider,
+                                        ),
+                                        SizedBox(width: width / 36),
+                                        Text(
+                                          reportUser.name,
+                                          style: urbanistSemiBold.copyWith(
+                                            fontSize: 15,
+                                            color: themedata.isdark ? Colors.white60 : Colors.black54,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: height / 96),
+                            Divider(color: themedata.isdark ? JobColor.borderblack : JobColor.bggray),
+                            SizedBox(height: height / 96),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("Severity : ", style: urbanistBold.copyWith(fontSize: 19, color: JobColor.appcolor)),
+                                Text(report.severity.toString(), style: urbanistMedium.copyWith(fontSize: 18), maxLines: 1, overflow: TextOverflow.ellipsis),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Container(height: height/46,);
+                  return Container(height: height / 46);
                 },
               ),
             ],

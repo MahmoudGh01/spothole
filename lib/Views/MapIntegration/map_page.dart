@@ -177,7 +177,7 @@ class _MapPageState extends State<MapPage> {
       }
     }
 
-    _locationSubscription = _locationController.onLocationChanged.listen((LocationData currentLocation) {
+/*    _locationSubscription = _locationController.onLocationChanged.listen((LocationData currentLocation) {
       if (currentLocation.latitude != null && currentLocation.longitude != null) {
         LatLng newLocation = LatLng(currentLocation.latitude!, currentLocation.longitude!);
         if (_previousP == null || _calculateDistance(_previousP!, newLocation) > 10) {
@@ -190,7 +190,7 @@ class _MapPageState extends State<MapPage> {
           }
         }
       }
-    });
+    });*/
   }
 
   double _calculateDistance(LatLng start, LatLng end) {
