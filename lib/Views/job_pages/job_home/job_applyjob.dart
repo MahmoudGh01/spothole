@@ -59,13 +59,7 @@ class _JobApplyState extends State<JobApply> {
           context: context,
           barrierDismissible: false,
           builder: (context) => AlertDialog(
-            content: Row(
-              children: <Widget>[
-                LottieBuilder.asset('assets/loading_animation.json'),
-                const SizedBox(width: 20),
-                const Text('Uploading...'),
-              ],
-            ),
+            content: LottieBuilder.asset('assets/loading_animation.json'),
           ),
         );
         //LottieBuilder.asset('assets/loading_animation.json');

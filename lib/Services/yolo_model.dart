@@ -110,18 +110,7 @@ class _ModelScreenState extends State<ModelScreen> {
                   });
                 },
               ),
-            /*  SpeedDialChild(
-                child: const Icon(Icons.camera),
-                backgroundColor: JobColor.appcolor,
-                foregroundColor: Colors.white,
-                label: 'YoloV8seg on Video',
-                labelStyle: const TextStyle(fontSize: 18.0),
-                onTap: () {
-                  setState(() {
-                    option = Options.imagev8;
-                  });
-                },
-              ),*/
+
               SpeedDialChild(
                 child: const Icon(Icons.camera),
                 backgroundColor: JobColor.appcolor,
@@ -275,15 +264,7 @@ class _YoloVideoState extends State<YoloVideo> {
               const SizedBox(width: 20),
               Visibility(
                 visible: yoloResults.isNotEmpty,
-                child: /*ElevatedButton(
-                  onPressed: () async {
-                    if (cameraImage != null) {
-                      await _getCurrentLocation();
-                      await _navigateToJobApply(cameraImage!);
-                    }
-                  },
-                  child: const Text("Report"),
-                ),*/
+                child:
                     InkWell(
                   splashColor: JobColor.transparent,
                   highlightColor: JobColor.transparent,
@@ -301,7 +282,7 @@ class _YoloVideoState extends State<YoloVideo> {
                       color: JobColor.appcolor,
                     ),
                     child: Center(
-                      child: Text("Detect".tr,
+                      child: Text("Report".tr,
                           style: urbanistSemiBold.copyWith(
                               fontSize: 16, color: JobColor.white)),
                     ),

@@ -64,7 +64,7 @@ class ReportService {
       context: context,
       builder: (context) => GlobalAlertDialog(
         imagePath: 'success.json',
-        title: 'Reported Submitted',
+        title: 'Report Submitted',
         titleColor: Colors.green,
         message:
             'Your Report has been successfully submitted. You can track the progress of your case through My Reports.',
@@ -85,7 +85,7 @@ class ReportService {
               return JobDashboard("0");
             },
           ));
-          Navigator.pop(context); // Close the dialog
+          //Navigator.pop(context); // Close the dialog
         },
       ),
     );
