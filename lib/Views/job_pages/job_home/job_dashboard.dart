@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:job_seeker/Views/CameraScreen/camera_screen.dart';
-import 'package:job_seeker/Views/MapIntegration/map_page.dart';
+import 'package:job_seeker/Views/YoloVision/YoloVideo.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_color.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_fontstyle.dart';
 import 'package:job_seeker/Views/job_gloabelclass/job_icons.dart';
@@ -9,10 +8,7 @@ import 'package:job_seeker/Views/job_pages/job_application/job_application.dart'
 import 'package:job_seeker/Views/job_pages/job_theme/job_themecontroller.dart';
 
 //import '../../CameraScreen/camera_awesome.dart';
-import '../../../Services/yolo_model.dart';
 import '../../MapIntegration/splash_screen.dart';
-import '../../ObjectDetection/detection_screen.dart';
-import '../job_message/job_message.dart';
 import '../job_profile/job_profile.dart';
 import 'job_home.dart';
 
@@ -35,10 +31,10 @@ class _JobDashboardState extends State<JobDashboard> {
   PageController pageController = PageController();
   int _selectedItemIndex = 0;
 
-  final List<Widget> _pages =  [
+  final List<Widget> _pages =  const [
     JobHome(),
     MapSplash(),
-    ModelScreen(),
+    YoloVideo(),
     JobApplication(),
     JobProfile()
   ];

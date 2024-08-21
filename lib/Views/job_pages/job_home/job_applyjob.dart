@@ -56,6 +56,7 @@ class _JobApplyState extends State<JobApply> {
       if (widget.image != null) {
         // Show loading indicator
         showDialog(
+          barrierColor: Colors.transparent,
           context: context,
           barrierDismissible: false,
           builder: (context) => AlertDialog(
